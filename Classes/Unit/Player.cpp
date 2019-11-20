@@ -67,23 +67,14 @@ void Player::update(float d)
 				case RSHOT:
 					nextKeyName = "pShot";
 					break;
-				case SHOTUP:
-					nextKeyName = "shotUp";
-					break;
-				case STAND:
-					nextKeyName = "stand";
-					break;
 				case JUMP:
 					nextKeyName = "jump";
 					break;
-				case CLING:
-					nextKeyName = "cling";
+				case DAMAGE:
+					nextKeyName = "damage";
 					break;
-				case DUCK:
-					nextKeyName = "duck";
-					break;
-				case HURT:
-					nextKeyName = "hurt";
+				case DIE:
+					nextKeyName = "die";
 					break;
 				case STATE_MAX:
 					break;

@@ -51,19 +51,13 @@ void Character::InitActData(int speed)
 	_charaList.emplace(std::make_pair("run", _actData));
 	_actData.anim = AnimState::RSHOT;
 	_charaList.emplace(std::make_pair("pShot", _actData));
-	_actData.anim = AnimState::SHOTUP;
-	_charaList.emplace(std::make_pair("shotUp", _actData));
-	_actData.anim = AnimState::STAND;
-	_charaList.emplace(std::make_pair("stand", _actData));
 	_actData.anim = AnimState::JUMP;
 	_actData.key[UseKey::K_DOWN].second = false;
 	_charaList.emplace(std::make_pair("jump", _actData));
-	_actData.anim = AnimState::CLING;
-	_charaList.emplace(std::make_pair("cling", _actData));
-	_actData.anim = AnimState::DUCK;
-	_charaList.emplace(std::make_pair("duck", _actData));
-	_actData.anim = AnimState::HURT;
-	_charaList.emplace(std::make_pair("hurt", _actData));
+	_actData.anim = AnimState::DAMAGE;
+	_charaList.emplace(std::make_pair("damage", _actData));
+	_actData.anim = AnimState::DIE;
+	_charaList.emplace(std::make_pair("die", _actData));
 
 	for (auto &cList:_charaList)
 	{

@@ -6,12 +6,9 @@ enum AnimState
 	IDLE,
 	RUN,
 	RSHOT,
-	SHOTUP,
-	STAND,
 	JUMP,
-	CLING,
-	DUCK,
-	HURT,
+	DAMAGE,
+	DIE,
 	STATE_MAX
 };
 

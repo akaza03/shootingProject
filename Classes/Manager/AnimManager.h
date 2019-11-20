@@ -22,9 +22,9 @@ public:
 	~AnimManager();
 
 	//	アニメーションの登録
-	//	画像パス,画像全体の分割数,分割開始ID,アニメーションの分割数,フレーム数
+	//	画像パス,画像全体の分割数,分割開始ID,アニメーションの分割数,フレーム数,ループするかどうか
 	cocos2d::Action* AnimationCreate(std::string imagePass, cocos2d::Vec2 divCnt, cocos2d::Vec2 startID, int animCntMax, float frame, bool loop);
-
+	
 	void AnimRun(cocos2d::Sprite* sprite, AnimState anim, CharaType type);		//	アニメーションの開始
 
 	AnimState AnimStateUpdate(struct ActData &act);								//	ステートのアップデート
