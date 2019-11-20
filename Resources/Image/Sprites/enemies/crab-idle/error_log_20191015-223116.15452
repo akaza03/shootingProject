@@ -1,0 +1,4 @@
+Log file created at: 2019/10/15 22:31:16
+Running on machine: DESKTOP-1S9VEJJ
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+F1015 22:31:16.795972 19452 relu_layer.cu:26] Check failed: error == cudaSuccess (30 vs. 0)  unknown error

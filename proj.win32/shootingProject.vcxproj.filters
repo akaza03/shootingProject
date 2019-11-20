@@ -10,6 +10,24 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{8213b760-39f0-4cf1-b5ba-fe98568dd162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Unit">
+      <UniqueIdentifier>{f6a1dc98-8d12-4c52-b887-b4bac5448053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{82735edc-be75-4b00-af8a-c2f789bdf3f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module">
+      <UniqueIdentifier>{1e6f4f74-f583-4d0f-996e-776bc7a0dd68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{84dbfaba-036b-4b11-adeb-be8f826a4e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_DebugOut">
+      <UniqueIdentifier>{326d9286-d6ea-4a99-b056-d5aac70fd813}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -18,8 +36,50 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\Scene\GameScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Unit\Character.cpp">
+      <Filter>Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Unit\Enemy.cpp">
+      <Filter>Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Unit\Player.cpp">
+      <Filter>Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Input\OprtKey.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Input\OprtState.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Input\OprtTouch.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Input\UseKey.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\DirCheck.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\HitCheck.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\Jump.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\Move.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\AnimManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\_DebugOut\_DebugConOut.cpp">
+      <Filter>_DebugOut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\_DebugOut\_DebugDispOut.cpp">
+      <Filter>_DebugOut</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -29,8 +89,56 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\Scene\GameScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Unit\Character.h">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Unit\charaStruct.h">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Unit\Enemy.h">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Unit\Player.h">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Input\OprtKey.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Input\OprtState.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Input\OprtTouch.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Input\UseKey.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\ActSet.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\DirCheck.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\HitCheck.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\Jump.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\Move.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\AnimManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\_DebugOut\_DebugConOut.h">
+      <Filter>_DebugOut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h">
+      <Filter>_DebugOut</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -79,12 +79,12 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <DisableSpecificWarnings>4267;4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4267;4251;4244;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -100,7 +100,8 @@
       </Command>
     </PostBuildEvent>
     <PreLinkEvent>
-      <Command></Command>
+      <Command>
+      </Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
@@ -112,20 +113,19 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
       <Inputs>$(TargetFileName)</Inputs>
     </CustomBuildStep>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(EngineRoot);$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4267;4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4267;4251;4244;4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -143,17 +143,48 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
       </Command>
     </PostBuildEvent>
     <PreLinkEvent>
-      <Command></Command>
+      <Command>
+      </Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\Input\OprtKey.cpp" />
+    <ClCompile Include="..\Classes\Input\OprtState.cpp" />
+    <ClCompile Include="..\Classes\Input\OprtTouch.cpp" />
+    <ClCompile Include="..\Classes\Input\UseKey.cpp" />
+    <ClCompile Include="..\Classes\Manager\AnimManager.cpp" />
+    <ClCompile Include="..\Classes\Module\DirCheck.cpp" />
+    <ClCompile Include="..\Classes\Module\HitCheck.cpp" />
+    <ClCompile Include="..\Classes\Module\Jump.cpp" />
+    <ClCompile Include="..\Classes\Module\Move.cpp" />
+    <ClCompile Include="..\Classes\Scene\GameScene.cpp" />
+    <ClCompile Include="..\Classes\Unit\Character.cpp" />
+    <ClCompile Include="..\Classes\Unit\Enemy.cpp" />
+    <ClCompile Include="..\Classes\Unit\Player.cpp" />
+    <ClCompile Include="..\Classes\_DebugOut\_DebugConOut.cpp" />
+    <ClCompile Include="..\Classes\_DebugOut\_DebugDispOut.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\Input\OprtKey.h" />
+    <ClInclude Include="..\Classes\Input\OprtState.h" />
+    <ClInclude Include="..\Classes\Input\OprtTouch.h" />
+    <ClInclude Include="..\Classes\Input\UseKey.h" />
+    <ClInclude Include="..\Classes\Manager\AnimManager.h" />
+    <ClInclude Include="..\Classes\Module\ActSet.h" />
+    <ClInclude Include="..\Classes\Module\DirCheck.h" />
+    <ClInclude Include="..\Classes\Module\HitCheck.h" />
+    <ClInclude Include="..\Classes\Module\Jump.h" />
+    <ClInclude Include="..\Classes\Module\Move.h" />
+    <ClInclude Include="..\Classes\Scene\GameScene.h" />
+    <ClInclude Include="..\Classes\Unit\Character.h" />
+    <ClInclude Include="..\Classes\Unit\charaStruct.h" />
+    <ClInclude Include="..\Classes\Unit\Enemy.h" />
+    <ClInclude Include="..\Classes\Unit\Player.h" />
+    <ClInclude Include="..\Classes\_DebugOut\_DebugConOut.h" />
+    <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
