@@ -81,6 +81,15 @@
     <ClCompile Include="..\Classes\_DebugOut\_DebugDispOut.cpp">
       <Filter>_DebugOut</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Module\ActModule.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\Fall.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\AnimUpdate.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -139,6 +148,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h">
       <Filter>_DebugOut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\ActModule.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\Fall.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\AnimUpdate.h">
+      <Filter>module</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

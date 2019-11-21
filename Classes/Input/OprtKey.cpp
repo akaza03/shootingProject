@@ -11,7 +11,7 @@ OprtKey::~OprtKey()
 }
 
 
-cocos2d::EventListener * OprtKey::oprtInit(cocos2d::Sprite * sprite, int speed)
+cocos2d::EventListener * OprtKey::oprtInit(cocos2d::Sprite * sprite)
 {
 	auto listener = cocos2d::EventListenerKeyboard::create();
 

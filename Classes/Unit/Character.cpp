@@ -5,7 +5,6 @@
 
 Character::Character()
 {
-	_Gravity = 0;
 }
 
 
@@ -14,7 +13,7 @@ Character::~Character()
 }
 
 
-void Character::SetInit(std::string ImagePass, DIR stdir, cocos2d::Vec2 pos, int speed, cocos2d::Scene *scene)
+void Character::SetInit(std::string ImagePass, DIR stdir, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene)
 {
 	InitActData(speed);
 	auto sprite = Sprite::create(ImagePass);
@@ -30,10 +29,10 @@ void Character::SetInit(std::string ImagePass, DIR stdir, cocos2d::Vec2 pos, int
 		_oprtState = new OprtTouch();
 	}
 	//	操作イベントの作成
-	scene->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(this, speed),scene);
+	scene->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(this),scene);
 }
 
-void Character::InitActData(int speed)
+void Character::InitActData(cocos2d::Vec2 speed)
 {
 	//	キャラクターの情報の追加
 	_actData.speed = speed;
@@ -58,11 +57,6 @@ void Character::InitActData(int speed)
 	_charaList.emplace(std::make_pair("damage", _actData));
 	_actData.anim = AnimState::DIE;
 	_charaList.emplace(std::make_pair("die", _actData));
-
-	for (auto &cList:_charaList)
-	{
-		cList.second.nowAnim = AnimState::IDLE;
-	}
 
 	lpAnimManager.AnimRun(this, _charaList["idle"].nowAnim, _charaList["idle"].cType);
 }

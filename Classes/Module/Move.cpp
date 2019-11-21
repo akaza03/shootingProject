@@ -8,14 +8,14 @@ bool Move::operator()(cocos2d::Sprite & sp, ActData & act)
 	{
 		if (!act.checkPoint[DIR::LEFT])
 		{
-			act.distance.x = - act.speed;
+			act.distance.x = -act.speed.x;
 		}
 	}
 	if (act.key[UseKey::K_RIGHT].first && act.key[UseKey::K_RIGHT].second)
 	{
 		if (!act.checkPoint[DIR::RIGHT])
 		{
-			act.distance.x = act.speed;
+			act.distance.x = act.speed.x;
 		}
 	}
 
