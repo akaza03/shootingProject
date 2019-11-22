@@ -30,9 +30,6 @@ void Player::update(float d)
 			//	モジュールを使用したアクション処理
 			ActModule()(*this, itr.second);
 
-			//	移動
-			setPosition(getPosition().x + itr.second.distance.x, getPosition().y + itr.second.distance.y + itr.second.Gravity);
-
 			if (itr.second.nowAnim != itr.second.anim)
 			{
 				//	次のアニメーションに現在のキー情報を渡す準備
@@ -76,7 +73,8 @@ void Player::update(float d)
 				nextKey.nowAnim = itr.second.nowAnim;
 				nextKey.dir = itr.second.dir;
 				nextKey.Gravity = itr.second.Gravity;
-				nextKey.skyflag = itr.second.skyflag;
+				nextKey.jumpFlag = itr.second.jumpFlag;
+				nextKey.jumpCnt = itr.second.jumpCnt;
 
 				lpAnimManager.AnimRun(this, itr.second.nowAnim, itr.second.cType);
 			}

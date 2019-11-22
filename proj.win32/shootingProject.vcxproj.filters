@@ -90,6 +90,12 @@
     <ClCompile Include="..\Classes\Module\AnimUpdate.cpp">
       <Filter>module</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Module\SetPos.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\Shooting.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -156,6 +162,12 @@
       <Filter>module</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Module\AnimUpdate.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\SetPos.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\Shooting.h">
       <Filter>module</Filter>
     </ClInclude>
   </ItemGroup>

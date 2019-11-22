@@ -11,7 +11,20 @@ bool Fall::operator()(cocos2d::Sprite & sp, ActData & act)
 	if (act.checkPoint[DIR::DOWN])
 	{
 		act.Gravity = 0;
-		act.skyflag = false;
+		act.jumpFlag = false;
+	}
+
+	//	ãÛíÜÇ≈ÇÃÇﬂÇËçûÇ›ñhé~èàóù
+	if (act.Gravity != 0)
+	{
+		if (act.checkPoint[DIR::LEFT] && act.dir == DIR::LEFT)
+		{
+			act.distance.x = 0;
+		}
+		else if (act.checkPoint[DIR::RIGHT] && act.dir == DIR::RIGHT)
+		{
+			act.distance.x = 0;
+		}
 	}
 
 	return false;

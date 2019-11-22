@@ -144,7 +144,7 @@ bool GameScene::init()
 		}
 	}
 
-	player->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, Ppos, Vec2(5, 6), this);
+	player->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, Ppos, Vec2(5, 3), this);
 	CharaLayer->addChild(player, 0);
 
 #ifdef _DEBUG

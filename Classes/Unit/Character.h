@@ -21,10 +21,12 @@ struct ActData
 	keyList key;															//	どのキーを押したら処理するのか(List)
 	AnimState anim;															//	自身のアニメーション
 	AnimState nowAnim = AnimState::IDLE;									//	現在のアニメーション
-	DIR dir = DIR::RIGHT;													//	現在の向き
+	DIR dir = DIR::LEFT;													//	現在の向き
 	hitList checkPoint;														//	当たり判定用
 	cocos2d::Vec2 distance = { 0,0 };										//	移動距離
-	bool skyflag = false;													//	空中にいるかどうかのフラグ
+	bool jumpFlag = false;													//	ジャンプ中かどうかのフラグ
+	int jumpCnt = 1;														//	一度にジャンプができる回数
+	int jumpMax;															//	ジャンプ回数リセット用
 	CharaType cType;														//	キャラクターのタイプ
 };
 
@@ -41,7 +43,7 @@ public:
 	void SetDBBox(Sprite* sp);														//	デバッグ時の当たり判定用BoxのSet
 
 private:
-	void InitActData(cocos2d::Vec2 speed);													//	ActDataの初期化
+	void InitActData(cocos2d::Vec2 speed);											//	ActDataの初期化
 
 protected:
 	OprtState *_oprtState;															//	操作制御

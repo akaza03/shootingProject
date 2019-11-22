@@ -5,3 +5,5 @@
 #include "Fall.h"
 #include "AnimUpdate.h"
 #include "DirCheck.h"
+#include "Shooting.h"
+#include "SetPos.h"

@@ -35,6 +35,7 @@ void Character::SetInit(std::string ImagePass, DIR stdir, cocos2d::Vec2 pos, coc
 void Character::InitActData(cocos2d::Vec2 speed)
 {
 	//	キャラクターの情報の追加
+	_actData.jumpMax = _actData.jumpCnt;
 	_actData.speed = speed;
 	_actData.key[UseKey::K_LEFT] = std::make_pair(false, true);
 	_actData.key[UseKey::K_RIGHT] = std::make_pair(false, true);

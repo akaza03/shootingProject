@@ -15,4 +15,6 @@ void ActModule::operator()(cocos2d::Sprite & sp, ActData & act)
 	AnimUpdate()(sp, act);
 	//	Œü‚«‚ÌXV
 	DirCheck()(sp, act);
+	//	ˆÚ“®
+	SetPos()(sp, act);
 }

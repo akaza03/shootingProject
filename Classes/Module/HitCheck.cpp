@@ -17,7 +17,7 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 
 	//	マップとの当たり判定
 	//	下
-	auto DownPos = cocos2d::Vec2(pos.x / layerMap->getMapTileSize().width, pos.y / layerMap->getMapTileSize().height + 1);
+	auto DownPos = cocos2d::Vec2(pos.x / layerMap->getMapTileSize().width, (pos.y + sp.getContentSize().height / 2) / layerMap->getMapTileSize().height);
 	tile = GetTile(DownPos, layerMap);
 	if (tile != 0)
 	{
@@ -43,7 +43,7 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 	}
 
 	// 左
-	auto LPos = cocos2d::Vec2(pos.x / layerMap->getMapTileSize().width - 1, pos.y / layerMap->getMapTileSize().height);
+	auto LPos = cocos2d::Vec2((pos.x - sp.getContentSize().width / 2) / layerMap->getMapTileSize().width, pos.y / layerMap->getMapTileSize().height);
 	tile = GetTile(LPos, layerMap);
 	if (tile != 0)
 	{
@@ -52,11 +52,23 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 	}
 	else
 	{
-		act.checkPoint[DIR::LEFT] = false;
+		LPos.y = (pos.y + sp.getContentSize().height / 3) / layerMap->getMapTileSize().height;
+
+		tile = GetTile(LPos, layerMap);
+
+		if (tile != 0)
+		{
+			TRACE("左%d", tile);
+			act.checkPoint[DIR::LEFT] = true;
+		}
+		else
+		{
+			act.checkPoint[DIR::LEFT] = false;
+		}
 	}
 
 	//	右
-	auto RPos = cocos2d::Vec2(pos.x / layerMap->getMapTileSize().width + 1, pos.y / layerMap->getMapTileSize().height);
+	auto RPos = cocos2d::Vec2((pos.x + sp.getContentSize().width / 2) / layerMap->getMapTileSize().width, pos.y / layerMap->getMapTileSize().height);
 	tile = GetTile(RPos, layerMap);
 	if (tile != 0)
 	{
@@ -65,7 +77,19 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 	}
 	else
 	{
-		act.checkPoint[DIR::RIGHT] = false;
+		RPos.y = (pos.y + sp.getContentSize().height / 3) / layerMap->getMapTileSize().height;
+
+		tile = GetTile(RPos, layerMap);
+
+		if (tile != 0)
+		{
+			TRACE("右%d", tile);
+			act.checkPoint[DIR::RIGHT] = true;
+		}
+		else
+		{
+			act.checkPoint[DIR::RIGHT] = false;
+		}
 	}
 	
 	return false;
