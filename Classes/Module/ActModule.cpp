@@ -5,6 +5,7 @@ void ActModule::operator()(cocos2d::Sprite & sp, ActData & act)
 {
 	//	“–‚½‚è”»’è
 	HitCheck()(sp, act);
+	DamageCheck()(sp, act);
 
 	//	ˆÚ“®ˆ—
 	Jump()(sp, act);
@@ -17,4 +18,7 @@ void ActModule::operator()(cocos2d::Sprite & sp, ActData & act)
 	DirCheck()(sp, act);
 	//	ˆÚ“®
 	SetPos()(sp, act);
+
+	//	’e”­Ë
+	Shooting()(sp, act);
 }

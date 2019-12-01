@@ -41,10 +41,13 @@ void Character::InitActData(cocos2d::Vec2 speed)
 	_actData.key[UseKey::K_RIGHT] = std::make_pair(false, true);
 	_actData.key[UseKey::K_UP] = std::make_pair(false, true);
 	_actData.key[UseKey::K_DOWN] = std::make_pair(false, true);
+	_actData.key[UseKey::K_SPACE] = std::make_pair(false, true);
+
 	_actData.checkPoint[DIR::LEFT] = false;
 	_actData.checkPoint[DIR::RIGHT] = false;
 	_actData.checkPoint[DIR::UP] = false;
 	_actData.checkPoint[DIR::DOWN] = false;
+
 	_actData.anim = AnimState::IDLE;
 	_charaList.emplace(std::make_pair("idle", _actData));
 	_actData.anim = AnimState::RUN;

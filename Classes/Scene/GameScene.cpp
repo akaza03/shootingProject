@@ -24,7 +24,14 @@
 
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
+
+#include "ck/ck.h"
+#include "ck/config.h"
+#include "ck/bank.h"
+#include "ck/sound.h"
+
 #include "Unit/Player.h"
+#include "Unit/Enemy.h"
 
 
 USING_NS_CC;
@@ -88,7 +95,7 @@ bool GameScene::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("GameMain", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -106,15 +113,19 @@ bool GameScene::init()
 	//	レイヤーの作成
 	BGLayer = Layer::create();
 	this->addChild(BGLayer, LayerNumber::BG, "BGLayer");
-	CharaLayer = Layer::create();
-	this->addChild(CharaLayer, LayerNumber::CHARA, "CharaLayer");
+	PLLayer = Layer::create();
+	this->addChild(PLLayer, LayerNumber::PL, "PLLayer");
+	EMLayer = Layer::create();
+	this->addChild(EMLayer, LayerNumber::EM, "EMLayer");
+	FGLayer = Layer::create();
+	this->addChild(FGLayer, LayerNumber::FG, "FGLayer");
 
 	//	マップの読み込み
 	TMXTiledMap* tiledMap = TMXTiledMap::create("map.tmx");
 	BGLayer->addChild(tiledMap, 1, "stageMap");
 
 	//	背景画像をまとめて表示する用
-	auto spNode = SpriteBatchNode::create("image/Environment/background.png");
+	auto spNode = SpriteBatchNode::create("image/iseki.jpg");
 	BGLayer->addChild(spNode, 0);
 	for (int i = 0; i <= 2; i++)
 	{
@@ -144,8 +155,45 @@ bool GameScene::init()
 		}
 	}
 
-	player->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, Ppos, Vec2(5, 3), this);
-	CharaLayer->addChild(player, 0);
+	player->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, Ppos, Vec2(5, 4), this);
+	PLLayer->addChild(player, 0);
+
+
+	//	敵の生成(テスト)
+	auto Enemy = Enemy::create();
+	auto Epos = cocos2d::Vec2(400, 100);
+	Enemy->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, Epos, Vec2(5, 4), this);
+	EMLayer->addChild(Enemy, 0);
+
+//	//	エフェクトの設定
+//	effectMng.reset(efk::EffectManager::create(Director::getInstance()->getVisibleSize()));
+//	auto effect = efk::Effect::create("effect/Laser01.efk");
+//
+//	auto emitter = efk::EffectEmitter::create(effectMng.get());
+//	emitter->setEffect(effect);
+//	emitter->setPlayOnEnter(true);
+//	emitter->setPosition(Vec2(300, 300));
+//	emitter->setScale(20);
+//	FGLayer->addChild(emitter, 0);
+//
+//	//	BGMの設定
+//#if CK_PLATFORM_ANDROID
+//	CkConfig config(env, activity);
+//#else
+//	CkConfig config;
+//#endif;
+//	CkInit(&config);
+//
+//	CkSound* _music = CkSound::newStreamSound("Resources/Audio/BGM/home.cks");
+//	_music->setLoopCount(-1);
+//	_music->play();
+//
+//	//	ckbファイルの指定
+//	CkBank* bank = CkBank::newBank("Resources/Audio/SE/Sound.ckb");
+//	//	再生したい音の名前を指定
+//	CkSound* sound = CkSound::newBankSound(bank, "shot");
+//	sound->play();
+
 
 #ifdef _DEBUG
 	//	デバッグ用レイヤーの作成
@@ -160,11 +208,17 @@ bool GameScene::init()
 	player->SetDBBox(DBBox);
 #endif // _DEBUG
 
-	this->scheduleUpdate();
-
 	return true;
 }
 
+void GameScene::update(float d)
+{
+	////	エフェクトの更新
+	//(*effectMng).update();
+
+	////	Audioの更新
+	//CkUpdate();
+}
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {
@@ -178,3 +232,5 @@ void GameScene::menuCloseCallback(Ref* pSender)
 
 
 }
+
+

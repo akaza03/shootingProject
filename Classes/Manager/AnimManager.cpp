@@ -133,16 +133,22 @@ std::string AnimManager::GetAnimName(AnimState anim, CharaType type)
 		switch (anim)
 		{
 		case IDLE:
+			return "p_idle";
 			break;
 		case RUN:
+			return "p_run";
 			break;
 		case RSHOT:
+			return "p_runShot";
 			break;
 		case JUMP:
+			return "p_jump";
 			break;
 		case DAMAGE:
+			return "p_damage";
 			break;
 		case DIE:
+			return "p_die";
 			break;
 		case STATE_MAX:
 			break;

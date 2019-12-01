@@ -4,7 +4,15 @@
 bool AnimUpdate::operator()(cocos2d::Sprite & sp, ActData & act)
 {
 	auto anim = AnimState::IDLE;
-	if (act.jumpFlag)
+	if (act.damageCnt > 0)
+	{
+		anim = AnimState::DAMAGE;
+	}
+	else if (act.key[UseKey::K_SPACE].first)
+	{
+		anim = AnimState::RSHOT;
+	}
+	else if (act.jumpFlag)
 	{
 		anim = AnimState::JUMP;
 	}

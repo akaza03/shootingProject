@@ -8,6 +8,7 @@ enum class UseKey
 	K_RIGHT,
 	K_UP,
 	K_DOWN,
+	K_SPACE,
 	K_MAX
 };
 

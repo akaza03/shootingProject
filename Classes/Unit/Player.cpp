@@ -75,6 +75,10 @@ void Player::update(float d)
 				nextKey.Gravity = itr.second.Gravity;
 				nextKey.jumpFlag = itr.second.jumpFlag;
 				nextKey.jumpCnt = itr.second.jumpCnt;
+				nextKey.attackCnt = itr.second.attackCnt;
+				nextKey.damageCnt = itr.second.damageCnt;
+				nextKey.invTime = itr.second.invTime;
+				nextKey.HP = itr.second.HP;
 
 				lpAnimManager.AnimRun(this, itr.second.nowAnim, itr.second.cType);
 			}

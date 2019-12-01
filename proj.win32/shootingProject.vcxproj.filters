@@ -28,6 +28,9 @@
     <Filter Include="_DebugOut">
       <UniqueIdentifier>{326d9286-d6ea-4a99-b056-d5aac70fd813}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Effekseer">
+      <UniqueIdentifier>{0892c2c4-d206-4ee9-9e75-dc5674a27ab3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,6 +97,21 @@
       <Filter>module</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Module\Shooting.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Unit\Shot.cpp">
+      <Filter>Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\Effekseer.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffekseerNative.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffekseerRendererNative.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\DamageCheck.cpp">
       <Filter>module</Filter>
     </ClCompile>
   </ItemGroup>
@@ -168,6 +186,21 @@
       <Filter>module</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Module\Shooting.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Unit\Shot.h">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\Effekseer.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffekseerNative.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffekseerRendererNative.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\DamageCheck.h">
       <Filter>module</Filter>
     </ClInclude>
   </ItemGroup>

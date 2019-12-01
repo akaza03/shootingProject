@@ -40,6 +40,10 @@ cocos2d::EventListener * OprtKey::oprtInit(cocos2d::Sprite * sprite)
 		{
 			_oprtKeyList[UseKey::K_DOWN] = true;
 		}
+		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE)
+		{
+			_oprtKeyList[UseKey::K_SPACE] = true;
+		}
 	};
 
 	//	ÉLÅ[Çó£ÇµÇΩèuä‘
@@ -60,6 +64,10 @@ cocos2d::EventListener * OprtKey::oprtInit(cocos2d::Sprite * sprite)
 		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW)
 		{
 			_oprtKeyList[UseKey::K_DOWN] = false;
+		}
+		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE)
+		{
+			_oprtKeyList[UseKey::K_SPACE] = false;
 		}
 	};
 

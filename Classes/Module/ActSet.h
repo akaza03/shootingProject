@@ -1,5 +1,6 @@
 #pragma once
 #include "HitCheck.h"
+#include "DamageCheck.h"
 #include "Move.h"
 #include "Jump.h"
 #include "Fall.h"

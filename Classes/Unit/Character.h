@@ -16,17 +16,21 @@ using hitList = std::map<DIR, bool>;												//	当たり判定用リスト
 //	キャラクターの情報用
 struct ActData
 {
+	int HP = 10;																//	体力
 	cocos2d::Vec2 speed;													//	移動スピード(歩き,ジャンプ)
 	float Gravity = 0;														//	重力
 	keyList key;															//	どのキーを押したら処理するのか(List)
 	AnimState anim;															//	自身のアニメーション
 	AnimState nowAnim = AnimState::IDLE;									//	現在のアニメーション
 	DIR dir = DIR::LEFT;													//	現在の向き
-	hitList checkPoint;														//	当たり判定用
+	hitList checkPoint;														//	障害物との当たり判定用
+	int damageCnt = 0;														//	ダメージを受けた時の硬直用
+	int invTime = 0;														//	無敵時間
 	cocos2d::Vec2 distance = { 0,0 };										//	移動距離
 	bool jumpFlag = false;													//	ジャンプ中かどうかのフラグ
 	int jumpCnt = 1;														//	一度にジャンプができる回数
 	int jumpMax;															//	ジャンプ回数リセット用
+	int attackCnt = 0;														//	攻撃してからの経過時間(Shot制御などで使用)
 	CharaType cType;														//	キャラクターのタイプ
 };
 
