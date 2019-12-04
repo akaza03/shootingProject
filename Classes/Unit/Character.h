@@ -13,10 +13,12 @@ using actionPoint = std::function<bool(cocos2d::Sprite&,struct ActData&)>;
 using keyList = std::map<UseKey, std::pair<bool, bool>>;							//	キー用のリスト(押されているかの判定,登録されているかの判定)
 using hitList = std::map<DIR, bool>;												//	当たり判定用リスト
 
+using AnimMap = std::map < std::string, cocos2d::Action* >;
+
 //	キャラクターの情報用
 struct ActData
 {
-	int HP = 10;																//	体力
+	int HP = 10;															//	体力
 	cocos2d::Vec2 speed;													//	移動スピード(歩き,ジャンプ)
 	float Gravity = 0;														//	重力
 	keyList key;															//	どのキーを押したら処理するのか(List)
@@ -32,6 +34,7 @@ struct ActData
 	int jumpMax;															//	ジャンプ回数リセット用
 	int attackCnt = 0;														//	攻撃してからの経過時間(Shot制御などで使用)
 	CharaType cType;														//	キャラクターのタイプ
+	int charaID;															//	キャラクターの種類判別用のID
 };
 
 class Character
@@ -42,7 +45,7 @@ public:
 	virtual ~Character();
 	virtual void update(float d) = 0;
 
-	void SetInit(std::string ImagePass, DIR stdir, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene);
+	void SetInit(std::string ImagePass, DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene);
 
 	void SetDBBox(Sprite* sp);														//	デバッグ時の当たり判定用BoxのSet
 
@@ -55,6 +58,8 @@ protected:
 	std::map<const char *,ActData> _charaList;										//	キャラクターの情報用リスト
 
 	Sprite *_box;																	//	当たり判定用のBOX
+
+	AnimMap _animMap;
 
 	//std::list<cocos2d::EventKeyboard::KeyCode> _keyList;							//	キー用のリスト
 

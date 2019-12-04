@@ -33,7 +33,6 @@
 #include "Unit/Player.h"
 #include "Unit/Enemy.h"
 
-
 USING_NS_CC;
 
 Scene* GameScene::createScene()
@@ -149,21 +148,43 @@ bool GameScene::init()
 		{
 			if (layer->getTileGIDAt(cocos2d::Vec2(x, y)) != 0)
 			{
-				Ppos = cocos2d::Vec2(x * layer->getMapTileSize().width, y * layer->getMapTileSize().height);
+				Ppos = cocos2d::Vec2(x * layer->getMapTileSize().width,
+					layer->getLayerSize().height * layer->getMapTileSize().height - y * layer->getMapTileSize().height);
 				layer->removeFromParentAndCleanup(true);
 			}
 		}
 	}
-
-	player->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, Ppos, Vec2(5, 4), this);
+	player->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, 0, Ppos, Vec2(5, 4), this);
 	PLLayer->addChild(player, 0);
 
+	//	敵の作成
+	TMXLayer* eLayer = tiledMap->getLayer("enemy");
+	//	エネミーの座標
+	cocos2d::Vec2 Epos;
+	for (int y = 0; y < eLayer->getLayerSize().height; y++)
+	{
+		for (int x = 0; x < eLayer->getLayerSize().width; x++)
+		{
+			if (eLayer->getTileGIDAt(cocos2d::Vec2(x, y)) != 0)
+			{
+				Epos = cocos2d::Vec2(x * eLayer->getMapTileSize().width, 
+					eLayer->getLayerSize().height * eLayer->getMapTileSize().height - y * eLayer->getMapTileSize().height);
+				auto Enemy = Enemy::create();
+				Enemy->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, 0, Epos, Vec2(5, 4), this);
+				EMLayer->addChild(Enemy, 0);
+			}
+		}
+	}
+	eLayer->removeFromParentAndCleanup(true);
 
-	//	敵の生成(テスト)
-	auto Enemy = Enemy::create();
-	auto Epos = cocos2d::Vec2(400, 100);
-	Enemy->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, Epos, Vec2(5, 4), this);
-	EMLayer->addChild(Enemy, 0);
+	////	敵の生成(テスト)
+	//for (int i = 1; i < 3;i++)
+	//{
+	//	auto Enemy = Enemy::create();
+	//	auto Epos = cocos2d::Vec2(400 * i, 100);
+	//	Enemy->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, Epos, Vec2(5, 4), this);
+	//	EMLayer->addChild(Enemy, i);
+	//}
 
 //	//	エフェクトの設定
 //	effectMng.reset(efk::EffectManager::create(Director::getInstance()->getVisibleSize()));

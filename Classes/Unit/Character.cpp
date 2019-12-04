@@ -13,8 +13,13 @@ Character::~Character()
 }
 
 
-void Character::SetInit(std::string ImagePass, DIR stdir, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene)
+void Character::SetInit(std::string ImagePass, DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene)
 {
+	_actData.charaID = id;
+
+	//	アニメーションのセット
+	lpAnimManager.SetAnim(_actData.cType, id, _animMap);
+
 	InitActData(speed);
 	auto sprite = Sprite::create(ImagePass);
 	setPosition(cocos2d::Vec2(pos.x + sprite->getContentSize().width / 2, pos.y));
@@ -28,6 +33,7 @@ void Character::SetInit(std::string ImagePass, DIR stdir, cocos2d::Vec2 pos, coc
 	{
 		_oprtState = new OprtTouch();
 	}
+
 	//	操作イベントの作成
 	scene->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(this),scene);
 }
@@ -62,7 +68,7 @@ void Character::InitActData(cocos2d::Vec2 speed)
 	_actData.anim = AnimState::DIE;
 	_charaList.emplace(std::make_pair("die", _actData));
 
-	lpAnimManager.AnimRun(this, _charaList["idle"].nowAnim, _charaList["idle"].cType);
+	lpAnimManager.AnimRun(this, _charaList["idle"].nowAnim, _charaList["idle"].cType, _animMap);
 }
 
 void Character::SetDBBox(Sprite * sp)

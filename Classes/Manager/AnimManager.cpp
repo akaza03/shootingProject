@@ -1,7 +1,7 @@
-#include "Unit/Character.h"
 #include "AnimManager.h"
 
 AnimManager* AnimManager::s_Instance = nullptr;
+
 
 AnimManager::AnimManager()
 {
@@ -17,17 +17,23 @@ AnimManager::~AnimManager()
 void AnimManager::AnimationInit()
 {
 	auto pass = "image/player/01-unit.png";
-	_animMap["p_idle"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 0), 3, 0.3f, true);
-	_animMap["p_run"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(2, 1), 2, 0.3f, true);
-	_animMap["p_runShot"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(1, 3), 5, 0.3f, true);
-	_animMap["p_jump"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 5), 3, 0.3f, true);
-	_animMap["p_damage"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 4), 3, 0.3f, true);
-	_animMap["p_die"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(6, 5), 3, 0.3f, true);
+	_animMap["p0_idle"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 0), 3, 0.3f, true);
+	_animMap["p0_run"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(2, 1), 2, 0.3f, true);
+	_animMap["p0_runShot"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(1, 3), 5, 0.3f, true);
+	_animMap["p0_jump"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 5), 3, 0.3f, true);
+	_animMap["p0_damage"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 4), 3, 0.3f, true);
+	_animMap["p0_die"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(6, 5), 3, 0.3f, true);
 
-	pass = "image/Sprites/enemies/";
+	pass = "image/player/02-unit.png";
+	_animMap["e0_idle"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 0), 3, 0.3f, true);
+	_animMap["e0_run"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(2, 1), 2, 0.3f, true);
+	_animMap["e0_runShot"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(1, 3), 5, 0.3f, true);
+	_animMap["e0_jump"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 5), 3, 0.3f, true);
+	_animMap["e0_damage"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 4), 3, 0.3f, true);
+	_animMap["e0_die"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(6, 5), 3, 0.3f, true);
 }
 
-cocos2d::Action * AnimManager::AnimationCreate(std::string imagePass, cocos2d::Vec2 divCnt, cocos2d::Vec2 startID, int animCntMax, float frame, bool loop)
+cocos2d::Animation * AnimManager::AnimationCreate(std::string imagePass, cocos2d::Vec2 divCnt, cocos2d::Vec2 startID, int animCntMax, float frame, bool loop)
 {
 	//	キャッシュ用画像
 	auto cacheSp = cocos2d::Sprite::create(imagePass);
@@ -49,114 +55,88 @@ cocos2d::Action * AnimManager::AnimationCreate(std::string imagePass, cocos2d::V
 	}
 	_animation->setDelayPerUnit(frame);
 	_animation->setRestoreOriginalFrame(true);
-	auto animate = cocos2d::Animate::create(_animation);
-	//	ループするかどうかの処理
-	if (loop)
-	{
-		return cocos2d::RepeatForever::create(animate);
-	}
-	return animate;
+
+	return _animation;
+
+	//auto animate = cocos2d::Animate::create(_animation);
+	////	ループするかどうかの処理
+	//if (loop)
+	//{
+	//	return cocos2d::RepeatForever::create(animate);
+	//}
+	//return animate;
 }
 
-void AnimManager::AnimRun(cocos2d::Sprite * sprite, AnimState anim, CharaType type)
+void AnimManager::AnimRun(cocos2d::Sprite * sprite, AnimState anim, CharaType type , AnimMap &charaAnim)
 {
-	auto animName = GetAnimName(anim, type);
+	auto animName = GetAnimName(anim);
 
-	auto action = _animMap[animName];
+	auto action = charaAnim[animName];
+
 	if (action != nullptr)
 	{
 		sprite->stopAllActions();
-		sprite->runAction(_animMap[animName]);
+		sprite->runAction(charaAnim[animName]);
 	}
-	AnimCountPlus();
+	AnimCountPlus(charaAnim);
 }
 
-AnimState AnimManager::AnimStateUpdate(struct ActData &act)
+
+void AnimManager::SetAnim(CharaType type, int id, AnimMap &anim)
 {
-	if (act.distance.y != 0)
+	std::string charaID;
+	if (type == CharaType::PLAYER)
 	{
-		return AnimState::JUMP;
+		charaID = "p";
 	}
-	else if (act.distance.x != 0)
+	else if (type == CharaType::ENEMY)
 	{
-		return AnimState::RUN;
+		charaID = "e";
 	}
-	else
-	{
-		return AnimState::IDLE;
-	}
-	return AnimState::IDLE;
+
+	charaID = charaID + std::to_string(id);
+
+	anim["idle"]	= cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_idle"]));
+	anim["run"]		= cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_run"]));
+	anim["runShot"] = cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_runShot"]));
+	anim["jump"]	= cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_jump"]));
+	anim["damage"]	= cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_damage"]));
+	anim["die"]		= cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_die"]));
 }
 
-void AnimManager::AnimCountPlus()
+void AnimManager::AnimCountPlus(AnimMap &anim)
 {
-	_animMap["p_idle"]->retain();
-	_animMap["p_run"]->retain();
-	_animMap["p_runShot"]->retain();
-	_animMap["p_jump"]->retain();
-	_animMap["p_damage"]->retain();
-	_animMap["p_die"]->retain();
+	anim["idle"]->retain();
+	anim["run"]->retain();
+	anim["runShot"]->retain();
+	anim["jump"]->retain();
+	anim["damage"]->retain();
+	anim["die"]->retain();
 }
 
-std::string AnimManager::GetAnimName(AnimState anim, CharaType type)
+std::string AnimManager::GetAnimName(AnimState anim)
 {
-	switch (type)
+	switch (anim)
 	{
-	case CharaType::PLAYER:
-		switch (anim)
-		{
-		case IDLE:
-			return "p_idle";
-			break;
-		case RUN:
-			return "p_run";
-			break;
-		case RSHOT:
-			return "p_runShot";
-			break;
-		case JUMP:
-			return "p_jump";
-			break;
-		case DAMAGE:
-			return "p_damage";
-			break;
-		case DIE:
-			return "p_die";
-			break;
-		case STATE_MAX:
-			break;
-		default:
-			break;
-		}
+	case IDLE:
+		return "idle";
 		break;
-	case CharaType::ENEMY:
-		switch (anim)
-		{
-		case IDLE:
-			return "p_idle";
-			break;
-		case RUN:
-			return "p_run";
-			break;
-		case RSHOT:
-			return "p_runShot";
-			break;
-		case JUMP:
-			return "p_jump";
-			break;
-		case DAMAGE:
-			return "p_damage";
-			break;
-		case DIE:
-			return "p_die";
-			break;
-		case STATE_MAX:
-			break;
-		default:
-			break;
-		}
+	case RUN:
+		return "run";
 		break;
-	case CharaType::CHARA_MAX:
+	case RSHOT:
+		return "runShot";
+		break;
+	case JUMP:
+		return "jump";
+		break;
+	case DAMAGE:
+		return "damage";
+		break;
+	case DIE:
+		return "die";
+		break;
+	case STATE_MAX:
 		break;
 	default:
 		break;

@@ -23,7 +23,6 @@ void Enemy::update(float d)
 	{
 		if (itr.second.nowAnim == itr.second.anim)
 		{
-
 			//	モジュールを使用したアクション処理
 			ActModule()(*this, itr.second);
 
@@ -77,7 +76,7 @@ void Enemy::update(float d)
 				nextKey.invTime = itr.second.invTime;
 				nextKey.HP = itr.second.HP;
 
-				lpAnimManager.AnimRun(this, itr.second.nowAnim, itr.second.cType);
+				lpAnimManager.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
 			}
 		}
 	}
