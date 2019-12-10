@@ -9,7 +9,7 @@ bool Jump::operator()(cocos2d::Sprite & sp, ActData & act)
 		act.distance.y = 0;
 
 		//	ジャンプ開始
-		if (act.key[UseKey::K_UP].first && act.key[UseKey::K_UP].second)
+		if (std::get<0>(act.key[UseKey::K_UP]) && std::get<2>(act.key[UseKey::K_UP]))
 		{
 			act.jumpFlag = true;
 		}
@@ -18,13 +18,13 @@ bool Jump::operator()(cocos2d::Sprite & sp, ActData & act)
 	if (act.jumpFlag)
 	{
 		//	jumpCntの数だけジャンプできるように制御
-		if (act.distance.y == 0 && act.key[UseKey::K_UP].first)
+		if (act.distance.y == 0 && std::get<0>(act.key[UseKey::K_UP]))
 		{
 			act.jumpCnt--;
 		}
 
 		//	落ちる処理
-		if (act.checkPoint[DIR::UP] || !act.key[UseKey::K_UP].first)
+		if (act.checkPoint[DIR::UP] || !std::get<0>(act.key[UseKey::K_UP]))
 		{
 			act.distance.y = 0;
 		}

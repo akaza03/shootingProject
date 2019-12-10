@@ -8,3 +8,5 @@
 #include "DirCheck.h"
 #include "Shooting.h"
 #include "SetPos.h"
+#include "changeChara.h"
+#include "OldKeyUpdate.h"

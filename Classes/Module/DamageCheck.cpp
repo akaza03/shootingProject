@@ -24,6 +24,9 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 			{
 				//	当たった場合はダメージ硬直
 				act.damageCnt = 20;
+
+				//	ダメージ
+				//act.HP -= 5;
 			}
 		}
 	}

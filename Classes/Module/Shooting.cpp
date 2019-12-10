@@ -4,7 +4,7 @@
 
 bool Shooting::operator()(cocos2d::Sprite & sp, ActData & act)
 {
-	if (act.attackCnt >= 20)
+	if (act.attackCnt >= 10)
 	{
 		act.attackCnt = 0;
 	}

@@ -10,10 +10,15 @@ class OprtState;
 
 //using spPointer = bool (*)(cocos2d::Sprite);
 using actionPoint = std::function<bool(cocos2d::Sprite&,struct ActData&)>;
-using keyList = std::map<UseKey, std::pair<bool, bool>>;							//	キー用のリスト(押されているかの判定,登録されているかの判定)
+//using keyList = std::map<UseKey, std::pair<bool, bool>>;							//	キー用のリスト(押されているかの判定,登録されているかの判定)
+
+//							現在のキー,1フレーム前のキー,登録されているかどうか
+using keyList = std::map<UseKey, std::tuple<bool, bool, bool>>;						//	キー用のリスト(押されているかの判定,登録されているかの判定)
+
 using hitList = std::map<DIR, bool>;												//	当たり判定用リスト
 
-using AnimMap = std::map < std::string, cocos2d::Action* >;
+using AnimMap = std::map < std::string, cocos2d::Action* >;							//	アニメーション格納用リスト
+using changeList = std::vector<int>;												//	キャラチェンジ時のカウント用リスト
 
 //	キャラクターの情報用
 struct ActData
@@ -35,6 +40,7 @@ struct ActData
 	int attackCnt = 0;														//	攻撃してからの経過時間(Shot制御などで使用)
 	CharaType cType;														//	キャラクターのタイプ
 	int charaID;															//	キャラクターの種類判別用のID
+	changeList changeCnt;													//	キャラチェンジ時のカウント用リスト
 };
 
 class Character
@@ -45,7 +51,7 @@ public:
 	virtual ~Character();
 	virtual void update(float d) = 0;
 
-	void SetInit(std::string ImagePass, DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene);
+	void SetInit(DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene);
 
 	void SetDBBox(Sprite* sp);														//	デバッグ時の当たり判定用BoxのSet
 

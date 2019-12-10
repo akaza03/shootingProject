@@ -114,6 +114,15 @@
     <ClCompile Include="..\Classes\Module\DamageCheck.cpp">
       <Filter>module</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Unit\Camera.cpp">
+      <Filter>Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\changeChara.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\OldKeyUpdate.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -201,6 +210,15 @@
       <Filter>Effekseer</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Module\DamageCheck.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Unit\Camera.h">
+      <Filter>Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\changeChara.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\OldKeyUpdate.h">
       <Filter>module</Filter>
     </ClInclude>
   </ItemGroup>

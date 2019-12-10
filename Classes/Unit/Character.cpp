@@ -13,7 +13,7 @@ Character::~Character()
 }
 
 
-void Character::SetInit(std::string ImagePass, DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene)
+void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene)
 {
 	_actData.charaID = id;
 
@@ -21,7 +21,7 @@ void Character::SetInit(std::string ImagePass, DIR stdir, int id, cocos2d::Vec2 
 	lpAnimManager.SetAnim(_actData.cType, id, _animMap);
 
 	InitActData(speed);
-	auto sprite = Sprite::create(ImagePass);
+	auto sprite = Sprite::create();
 	setPosition(cocos2d::Vec2(pos.x + sprite->getContentSize().width / 2, pos.y));
 
 	//	プラットフォームによって操作方法を変える
@@ -43,11 +43,19 @@ void Character::InitActData(cocos2d::Vec2 speed)
 	//	キャラクターの情報の追加
 	_actData.jumpMax = _actData.jumpCnt;
 	_actData.speed = speed;
-	_actData.key[UseKey::K_LEFT] = std::make_pair(false, true);
-	_actData.key[UseKey::K_RIGHT] = std::make_pair(false, true);
-	_actData.key[UseKey::K_UP] = std::make_pair(false, true);
-	_actData.key[UseKey::K_DOWN] = std::make_pair(false, true);
-	_actData.key[UseKey::K_SPACE] = std::make_pair(false, true);
+
+	for (int i = 0 ; i < 3 ; i++)
+	{
+		_actData.changeCnt.push_back(0);
+	}
+	
+	_actData.key[UseKey::K_LEFT] = std::make_tuple(false, false, true);
+	_actData.key[UseKey::K_RIGHT] = std::make_tuple(false, false, true);
+	_actData.key[UseKey::K_UP] = std::make_tuple(false, false, true);
+	_actData.key[UseKey::K_DOWN] = std::make_tuple(false, false, true);
+	_actData.key[UseKey::K_SPACE] = std::make_tuple(false, false, true);
+	_actData.key[UseKey::K_A] = std::make_tuple(false, false, true);
+	_actData.key[UseKey::K_S] = std::make_tuple(false, false, true);
 
 	_actData.checkPoint[DIR::LEFT] = false;
 	_actData.checkPoint[DIR::RIGHT] = false;
@@ -61,7 +69,7 @@ void Character::InitActData(cocos2d::Vec2 speed)
 	_actData.anim = AnimState::RSHOT;
 	_charaList.emplace(std::make_pair("pShot", _actData));
 	_actData.anim = AnimState::JUMP;
-	_actData.key[UseKey::K_DOWN].second = false;
+	std::get<2>(_actData.key[UseKey::K_DOWN]) = false;
 	_charaList.emplace(std::make_pair("jump", _actData));
 	_actData.anim = AnimState::DAMAGE;
 	_charaList.emplace(std::make_pair("damage", _actData));

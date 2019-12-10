@@ -4,14 +4,14 @@
 bool Move::operator()(cocos2d::Sprite & sp, ActData & act)
 {
 	act.distance.x = 0;
-	if (act.key[UseKey::K_LEFT].first && act.key[UseKey::K_LEFT].second)
+	if (std::get<0>(act.key[UseKey::K_LEFT]) && std::get<2>(act.key[UseKey::K_LEFT]))
 	{
 		if (!act.checkPoint[DIR::LEFT])
 		{
 			act.distance.x = -act.speed.x;
 		}
 	}
-	if (act.key[UseKey::K_RIGHT].first && act.key[UseKey::K_RIGHT].second)
+	if (std::get<0>(act.key[UseKey::K_RIGHT]) && std::get<2>(act.key[UseKey::K_RIGHT]))
 	{
 		if (!act.checkPoint[DIR::RIGHT])
 		{

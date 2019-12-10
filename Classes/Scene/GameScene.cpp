@@ -154,7 +154,7 @@ bool GameScene::init()
 			}
 		}
 	}
-	player->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, 0, Ppos, Vec2(5, 4), this);
+	player->SetInit(DIR::RIGHT, 0, Ppos, Vec2(5, 4), this);
 	PLLayer->addChild(player, 0);
 
 	//	“G‚Ìì¬
@@ -170,7 +170,7 @@ bool GameScene::init()
 				Epos = cocos2d::Vec2(x * eLayer->getMapTileSize().width, 
 					eLayer->getLayerSize().height * eLayer->getMapTileSize().height - y * eLayer->getMapTileSize().height);
 				auto Enemy = Enemy::create();
-				Enemy->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, 0, Epos, Vec2(5, 4), this);
+				Enemy->SetInit(DIR::RIGHT, 0, Epos, Vec2(5, 4), this);
 				EMLayer->addChild(Enemy, 0);
 			}
 		}
@@ -228,6 +228,13 @@ bool GameScene::init()
 	DBLayer->addChild(DBBox, 1, "DBBox");
 	player->SetDBBox(DBBox);
 #endif // _DEBUG
+
+	//	ƒJƒƒ‰Ý’è
+	auto size = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
+	BGLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
+	PLLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
+	EMLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
+	FGLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
 
 	return true;
 }

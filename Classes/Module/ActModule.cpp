@@ -21,4 +21,10 @@ void ActModule::operator()(cocos2d::Sprite & sp, ActData & act)
 
 	//	弾発射
 	Shooting()(sp, act);
+
+	//	キャラクターの切り替え
+	changeChara()(sp, act);
+
+	//	キーの更新
+	OldKeyUpdate()(sp, act);
 }

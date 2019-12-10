@@ -32,7 +32,6 @@ void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara)
 	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 
 	//	撃ったキャラの種類によってレイヤー分け
-
 	auto layer = nowScene->getChildByName("PLLayer");
 	if (chara.cType == CharaType::ENEMY)
 	{
@@ -65,7 +64,13 @@ void Shot::update(float d)
 bool Shot::hitCheck()
 {
 	////	キャラクターとの判定
-	//auto layer = cocos2d::Director::getInstance()->getRunningScene()->getChildByName("CharaLayer");
+	//auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
+	//auto layer = nowScene->getChildByName("EMLayer");
+	//if (type == CharaType::ENEMY)
+	//{
+	//	layer = nowScene->getChildByName("PLLayer");
+	//}
+
 	//for (auto obj : layer->getChildren())
 	//{
 	//	//	判定用BOX

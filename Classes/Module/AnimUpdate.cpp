@@ -8,7 +8,7 @@ bool AnimUpdate::operator()(cocos2d::Sprite & sp, ActData & act)
 	{
 		anim = AnimState::DAMAGE;
 	}
-	else if (act.key[UseKey::K_SPACE].first)
+	else if (std::get<1>(act.key[UseKey::K_SPACE]))
 	{
 		anim = AnimState::RSHOT;
 	}
@@ -16,13 +16,9 @@ bool AnimUpdate::operator()(cocos2d::Sprite & sp, ActData & act)
 	{
 		anim = AnimState::JUMP;
 	}
-	else if (act.distance.x != 0 || act.key[UseKey::K_LEFT].first || act.key[UseKey::K_RIGHT].first)
+	else if (act.distance.x != 0 || std::get<1>(act.key[UseKey::K_LEFT]) || std::get<1>(act.key[UseKey::K_RIGHT]))
 	{
 		anim = AnimState::RUN;
-	}
-	else
-	{
-		anim = AnimState::IDLE;
 	}
 
 	act.nowAnim = anim;

@@ -19,12 +19,18 @@ Enemy::~Enemy()
 
 void Enemy::update(float d)
 {
+	auto deathFlag = false;
 	for (auto &itr : _charaList)
 	{
 		if (itr.second.nowAnim == itr.second.anim)
 		{
 			//	モジュールを使用したアクション処理
 			ActModule()(*this, itr.second);
+
+			if (itr.second.HP <= 0)
+			{
+				deathFlag = true;
+			}
 
 			if (itr.second.nowAnim != itr.second.anim)
 			{
@@ -61,9 +67,11 @@ void Enemy::update(float d)
 				for (auto itrKey : UseKey())
 				{
 					//	次のアニメーションに現在のアニメーションのキー情報を渡す
-					nextKey.key[itrKey].first = itr.second.key[itrKey].first;
+					std::get<0>(nextKey.key[itrKey]) = std::get<0>(itr.second.key[itrKey]);
+					std::get<1>(nextKey.key[itrKey]) = std::get<1>(itr.second.key[itrKey]);
 					//	今のアニメーションのキー情報を初期化
-					itr.second.key[itrKey].first = false;
+					std::get<0>(itr.second.key[itrKey]) = false;
+					std::get<1>(itr.second.key[itrKey]) = false;
 				}
 				//	次のアニメーションに現在のアニメーションと向きを渡す
 				nextKey.nowAnim = itr.second.nowAnim;
@@ -79,6 +87,13 @@ void Enemy::update(float d)
 				lpAnimManager.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
 			}
 		}
+	}
+
+	if (deathFlag)
+	{
+		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
+		auto layer = nowScene->getChildByName("EMLayer");
+		layer->removeChild(this);
 	}
 }
 
