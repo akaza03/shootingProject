@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include "Manager/ResourceManager.h"
 #include "module/ActSet.h"
 #include "Manager/AnimManager.h"
 #include "Input/UseKey.h"
@@ -10,9 +11,8 @@ class OprtState;
 
 //using spPointer = bool (*)(cocos2d::Sprite);
 using actionPoint = std::function<bool(cocos2d::Sprite&,struct ActData&)>;
-//using keyList = std::map<UseKey, std::pair<bool, bool>>;							//	キー用のリスト(押されているかの判定,登録されているかの判定)
 
-//							現在のキー,1フレーム前のキー,登録されているかどうか
+//	現在のキー,1フレーム前のキー,登録されているかどうか
 using keyList = std::map<UseKey, std::tuple<bool, bool, bool>>;						//	キー用のリスト(押されているかの判定,登録されているかの判定)
 
 using hitList = std::map<DIR, bool>;												//	当たり判定用リスト

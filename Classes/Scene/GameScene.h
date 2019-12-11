@@ -36,6 +36,7 @@ enum LayerNumber
 	PL,						//	プレイヤー&攻撃用レイヤー
 	EM,						//	エネミー&攻撃用レイヤー
 	FG,						//	フロントグラウンド用レイヤー
+	UI,						//	UI用レイヤー
 	DB,						//	デバッグ用レイヤー
 	LAYER_MAX
 };
@@ -55,6 +56,7 @@ private:
 	cocos2d::Layer * PLLayer;				//	プレイヤー&攻撃用レイヤー
 	cocos2d::Layer * EMLayer;				//	エネミー&攻撃用レイヤー
 	cocos2d::Layer * FGLayer;				//	フロントグラウンド用レイヤー
+	cocos2d::Layer * UILayer;				//	UI用レイヤー
 	cocos2d::Layer * DBLayer;				//	デバッグ用レイヤー
 
 	void update(float d);

@@ -18,7 +18,7 @@ void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 spee
 	_actData.charaID = id;
 
 	//	アニメーションのセット
-	lpAnimManager.SetAnim(_actData.cType, id, _animMap);
+	lpAnimMng.SetAnim(_actData.cType, id, _animMap);
 
 	InitActData(speed);
 	auto sprite = Sprite::create();
@@ -76,7 +76,7 @@ void Character::InitActData(cocos2d::Vec2 speed)
 	_actData.anim = AnimState::DIE;
 	_charaList.emplace(std::make_pair("die", _actData));
 
-	lpAnimManager.AnimRun(this, _charaList["idle"].nowAnim, _charaList["idle"].cType, _animMap);
+	lpAnimMng.AnimRun(this, _charaList["idle"].nowAnim, _charaList["idle"].cType, _animMap);
 }
 
 void Character::SetDBBox(Sprite * sp)

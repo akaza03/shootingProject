@@ -4,7 +4,7 @@
 #include "Unit/charaStruct.h"
 #include "Unit/Character.h"
 
-#define lpAnimManager AnimManager::GetInstance()
+#define lpAnimMng AnimManager::GetInstance()
 
 using AnimMap = std::map < std::string, cocos2d::Action* >;
 

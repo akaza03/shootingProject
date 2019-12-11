@@ -118,13 +118,15 @@ bool GameScene::init()
 	this->addChild(EMLayer, LayerNumber::EM, "EMLayer");
 	FGLayer = Layer::create();
 	this->addChild(FGLayer, LayerNumber::FG, "FGLayer");
+	UILayer = Layer::create();
+	this->addChild(UILayer, LayerNumber::UI, "UILayer");
 
 	//	マップの読み込み
 	TMXTiledMap* tiledMap = TMXTiledMap::create("map.tmx");
 	BGLayer->addChild(tiledMap, 1, "stageMap");
 
 	//	背景画像をまとめて表示する用
-	auto spNode = SpriteBatchNode::create("image/iseki.jpg");
+	auto spNode = SpriteBatchNode::create(RES_ID("BackG01"));
 	BGLayer->addChild(spNode, 0);
 	for (int i = 0; i <= 2; i++)
 	{
@@ -176,15 +178,6 @@ bool GameScene::init()
 		}
 	}
 	eLayer->removeFromParentAndCleanup(true);
-
-	////	敵の生成(テスト)
-	//for (int i = 1; i < 3;i++)
-	//{
-	//	auto Enemy = Enemy::create();
-	//	auto Epos = cocos2d::Vec2(400 * i, 100);
-	//	Enemy->SetInit("image/Sprites/player/player-idle/player-idle-1.png", DIR::RIGHT, Epos, Vec2(5, 4), this);
-	//	EMLayer->addChild(Enemy, i);
-	//}
 
 //	//	エフェクトの設定
 //	effectMng.reset(efk::EffectManager::create(Director::getInstance()->getVisibleSize()));

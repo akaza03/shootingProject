@@ -123,6 +123,9 @@
     <ClCompile Include="..\Classes\Module\OldKeyUpdate.cpp">
       <Filter>module</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Manager\ResourceManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Module\OldKeyUpdate.h">
       <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\ResourceManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -84,7 +84,7 @@ void Enemy::update(float d)
 				nextKey.invTime = itr.second.invTime;
 				nextKey.HP = itr.second.HP;
 
-				lpAnimManager.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
+				lpAnimMng.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
 			}
 		}
 	}

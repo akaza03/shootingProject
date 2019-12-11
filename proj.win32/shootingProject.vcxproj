@@ -157,6 +157,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Input\OprtTouch.cpp" />
     <ClCompile Include="..\Classes\Input\UseKey.cpp" />
     <ClCompile Include="..\Classes\Manager\AnimManager.cpp" />
+    <ClCompile Include="..\Classes\Manager\ResourceManager.cpp" />
     <ClCompile Include="..\Classes\Module\ActModule.cpp" />
     <ClCompile Include="..\Classes\Module\AnimUpdate.cpp" />
     <ClCompile Include="..\Classes\Module\changeChara.cpp" />
@@ -189,6 +190,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Input\OprtTouch.h" />
     <ClInclude Include="..\Classes\Input\UseKey.h" />
     <ClInclude Include="..\Classes\Manager\AnimManager.h" />
+    <ClInclude Include="..\Classes\Manager\ResourceManager.h" />
     <ClInclude Include="..\Classes\Module\ActModule.h" />
     <ClInclude Include="..\Classes\Module\ActSet.h" />
     <ClInclude Include="..\Classes\Module\AnimUpdate.h" />

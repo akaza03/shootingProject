@@ -49,7 +49,7 @@ void Shot::update(float d)
 {
 	this->setPosition(getPosition().x + speed, getPosition().y);
 	distance += speed;
-	if (hitCheck()/* || distance >= 200*/)
+	if (hitCheck() || distance >= 500)
 	{
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 		auto layer = nowScene->getChildByName("PLLayer");

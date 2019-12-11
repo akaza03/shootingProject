@@ -39,8 +39,8 @@ void Player::update(float d)
 			if (oldID != itr.second.charaID)
 			{
 				_animMap.clear();
-				lpAnimManager.SetAnim(itr.second.cType, itr.second.charaID, _animMap);
-				lpAnimManager.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
+				lpAnimMng.SetAnim(itr.second.cType, itr.second.charaID, _animMap);
+				lpAnimMng.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
 			}
 
 			if (itr.second.HP <= 0)
@@ -100,8 +100,9 @@ void Player::update(float d)
 				nextKey.invTime = itr.second.invTime;
 				nextKey.HP = itr.second.HP;
 				nextKey.changeCnt = itr.second.changeCnt;
+				nextKey.charaID = itr.second.charaID;
 
-				lpAnimManager.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
+				lpAnimMng.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
 			}
 		}
 	}
