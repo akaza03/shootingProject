@@ -94,6 +94,15 @@
     <ClCompile Include="..\Classes\Effekseer\EffekseerRendererNative.cpp">
       <Filter>effekseer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Manager\AudioManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\EffManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CricketJni\CricketJni.cpp">
+      <Filter>cricketJni</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h">
@@ -195,6 +204,15 @@
     <ClInclude Include="..\Classes\Effekseer\EffekseerRendererNative.h">
       <Filter>effekseer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Manager\AudioManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\EffManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CricketJni\CricketJni.h">
+      <Filter>cricketJni</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_DebugOut">
@@ -226,6 +244,9 @@
     </Filter>
     <Filter Include="effekseer">
       <UniqueIdentifier>{f6e728e9-9d4a-4b0c-80fb-7594235c843f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cricketJni">
+      <UniqueIdentifier>{0971386f-4be4-4c19-ab68-4603fa8dd083}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

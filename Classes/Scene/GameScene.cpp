@@ -24,12 +24,6 @@
 
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
-
-#include "ck/ck.h"
-#include "ck/config.h"
-#include "ck/bank.h"
-#include "ck/sound.h"
-
 #include "Unit/Player.h"
 #include "Unit/Enemy.h"
 
@@ -179,36 +173,6 @@ bool GameScene::init()
 	}
 	eLayer->removeFromParentAndCleanup(true);
 
-//	//	エフェクトの設定
-//	effectMng.reset(efk::EffectManager::create(Director::getInstance()->getVisibleSize()));
-//	auto effect = efk::Effect::create("effect/Laser01.efk");
-//
-//	auto emitter = efk::EffectEmitter::create(effectMng.get());
-//	emitter->setEffect(effect);
-//	emitter->setPlayOnEnter(true);
-//	emitter->setPosition(Vec2(300, 300));
-//	emitter->setScale(20);
-//	FGLayer->addChild(emitter, 0);
-//
-//	//	BGMの設定
-//#if CK_PLATFORM_ANDROID
-//	CkConfig config(env, activity);
-//#else
-//	CkConfig config;
-//#endif;
-//	CkInit(&config);
-//
-//	CkSound* _music = CkSound::newStreamSound("Resources/Audio/BGM/home.cks");
-//	_music->setLoopCount(-1);
-//	_music->play();
-//
-//	//	ckbファイルの指定
-//	CkBank* bank = CkBank::newBank("Resources/Audio/SE/Sound.ckb");
-//	//	再生したい音の名前を指定
-//	CkSound* sound = CkSound::newBankSound(bank, "shot");
-//	sound->play();
-
-
 #ifdef _DEBUG
 	//	デバッグ用レイヤーの作成
 	DBLayer = Layer::create();
@@ -229,16 +193,21 @@ bool GameScene::init()
 	EMLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
 	FGLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
 
+	//	BGMの設定
+	lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
+
+	this->scheduleUpdate();
+
 	return true;
 }
 
 void GameScene::update(float d)
 {
-	////	エフェクトの更新
-	//(*effectMng).update();
+	//	エフェクトの更新
+	lpEffectManager.update();
 
-	////	Audioの更新
-	//CkUpdate();
+	//	Audioの更新
+	lpAudioManager.update();
 }
 
 void GameScene::menuCloseCallback(Ref* pSender)

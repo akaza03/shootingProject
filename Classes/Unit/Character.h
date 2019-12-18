@@ -6,6 +6,8 @@
 #include "Input/UseKey.h"
 #include "Module/ActModule.h"
 #include "Input/OprtState.h"
+#include "Manager/AudioManager.h"
+#include "Manager/EffManager.h"
 
 class OprtState;
 
