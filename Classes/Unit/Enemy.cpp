@@ -24,6 +24,18 @@ void Enemy::update(float d)
 	{
 		if (itr.second.nowAnim == itr.second.anim)
 		{
+			objTurn(itr.second);
+
+			//	移動処理
+			if (itr.second.dir == DIR::LEFT)
+			{
+				std::get<0>(itr.second.key[UseKey::K_LEFT]) = true;
+			}
+			if(itr.second.dir == DIR::RIGHT)
+			{
+				std::get<0>(itr.second.key[UseKey::K_RIGHT]) = true;
+			}
+
 			//	モジュールを使用したアクション処理
 			ActModule()(*this, itr.second);
 
@@ -97,7 +109,42 @@ void Enemy::update(float d)
 	}
 }
 
-void Enemy::AnimStateUpdate()
+bool Enemy::playerSearch(ActData act)
 {
+	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 
+	auto layer = nowScene->getChildByName("PLLayer");
+
+
+
+	//if (act.dir == )
+	//{
+
+	//}
+	return false;
+}
+
+void Enemy::objTurn(ActData &act)
+{
+	auto oldDir = act.dir;
+	if ((act.dir == DIR::LEFT) && (act.checkPoint[DIR::LEFT] == true))
+	{
+		act.dir = DIR::RIGHT;
+	}
+	else if ((act.dir == DIR::RIGHT) && (act.checkPoint[DIR::RIGHT] == true))
+	{
+		act.dir = DIR::LEFT;
+	}
+
+	if (oldDir != act.dir)
+	{
+		if (act.dir == DIR::RIGHT)
+		{
+			this->setFlippedX(true);
+		}
+		else if (act.dir == DIR::LEFT)
+		{
+			this->setFlippedX(false);
+		}
+	}
 }

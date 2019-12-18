@@ -1,69 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="win32">
-      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="resource">
-      <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{8213b760-39f0-4cf1-b5ba-fe98568dd162}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Unit">
-      <UniqueIdentifier>{f6a1dc98-8d12-4c52-b887-b4bac5448053}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{82735edc-be75-4b00-af8a-c2f789bdf3f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="module">
-      <UniqueIdentifier>{1e6f4f74-f583-4d0f-996e-776bc7a0dd68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{84dbfaba-036b-4b11-adeb-be8f826a4e11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_DebugOut">
-      <UniqueIdentifier>{326d9286-d6ea-4a99-b056-d5aac70fd813}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Effekseer">
-      <UniqueIdentifier>{0892c2c4-d206-4ee9-9e75-dc5674a27ab3}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>win32</Filter>
+    <ClCompile Include="..\Classes\_DebugOut\_DebugConOut.cpp">
+      <Filter>_DebugOut</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\_DebugOut\_DebugDispOut.cpp">
+      <Filter>_DebugOut</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\GameScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Unit\Character.cpp">
-      <Filter>Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Unit\Enemy.cpp">
-      <Filter>Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Unit\Player.cpp">
-      <Filter>Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Input\OprtKey.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Input\OprtState.cpp">
+    <ClCompile Include="..\Classes\Input\UseKey.cpp">
       <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Input\OprtTouch.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Input\UseKey.cpp">
+    <ClCompile Include="..\Classes\Input\OprtState.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Input\OprtKey.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\ResourceManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\AnimManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\ActModule.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\AnimUpdate.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\changeChara.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\DamageCheck.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\Module\DirCheck.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Module\Fall.cpp">
       <Filter>module</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Module\HitCheck.cpp">
@@ -75,22 +52,7 @@
     <ClCompile Include="..\Classes\Module\Move.cpp">
       <Filter>module</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Manager\AnimManager.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\_DebugOut\_DebugConOut.cpp">
-      <Filter>_DebugOut</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\_DebugOut\_DebugDispOut.cpp">
-      <Filter>_DebugOut</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Module\ActModule.cpp">
-      <Filter>module</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Module\Fall.cpp">
-      <Filter>module</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Module\AnimUpdate.cpp">
+    <ClCompile Include="..\Classes\Module\OldKeyUpdate.cpp">
       <Filter>module</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Module\SetPos.cpp">
@@ -99,72 +61,84 @@
     <ClCompile Include="..\Classes\Module\Shooting.cpp">
       <Filter>module</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Unit\Shot.cpp">
-      <Filter>Unit</Filter>
+    <ClCompile Include="..\Classes\Scene\GameScene.cpp">
+      <Filter>scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Effekseer\Effekseer.cpp">
-      <Filter>Effekseer</Filter>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Effekseer\EffekseerNative.cpp">
-      <Filter>Effekseer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Effekseer\EffekseerRendererNative.cpp">
-      <Filter>Effekseer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Module\DamageCheck.cpp">
-      <Filter>module</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Unit\Camera.cpp">
-      <Filter>Unit</Filter>
+      <Filter>unit</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Module\changeChara.cpp">
-      <Filter>module</Filter>
+    <ClCompile Include="..\Classes\Unit\Character.cpp">
+      <Filter>unit</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Module\OldKeyUpdate.cpp">
-      <Filter>module</Filter>
+    <ClCompile Include="..\Classes\Unit\Enemy.cpp">
+      <Filter>unit</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Manager\ResourceManager.cpp">
-      <Filter>Manager</Filter>
+    <ClCompile Include="..\Classes\Unit\Player.cpp">
+      <Filter>unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Unit\Shot.cpp">
+      <Filter>unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\Effekseer.cpp">
+      <Filter>effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffekseerNative.cpp">
+      <Filter>effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Effekseer\EffekseerRendererNative.cpp">
+      <Filter>effekseer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main.h">
-      <Filter>win32</Filter>
+    <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h">
+      <Filter>_DebugOut</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\_DebugOut\_DebugConOut.h">
+      <Filter>_DebugOut</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scene\GameScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Unit\Character.h">
-      <Filter>Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Unit\charaStruct.h">
-      <Filter>Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Unit\Enemy.h">
-      <Filter>Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Unit\Player.h">
-      <Filter>Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Input\OprtKey.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Input\OprtState.h">
+    <ClInclude Include="..\Classes\Input\UseKey.h">
       <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Input\OprtTouch.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Input\UseKey.h">
+    <ClInclude Include="..\Classes\Input\OprtState.h">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Input\OprtKey.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\ResourceManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\AnimManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\ActModule.h">
+      <Filter>module</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Module\ActSet.h">
       <Filter>module</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Module\AnimUpdate.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\changeChara.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\DamageCheck.h">
+      <Filter>module</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\Module\DirCheck.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Module\Fall.h">
       <Filter>module</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Module\HitCheck.h">
@@ -176,22 +150,7 @@
     <ClInclude Include="..\Classes\Module\Move.h">
       <Filter>module</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Manager\AnimManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\_DebugOut\_DebugConOut.h">
-      <Filter>_DebugOut</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h">
-      <Filter>_DebugOut</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Module\ActModule.h">
-      <Filter>module</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Module\Fall.h">
-      <Filter>module</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Module\AnimUpdate.h">
+    <ClInclude Include="..\Classes\Module\OldKeyUpdate.h">
       <Filter>module</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Module\SetPos.h">
@@ -200,33 +159,74 @@
     <ClInclude Include="..\Classes\Module\Shooting.h">
       <Filter>module</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Unit\Shot.h">
-      <Filter>Unit</Filter>
+    <ClInclude Include="..\Classes\Scene\GameScene.h">
+      <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Effekseer\Effekseer.h">
-      <Filter>Effekseer</Filter>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Effekseer\EffekseerNative.h">
-      <Filter>Effekseer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Effekseer\EffekseerRendererNative.h">
-      <Filter>Effekseer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Module\DamageCheck.h">
-      <Filter>module</Filter>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Unit\Camera.h">
-      <Filter>Unit</Filter>
+      <Filter>unit</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Module\changeChara.h">
-      <Filter>module</Filter>
+    <ClInclude Include="..\Classes\Unit\Character.h">
+      <Filter>unit</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Module\OldKeyUpdate.h">
-      <Filter>module</Filter>
+    <ClInclude Include="..\Classes\Unit\charaStruct.h">
+      <Filter>unit</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Manager\ResourceManager.h">
-      <Filter>Manager</Filter>
+    <ClInclude Include="..\Classes\Unit\Enemy.h">
+      <Filter>unit</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Unit\Player.h">
+      <Filter>unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Unit\Shot.h">
+      <Filter>unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\Effekseer.h">
+      <Filter>effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffekseerNative.h">
+      <Filter>effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Effekseer\EffekseerRendererNative.h">
+      <Filter>effekseer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="_DebugOut">
+      <UniqueIdentifier>{12f9f6f0-da4a-4619-b959-7aa1ea20d509}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{d93ce07d-f633-48cd-9a63-7cdfa3b0c582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="manager">
+      <UniqueIdentifier>{d89ddb64-b2ea-4d23-bf26-46d991a3bc43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module">
+      <UniqueIdentifier>{ed1817dc-d763-4320-84f0-e34f878b9dca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{66465081-5498-41c9-8111-af802a1a078a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scene">
+      <UniqueIdentifier>{38b4472b-d565-4b63-98ab-4e81e8a59fde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{9554d3b3-8857-429b-862a-f969efe1c312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="win32">
+      <UniqueIdentifier>{2cb9a3a4-c158-44fe-801b-e2277b59dc3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="unit">
+      <UniqueIdentifier>{e69552fd-6ddf-48b1-9128-4c3c9488aeda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="effekseer">
+      <UniqueIdentifier>{f6e728e9-9d4a-4b0c-80fb-7594235c843f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

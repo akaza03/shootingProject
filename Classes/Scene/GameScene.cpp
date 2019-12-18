@@ -172,7 +172,7 @@ bool GameScene::init()
 				Epos = cocos2d::Vec2(x * eLayer->getMapTileSize().width, 
 					eLayer->getLayerSize().height * eLayer->getMapTileSize().height - y * eLayer->getMapTileSize().height);
 				auto Enemy = Enemy::create();
-				Enemy->SetInit(DIR::RIGHT, 0, Epos, Vec2(5, 4), this);
+				Enemy->SetInit(DIR::RIGHT, 0, Epos, Vec2(2, 4), this);
 				EMLayer->addChild(Enemy, 0);
 			}
 		}

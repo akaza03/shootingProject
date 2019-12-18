@@ -12,13 +12,13 @@ class OprtState;
 //using spPointer = bool (*)(cocos2d::Sprite);
 using actionPoint = std::function<bool(cocos2d::Sprite&,struct ActData&)>;
 
-//	現在のキー,1フレーム前のキー,登録されているかどうか
-using keyList = std::map<UseKey, std::tuple<bool, bool, bool>>;						//	キー用のリスト(押されているかの判定,登録されているかの判定)
-
 using hitList = std::map<DIR, bool>;												//	当たり判定用リスト
 
 using AnimMap = std::map < std::string, cocos2d::Action* >;							//	アニメーション格納用リスト
 using changeList = std::vector<int>;												//	キャラチェンジ時のカウント用リスト
+
+//	現在のキー,1フレーム前のキー,登録されているかどうか
+using keyList = std::map<UseKey, std::tuple<bool, bool, bool>>;						//	キー用のリスト
 
 //	キャラクターの情報用
 struct ActData
