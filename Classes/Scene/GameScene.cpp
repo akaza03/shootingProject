@@ -173,18 +173,18 @@ bool GameScene::init()
 	}
 	eLayer->removeFromParentAndCleanup(true);
 
-#ifdef _DEBUG
-	//	デバッグ用レイヤーの作成
-	DBLayer = Layer::create();
-	this->addChild(DBLayer, LayerNumber::DB, "DBLayer");
-
-	//	デバッグ用Boxを作ってプレイヤーに渡す
-	auto DBBox = Sprite::create();
-	//DBBox->setColor(Color3B(0, 255, 128));
-	DBBox->setOpacity(128);
-	DBLayer->addChild(DBBox, 1, "DBBox");
-	player->SetDBBox(DBBox);
-#endif // _DEBUG
+//#ifdef _DEBUG
+//	//	デバッグ用レイヤーの作成
+//	DBLayer = Layer::create();
+//	this->addChild(DBLayer, LayerNumber::DB, "DBLayer");
+//
+//	//	デバッグ用Boxを作ってプレイヤーに渡す
+//	auto DBBox = Sprite::create();
+//	//DBBox->setColor(Color3B(0, 255, 128));
+//	DBBox->setOpacity(128);
+//	DBLayer->addChild(DBBox, 1, "DBBox");
+//	player->SetDBBox(DBBox);
+//#endif // _DEBUG
 
 	//	カメラ設定
 	auto size = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();

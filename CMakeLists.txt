@@ -29,6 +29,28 @@ set(APP_NAME shootingProject)
 
 project(${APP_NAME})
 
+
+set(CK_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/Classes/cricket)
+
+include_directories(
+        ${CK_ROOT}/inc
+)
+
+link_directories(
+        ${CK_ROOT}/lib/android/ndk/${ANDROID_ABI}/debug
+)
+link_libraries(
+        ${CK_ROOT}/lib/android/ndk/${ANDROID_ABI}/debug/libck.a
+)
+
+include(AndroidNdkModules)
+android_ndk_import_module_cpufeatures()
+
+target_link_libraries(
+        cpufeatures
+)
+
+
 set(COCOS2DX_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cocos2d)
 set(CMAKE_MODULE_PATH ${COCOS2DX_ROOT_PATH}/cmake/Modules/)
 
@@ -48,14 +70,77 @@ endif()
 
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
+     Classes/_DebugOut/_DebugConOut.cpp
+     Classes/_DebugOut/_DebugDispOut.cpp
+     Classes/CricketJni/CricketJni.cpp
+     Classes/Effekseer/Effekseer.cpp
+     Classes/Effekseer/EffekseerNative.cpp
+     Classes/Effekseer/EffekseerRendererNative.cpp
+     Classes/Input/OprtKey.cpp
+     Classes/Input/OprtTouch.cpp
+     Classes/Input/OprtState.cpp
+     Classes/Input/UseKey.cpp
+     Classes/Manager/AnimManager.cpp
+     Classes/Manager/AudioManager.cpp
+     Classes/Manager/EffManager.cpp
+     Classes/Manager/ResourceManager.cpp
+     Classes/Scene/GameScene.cpp
+     Classes/Module/HitCheck.cpp
+     Classes/Module/Jump.cpp
+     Classes/Module/Move.cpp
+     Classes/Module/DirCheck.cpp
+     Classes/Module/Fall.cpp
+     Classes/Module/AnimUpdate.cpp
+     Classes/Module/ActModule.cpp
+     Classes/Module/SetPos.cpp
+     Classes/Module/shooting.cpp
+     Classes/Module/OldKeyUpdate.cpp
+     Classes/Module/DamageCheck.cpp
+     Classes/Module/changeChara.cpp
+     Classes/Unit/Player.cpp
+     Classes/Unit/Enemy.cpp
+     Classes/Unit/Character.cpp
+     Classes/Unit/Camera.cpp
+     Classes/Unit/Shot.cpp
      Classes/AppDelegate.cpp
-     Classes/HelloWorldScene.cpp
      )
 list(APPEND GAME_HEADER
+     Classes/_DebugOut/_DebugConOut.h
+     Classes/_DebugOut/_DebugDispOut.h
+     Classes/CricketJni/CricketJni.h
+     Classes/Effekseer/Effekseer.h
+     Classes/Effekseer/EffekseerNative.h
+     Classes/Effekseer/EffekseerRendererNative.h
+     Classes/Input/OprtKey.h
+     Classes/Input/OprtTouch.h
+     Classes/Input/OprtState.h
+     Classes/Input/UseKey.h
+     Classes/Manager/AnimManager.h
+     Classes/Manager/AudioManager.h
+     Classes/Manager/EffManager.h
+     Classes/Manager/ResourceManager.h
+     Classes/Scene/GameScene.h
+     Classes/Module/ActSet.h
+     Classes/Module/HitCheck.h
+     Classes/Module/Jump.h
+     Classes/Module/Move.h
+     Classes/Module/DirCheck.h
+     Classes/Module/Fall.h
+     Classes/Module/AnimUpdate.h
+     Classes/Module/ActModule.h
+     Classes/Module/SetPos.h
+     Classes/Module/shooting.h
+     Classes/Module/OldKeyUpdate.h
+     Classes/Module/DamageCheck.h
+     Classes/Module/changeChara.h
+     Classes/Unit/Player.h
+     Classes/Unit/Enemy.h
+     Classes/Unit/Character.h
+     Classes/Unit/Camera.h
+     Classes/Unit/Shot.h
+     Classes/Unit/charaStruct.h
      Classes/AppDelegate.h
-     Classes/HelloWorldScene.h
-     )
-
+)
 if(ANDROID)
     # change APP_NAME to the share library name for Android, it's value depend on AndroidManifest.xml
     set(APP_NAME MyGame)

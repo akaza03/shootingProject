@@ -13,7 +13,7 @@ AudioManager::AudioManager()
 #else
 	CkConfig config;
 	CkInit(&config);
-#endif;
+#endif
 }
 
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 #include "Manager/ResourceManager.h"
-#include "module/ActSet.h"
+#include "Module/ActSet.h"
 #include "Manager/AnimManager.h"
 #include "Input/UseKey.h"
 #include "Module/ActModule.h"
