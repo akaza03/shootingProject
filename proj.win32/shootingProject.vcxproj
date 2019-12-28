@@ -174,7 +174,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Module\SetPos.cpp" />
     <ClCompile Include="..\Classes\Module\Shooting.cpp" />
     <ClCompile Include="..\Classes\Scene\GameScene.cpp" />
-    <ClCompile Include="..\Classes\Unit\Camera.cpp" />
+    <ClCompile Include="..\Classes\Unit\CameraMng.cpp" />
     <ClCompile Include="..\Classes\Unit\Character.cpp" />
     <ClCompile Include="..\Classes\Unit\Enemy.cpp" />
     <ClCompile Include="..\Classes\Unit\Player.cpp" />
@@ -211,7 +211,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Module\SetPos.h" />
     <ClInclude Include="..\Classes\Module\Shooting.h" />
     <ClInclude Include="..\Classes\Scene\GameScene.h" />
-    <ClInclude Include="..\Classes\Unit\Camera.h" />
+    <ClInclude Include="..\Classes\Unit\CameraMng.h" />
     <ClInclude Include="..\Classes\Unit\Character.h" />
     <ClInclude Include="..\Classes\Unit\charaStruct.h" />
     <ClInclude Include="..\Classes\Unit\Enemy.h" />

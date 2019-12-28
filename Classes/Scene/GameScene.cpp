@@ -26,6 +26,7 @@
 #include "SimpleAudioEngine.h"
 #include "Unit/Player.h"
 #include "Unit/Enemy.h"
+#include "Unit/CameraMng.h"
 
 USING_NS_CC;
 
@@ -116,92 +117,88 @@ bool GameScene::init()
 	this->addChild(UILayer, LayerNumber::UI, "UILayer");
 
 	//	マップの読み込み
-	//TMXTiledMap* tiledMap = TMXTiledMap::create("map.tmx");
-	//BGLayer->addChild(tiledMap, 1, "stageMap");
+	TMXTiledMap* tiledMap = TMXTiledMap::create("map.tmx");
+	BGLayer->addChild(tiledMap, 1, "stageMap");
 
-	//	Androidでエラー出るのでテスト用
-	//	おそらく画像のパスか何かが悪い
-	//	ゴミ
-	auto spo = cocos2d::Sprite::create("image/player/00-unit.png");
-	spo->setPosition(100, 100);
-	BGLayer->addChild(spo, 0);
+	//	背景画像をまとめて表示する用
+	auto spNode = SpriteBatchNode::create(RES_ID("BackG01"));
+	BGLayer->addChild(spNode, 0);
+	for (int i = 0; i <= 2; i++)
+	{
+		auto BGSP = Sprite::createWithTexture(spNode->getTexture());
+		//	アンカーポイントを真ん中から左下に変更
+		BGSP->setAnchorPoint(Vec2(0, 0));
+		BGSP->setPosition(Vec2(BGSP->getContentSize().width * i, 0));
+		spNode->addChild(BGSP);
+	}
 
-//	//	背景画像をまとめて表示する用
-//	auto spNode = SpriteBatchNode::create(RES_ID("BackG01"));
-//	BGLayer->addChild(spNode, 0);
-//	for (int i = 0; i <= 2; i++)
-//	{
-//		auto BGSP = Sprite::createWithTexture(spNode->getTexture());
-//		//	アンカーポイントを真ん中から左下に変更
-//		BGSP->setAnchorPoint(Vec2(0, 0));
-//		BGSP->setPosition(Vec2(BGSP->getContentSize().width * i, 0));
-//		spNode->addChild(BGSP);
-//	}
+	//	プレイヤーの作成
+	auto player = Player::create();
+
+	//	playerLayerを読み込み、プレイヤーの座標を決定する
+	TMXLayer* layer = tiledMap->getLayer("player");
+	//	プレイヤーの座標
+	cocos2d::Vec2 Ppos = cocos2d::Vec2(0, 0);
+	for (int y = 0; y < layer->getLayerSize().height; y++)
+	{
+		for (int x = 0; x < layer->getLayerSize().width; x++)
+		{
+			if (layer->getTileGIDAt(cocos2d::Vec2(x, y)) != 0)
+			{
+				Ppos = cocos2d::Vec2(x * layer->getMapTileSize().width,
+					layer->getLayerSize().height * layer->getMapTileSize().height - y * layer->getMapTileSize().height);
+				layer->removeFromParentAndCleanup(true);
+			}
+		}
+	}
+	player->SetInit(DIR::RIGHT, 0, Ppos, Vec2(5, 4), this);
+	PLLayer->addChild(player, 0);
+
+	//	敵の作成
+	TMXLayer* eLayer = tiledMap->getLayer("enemy");
+	//	エネミーの座標
+	cocos2d::Vec2 Epos;
+	for (int y = 0; y < eLayer->getLayerSize().height; y++)
+	{
+		for (int x = 0; x < eLayer->getLayerSize().width; x++)
+		{
+			if (eLayer->getTileGIDAt(cocos2d::Vec2(x, y)) != 0)
+			{
+				Epos = cocos2d::Vec2(x * eLayer->getMapTileSize().width, 
+					eLayer->getLayerSize().height * eLayer->getMapTileSize().height - y * eLayer->getMapTileSize().height);
+				auto Enemy = Enemy::create();
+				Enemy->SetInit(DIR::RIGHT, 0, Epos, Vec2(2, 4), this);
+				EMLayer->addChild(Enemy, 0);
+			}
+		}
+	}
+	eLayer->removeFromParentAndCleanup(true);
+
+//#ifdef _DEBUG
+//	//	デバッグ用レイヤーの作成
+//	DBLayer = Layer::create();
+//	this->addChild(DBLayer, LayerNumber::DB, "DBLayer");
 //
-//	//	プレイヤーの作成
-//	auto player = Player::create();
-//
-//	//	playerLayerを読み込み、プレイヤーの座標を決定する
-//	TMXLayer* layer = tiledMap->getLayer("player");
-//	//	プレイヤーの座標
-//	cocos2d::Vec2 Ppos = cocos2d::Vec2(0, 0);
-//	for (int y = 0; y < layer->getLayerSize().height; y++)
-//	{
-//		for (int x = 0; x < layer->getLayerSize().width; x++)
-//		{
-//			if (layer->getTileGIDAt(cocos2d::Vec2(x, y)) != 0)
-//			{
-//				Ppos = cocos2d::Vec2(x * layer->getMapTileSize().width,
-//					layer->getLayerSize().height * layer->getMapTileSize().height - y * layer->getMapTileSize().height);
-//				layer->removeFromParentAndCleanup(true);
-//			}
-//		}
-//	}
-//	player->SetInit(DIR::RIGHT, 0, Ppos, Vec2(5, 4), this);
-//	PLLayer->addChild(player, 0);
-//
-//	//	敵の作成
-//	TMXLayer* eLayer = tiledMap->getLayer("enemy");
-//	//	エネミーの座標
-//	cocos2d::Vec2 Epos;
-//	for (int y = 0; y < eLayer->getLayerSize().height; y++)
-//	{
-//		for (int x = 0; x < eLayer->getLayerSize().width; x++)
-//		{
-//			if (eLayer->getTileGIDAt(cocos2d::Vec2(x, y)) != 0)
-//			{
-//				Epos = cocos2d::Vec2(x * eLayer->getMapTileSize().width, 
-//					eLayer->getLayerSize().height * eLayer->getMapTileSize().height - y * eLayer->getMapTileSize().height);
-//				auto Enemy = Enemy::create();
-//				Enemy->SetInit(DIR::RIGHT, 0, Epos, Vec2(2, 4), this);
-//				EMLayer->addChild(Enemy, 0);
-//			}
-//		}
-//	}
-//	eLayer->removeFromParentAndCleanup(true);
-//
-////#ifdef _DEBUG
-////	//	デバッグ用レイヤーの作成
-////	DBLayer = Layer::create();
-////	this->addChild(DBLayer, LayerNumber::DB, "DBLayer");
-////
-////	//	デバッグ用Boxを作ってプレイヤーに渡す
-////	auto DBBox = Sprite::create();
-////	//DBBox->setColor(Color3B(0, 255, 128));
-////	DBBox->setOpacity(128);
-////	DBLayer->addChild(DBBox, 1, "DBBox");
-////	player->SetDBBox(DBBox);
-////#endif // _DEBUG
-//
-//	//	カメラ設定
-//	auto size = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
-//	BGLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
-//	PLLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
-//	EMLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
-//	FGLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
-//
-//	//	BGMの設定
-//	lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
+//	//	デバッグ用Boxを作ってプレイヤーに渡す
+//	auto DBBox = Sprite::create();
+//	//DBBox->setColor(Color3B(0, 255, 128));
+//	DBBox->setOpacity(128);
+//	DBLayer->addChild(DBBox, 1, "DBBox");
+//	player->SetDBBox(DBBox);
+//#endif // _DEBUG
+
+	//	カメラ設定
+	auto size = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
+
+	CameraMng::create();
+
+	BGLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
+	PLLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
+	EMLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
+	FGLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
+
+	//	BGMの設定
+	lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
 
 	this->scheduleUpdate();
 

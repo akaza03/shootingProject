@@ -70,9 +70,6 @@
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Unit\Camera.cpp">
-      <Filter>unit</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Unit\Character.cpp">
       <Filter>unit</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\CricketJni\CricketJni.cpp">
       <Filter>cricketJni</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Unit\CameraMng.cpp">
+      <Filter>unit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,9 +177,6 @@
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Unit\Camera.h">
-      <Filter>unit</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Unit\Character.h">
       <Filter>unit</Filter>
     </ClInclude>
@@ -212,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\CricketJni\CricketJni.h">
       <Filter>cricketJni</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Unit\CameraMng.h">
+      <Filter>unit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
