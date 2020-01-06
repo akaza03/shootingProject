@@ -4,7 +4,7 @@
 bool Fall::operator()(cocos2d::Sprite & sp, ActData & act)
 {
 	//	d—Í‚ğ‰ÁZ‚·‚é
-	float gy = -0.05f;
+	float gy = -0.1f;
 	act.Gravity += gy;
 
 	//	‘«ê‚ª‚ ‚éê‡‚Íd—Í‚ğ0‚É

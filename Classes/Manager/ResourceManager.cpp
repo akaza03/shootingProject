@@ -43,6 +43,10 @@ void ResourceManager::LoadInit()
 	SetID("p0face", "image/player/00-face.png");
 	SetID("p1face", "image/player/01-face.png");
 	SetID("p2face", "image/player/02-face.png");
+	//	ƒAƒCƒRƒ“‰æ‘œ
+	SetID("p0icon", "image/player/00-icon.png");
+	SetID("p1icon", "image/player/01-icon.png");
+	SetID("p2icon", "image/player/02-icon.png");
 	//	’e‰æ‘œ
 	SetID("p0Shot", "image/Sprites/Fx/power-up/power-up-1.png");
 	SetID("p1Shot", "image/Sprites/Fx/shot/shot-1.png");

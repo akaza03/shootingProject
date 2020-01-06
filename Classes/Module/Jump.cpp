@@ -13,7 +13,7 @@ bool Jump::operator()(cocos2d::Sprite & sp, ActData & act)
 		{
 			act.jumpFlag = true;
 			lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", sp.getPosition(), 20, true);
-			lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
+			//lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
 		}
 	}
 

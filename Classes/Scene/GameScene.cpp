@@ -151,7 +151,7 @@ bool GameScene::init()
 			}
 		}
 	}
-	player->SetInit(DIR::RIGHT, 0, Ppos, Vec2(5, 4), this);
+	player->SetInit(DIR::RIGHT, 0, Ppos, Vec2(5, 6), this);
 	PLLayer->addChild(player, 0);
 
 	//	“G‚Ìì¬
@@ -188,17 +188,33 @@ bool GameScene::init()
 //#endif // _DEBUG
 
 	//	ƒJƒƒ‰Ý’è
-	auto size = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
+	auto winSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
 
 	CameraMng::create();
 
-	BGLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
-	PLLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
-	EMLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
-	FGLayer->runAction(Follow::create(player, Rect(0, 0, size.width*2.5, size.height)));
+	BGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
+	PLLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
+	EMLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
+	FGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
+
+	// UIì¬
+	auto uiSP = Sprite::create(RES_ID("p0icon"));
+	uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height / 2);
+	UILayer->addChild(uiSP, 1, "p0Icon");
+
+	uiSP = Sprite::create(RES_ID("p1icon"));
+	uiSP->setScale(0.6);
+	uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height - uiSP->getContentSize().height / 2 * uiSP->getScaleY());
+	UILayer->addChild(uiSP, 1, "p0Icon");
+
+	uiSP = Sprite::create(RES_ID("p2icon"));
+	uiSP->setScale(0.6);
+	uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height - uiSP->getContentSize().height / 2 * uiSP->getScaleY() * 3);
+	UILayer->addChild(uiSP, 1, "p2Icon");
+
 
 	//	BGM‚ÌÝ’è
-	lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
+	//lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
 
 	this->scheduleUpdate();
 

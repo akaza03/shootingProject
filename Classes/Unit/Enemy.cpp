@@ -30,10 +30,12 @@ void Enemy::update(float d)
 			if (itr.second.dir == DIR::LEFT)
 			{
 				std::get<0>(itr.second.key[UseKey::K_LEFT]) = true;
+				std::get<0>(itr.second.key[UseKey::K_RIGHT]) = false;
 			}
 			if(itr.second.dir == DIR::RIGHT)
 			{
 				std::get<0>(itr.second.key[UseKey::K_RIGHT]) = true;
+				std::get<0>(itr.second.key[UseKey::K_LEFT]) = false;
 			}
 
 			//	モジュールを使用したアクション処理

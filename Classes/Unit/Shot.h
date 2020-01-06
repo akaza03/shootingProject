@@ -8,7 +8,7 @@ public:
 	Shot();
 	~Shot();
 	//	画像パス,発射キャラのスプライト,発射キャラの情報
-	void SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara);
+	void SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, float sSpeed);
 	void update(float d);
 	CREATE_FUNC(Shot);
 

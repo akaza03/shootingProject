@@ -9,7 +9,7 @@ Shot::~Shot()
 {
 }
 
-void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara)
+void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, float sSpeed)
 {
 	auto charaPos = sp.getPosition();
 
@@ -17,13 +17,13 @@ void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara)
 	//	•ûŒü‚É‚æ‚Á‚ÄÀ•W‚âŒü‚©‚¤•ûŒü‚Ì•ÏX
 	if (chara.dir == DIR::LEFT)
 	{
-		setPosition(cocos2d::Vec2(charaPos.x - sp.getContentSize().width, charaPos.y));
-		speed = - chara.speed.x;
+		setPosition(cocos2d::Vec2(charaPos.x - sp.getContentSize().width / 2, charaPos.y));
+		speed = -sSpeed;
 	}
 	else if (chara.dir == DIR::RIGHT)
 	{
-		setPosition(cocos2d::Vec2(charaPos.x + sp.getContentSize().width, charaPos.y));
-		speed = chara.speed.x;
+		setPosition(cocos2d::Vec2(charaPos.x + sp.getContentSize().width / 2, charaPos.y));
+		speed = sSpeed;
 	}
 
 	//	Shot‚É‰æ‘œ‚Ì’Ç‰Á
