@@ -43,6 +43,7 @@ struct ActData
 	CharaType cType;														//	キャラクターのタイプ
 	int charaID;															//	キャラクターの種類判別用のID
 	changeList changeCnt;													//	キャラチェンジ時のカウント用リスト
+	cocos2d::Vec2 touchPos;													//	キャラチェンジ時等のタッチ座標
 };
 
 class Character
@@ -64,6 +65,8 @@ protected:
 	OprtState *_oprtState;															//	操作制御
 	ActData _actData;																//	キャラクターの情報用
 	std::map<const char *,ActData> _charaList;										//	キャラクターの情報用リスト
+
+	cocos2d::Vec2 oldTouchPos;
 
 	Sprite *_box;																	//	当たり判定用のBOX
 

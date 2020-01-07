@@ -15,6 +15,8 @@ public:
 	virtual cocos2d::EventListener* oprtInit(cocos2d::Sprite *sprite) = 0;
 	virtual void update() = 0;
 	OprtKeyList GetKeyList();
+	cocos2d::Vec2 GetTouchPoint();
 protected:
-	OprtKeyList _oprtKeyList;					
+	OprtKeyList _oprtKeyList;
+	cocos2d::Vec2 touchPoint;
 };

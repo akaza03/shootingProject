@@ -188,7 +188,7 @@ bool GameScene::init()
 //#endif // _DEBUG
 
 	//	ƒJƒƒ‰İ’è
-	auto winSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
+	auto winSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
 
 	CameraMng::create();
 
@@ -199,18 +199,34 @@ bool GameScene::init()
 
 	// UIì¬
 	auto uiSP = Sprite::create(RES_ID("p0icon"));
-	uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height / 2);
+	uiSP->setPosition(uiSP->getContentSize().width / 1.5, winSize.height - uiSP->getContentSize().height / 2);
 	UILayer->addChild(uiSP, 1, "p0Icon");
 
 	uiSP = Sprite::create(RES_ID("p1icon"));
 	uiSP->setScale(0.6);
-	uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height - uiSP->getContentSize().height / 2 * uiSP->getScaleY());
-	UILayer->addChild(uiSP, 1, "p0Icon");
+	uiSP->setPosition(uiSP->getContentSize().width / 1.5 + (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), winSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
+	UILayer->addChild(uiSP, 1, "p1Icon");
 
 	uiSP = Sprite::create(RES_ID("p2icon"));
 	uiSP->setScale(0.6);
-	uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height - uiSP->getContentSize().height / 2 * uiSP->getScaleY() * 3);
+	uiSP->setPosition(uiSP->getContentSize().width / 1.5 - (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), winSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
 	UILayer->addChild(uiSP, 1, "p2Icon");
+
+	//auto uiSP = Sprite::create(RES_ID("p0icon"));
+	//uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height / 2);
+	//UILayer->addChild(uiSP, 1, "p0Icon");
+
+	//uiSP = Sprite::create(RES_ID("p1icon"));
+	//uiSP->setScale(0.6);
+	//uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height - uiSP->getContentSize().height / 2 * uiSP->getScaleY());
+	//UILayer->addChild(uiSP, 1, "p0Icon");
+
+	//uiSP = Sprite::create(RES_ID("p2icon"));
+	//uiSP->setScale(0.6);
+	//uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height - uiSP->getContentSize().height / 2 * uiSP->getScaleY() * 3);
+	//UILayer->addChild(uiSP, 1, "p2Icon");
+
+
 
 
 	//	BGM‚Ìİ’è

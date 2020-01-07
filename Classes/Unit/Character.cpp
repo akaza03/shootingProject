@@ -21,6 +21,7 @@ void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 spee
 	lpAnimMng.SetAnim(_actData.cType, id, _animMap);
 
 	InitActData(speed);
+
 	auto sprite = Sprite::create();
 	setPosition(cocos2d::Vec2(pos.x + sprite->getContentSize().width / 2, pos.y));
 
@@ -43,6 +44,8 @@ void Character::InitActData(cocos2d::Vec2 speed)
 	//	キャラクターの情報の追加
 	_actData.jumpMax = _actData.jumpCnt;
 	_actData.speed = speed;
+	_actData.touchPos = cocos2d::Vec2(-10, -10);
+	oldTouchPos = _actData.touchPos;
 
 	for (int i = 0 ; i < 3 ; i++)
 	{

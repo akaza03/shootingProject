@@ -29,6 +29,18 @@ void Player::update(float d)
 				}
 			}
 
+			//	タッチ座標の取得
+			if (_oprtState->GetTouchPoint() != oldTouchPos)
+			{
+				itr.second.touchPos = _oprtState->GetTouchPoint();
+				oldTouchPos = itr.second.touchPos;
+			}
+			else
+			{
+				itr.second.touchPos = cocos2d::Vec2(-10,-10);
+			}
+			
+
 			//	現在のcharaID
 			auto oldID = itr.second.charaID;
 
@@ -101,6 +113,7 @@ void Player::update(float d)
 				nextKey.HP = itr.second.HP;
 				nextKey.changeCnt = itr.second.changeCnt;
 				nextKey.charaID = itr.second.charaID;
+				nextKey.touchPos = itr.second.touchPos;
 
 				lpAnimMng.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
 			}

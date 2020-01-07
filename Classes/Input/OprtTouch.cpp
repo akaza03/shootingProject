@@ -22,6 +22,7 @@ cocos2d::EventListener * OprtTouch::oprtInit(cocos2d::Sprite * sprite)
 	listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event)->bool
 	{
 		_startTouchPos = touch->getLocation();
+		touchPoint = _startTouchPos;
 
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 

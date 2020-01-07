@@ -12,8 +12,6 @@ bool Jump::operator()(cocos2d::Sprite & sp, ActData & act)
 		if (std::get<0>(act.key[UseKey::K_UP]) && std::get<2>(act.key[UseKey::K_UP]))
 		{
 			act.jumpFlag = true;
-			lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", sp.getPosition(), 20, true);
-			//lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
 		}
 	}
 
