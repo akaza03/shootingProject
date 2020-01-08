@@ -26,18 +26,6 @@ void Enemy::update(float d)
 		{
 			objTurn(itr.second);
 
-			//	移動処理
-			if (itr.second.dir == DIR::LEFT)
-			{
-				std::get<0>(itr.second.key[UseKey::K_LEFT]) = true;
-				std::get<0>(itr.second.key[UseKey::K_RIGHT]) = false;
-			}
-			if(itr.second.dir == DIR::RIGHT)
-			{
-				std::get<0>(itr.second.key[UseKey::K_RIGHT]) = true;
-				std::get<0>(itr.second.key[UseKey::K_LEFT]) = false;
-			}
-
 			//	モジュールを使用したアクション処理
 			ActModule()(*this, itr.second);
 
@@ -105,24 +93,63 @@ void Enemy::update(float d)
 
 	if (deathFlag)
 	{
+		lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", getPosition(), 20, true);
+		lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 		auto layer = nowScene->getChildByName("EMLayer");
 		layer->removeChild(this);
 	}
 }
 
-bool Enemy::playerSearch(ActData act)
+bool Enemy::playerSearch(ActData &act)
 {
 	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 
-	auto layer = nowScene->getChildByName("PLLayer");
+	auto player = nowScene->getChildByName("PLLayer")->getChildByName("player");
 
+	if (player)
+	{
+		auto distance = getPosition() - player->getPosition();
 
+		//	一定の距離に入ったら攻撃
+		if (abs(distance.x) < 300 && abs(distance.y) < 100)
+		{
+			std::get<0>(act.key[UseKey::K_SPACE]) = true;
 
-	//if (act.dir == )
-	//{
+			std::get<0>(act.key[UseKey::K_RIGHT]) = false;
+			std::get<0>(act.key[UseKey::K_LEFT]) = false;
+		}
+		else
+		{
+			std::get<0>(act.key[UseKey::K_SPACE]) = false;
 
-	//}
+			//	移動処理
+			if (act.dir == DIR::LEFT)
+			{
+				std::get<0>(act.key[UseKey::K_LEFT]) = true;
+				std::get<0>(act.key[UseKey::K_RIGHT]) = false;
+			}
+			if (act.dir == DIR::RIGHT)
+			{
+				std::get<0>(act.key[UseKey::K_RIGHT]) = true;
+				std::get<0>(act.key[UseKey::K_LEFT]) = false;
+			}
+		}
+
+		//	プレイヤーの場所によって向きを変える
+		if (abs(distance.x) < 300)
+		{
+			if (distance.x >= 0)
+			{
+				act.dir = DIR::LEFT;
+			}
+			else if (distance.x < 0)
+			{
+				act.dir = DIR::RIGHT;
+			}
+		}
+	}
+
 	return false;
 }
 
@@ -137,6 +164,8 @@ void Enemy::objTurn(ActData &act)
 	{
 		act.dir = DIR::LEFT;
 	}
+
+	playerSearch(act);
 
 	if (oldDir != act.dir)
 	{

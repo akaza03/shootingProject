@@ -27,7 +27,8 @@ public:
 	void update();
 
 	void SetBank(const std::string &name, const std::string &soundName, SoundType type);		//	オンメモリ再生
-	void SetStream(const std::string &name, SoundType type);	//	ストリーミング再生
+	void SetStream(const std::string &name, SoundType type);									//	ストリーミング再生
+
 private:
 	AudioManager();
 	static AudioManager* s_Instance;

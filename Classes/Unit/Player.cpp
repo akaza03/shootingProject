@@ -29,6 +29,11 @@ void Player::update(float d)
 				}
 			}
 
+			if ((CC_TARGET_PLATFORM != CC_PLATFORM_WIN32) && (CC_TARGET_PLATFORM != CC_PLATFORM_MAC) && (CC_TARGET_PLATFORM != CC_PLATFORM_LINUX))
+			{
+				std::get<0>(itr.second.key[UseKey::K_SPACE]) = true;
+			}
+
 			//	タッチ座標の取得
 			if (_oprtState->GetTouchPoint() != oldTouchPos)
 			{
@@ -122,6 +127,9 @@ void Player::update(float d)
 
 	if (deathFlag)
 	{
+		lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", getPosition(), 20, true);
+		lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
+
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 		auto layer = nowScene->getChildByName("PLLayer");
 		layer->removeChild(this);

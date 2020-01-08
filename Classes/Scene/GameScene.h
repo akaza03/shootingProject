@@ -28,6 +28,8 @@
 #include "cocos2d.h"
 #include <memory>
 #include <Effekseer/Effekseer.h>
+#include "Input/OprtKey.h"
+#include "Input/UseKey.h"
 #include "ck/sound.h"
 
 enum LayerNumber
@@ -35,11 +37,16 @@ enum LayerNumber
 	BG,						//	バックグラウンド用レイヤー
 	PL,						//	プレイヤー&攻撃用レイヤー
 	EM,						//	エネミー&攻撃用レイヤー
-	FG,						//	フロントグラウンド用レイヤー
 	UI,						//	UI用レイヤー
+	BW,						//	画面を暗くするレイヤー(ポーズ画面など)
+	FG,						//	フロントグラウンド用レイヤー
 	DB,						//	デバッグ用レイヤー
 	LAYER_MAX
 };
+
+//	システム用キー(now,old)
+using systemKey = std::map <UseKey, std::pair<bool,bool>>;
+
 
 class GameScene : public cocos2d::Scene
 {
@@ -55,11 +62,24 @@ private:
 	cocos2d::Layer * BGLayer;				//	バックグラウンド用レイヤー
 	cocos2d::Layer * PLLayer;				//	プレイヤー&攻撃用レイヤー
 	cocos2d::Layer * EMLayer;				//	エネミー&攻撃用レイヤー
-	cocos2d::Layer * FGLayer;				//	フロントグラウンド用レイヤー
 	cocos2d::Layer * UILayer;				//	UI用レイヤー
+	cocos2d::Layer * BWLayer;				//	画面を暗くするレイヤー(ポーズ画面など)
+	cocos2d::Layer * FGLayer;				//	フロントグラウンド用レイヤー
 	cocos2d::Layer * DBLayer;				//	デバッグ用レイヤー
 
+	OprtState *_oprtState;					//	システム用の操作制御
+
+	systemKey key;
+
 	void update(float d);
+
+	void keyUpdate();
+
+	void pause(cocos2d::Layer *layer);				//	ポーズ時など用の停止処理
+
+	bool pauseFlag;									//	画面停止用フラグ
+
+	bool gameEndFlag;								//	ゲームオーバーorゲームクリアフラグ
 
 	//std::unique_ptr<efk::EffectManager> effectMng;
 	//void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags)

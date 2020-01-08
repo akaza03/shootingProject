@@ -25,7 +25,7 @@ using keyList = std::map<UseKey, std::tuple<bool, bool, bool>>;						//	キー用の
 //	キャラクターの情報用
 struct ActData
 {
-	int HP = 10;															//	体力
+	int HP = 1;															//	体力
 	cocos2d::Vec2 speed;													//	移動スピード(歩き,ジャンプ)
 	float Gravity = 0;														//	重力
 	keyList key;															//	どのキーを押したら処理するのか(List)
@@ -54,7 +54,7 @@ public:
 	virtual ~Character();
 	virtual void update(float d) = 0;
 
-	void SetInit(DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene);
+	void SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed, cocos2d::Scene *scene);
 
 	void SetDBBox(Sprite* sp);														//	デバッグ時の当たり判定用BoxのSet
 

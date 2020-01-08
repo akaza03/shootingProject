@@ -11,7 +11,7 @@ OprtTouch::~OprtTouch()
 {
 }
 
-cocos2d::EventListener * OprtTouch::oprtInit(cocos2d::Sprite * sprite)
+cocos2d::EventListener * OprtTouch::oprtInit()
 {
 	//	シングルタッチ
 	auto listener = cocos2d::EventListenerTouchOneByOne::create();

@@ -11,7 +11,7 @@ OprtKey::~OprtKey()
 }
 
 
-cocos2d::EventListener * OprtKey::oprtInit(cocos2d::Sprite * sprite)
+cocos2d::EventListener * OprtKey::oprtInit()
 {
 	auto listener = cocos2d::EventListenerKeyboard::create();
 
@@ -52,6 +52,10 @@ cocos2d::EventListener * OprtKey::oprtInit(cocos2d::Sprite * sprite)
 		{
 			_oprtKeyList[UseKey::K_S] = true;
 		}
+		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_ENTER)
+		{
+			_oprtKeyList[UseKey::K_ENTER] = true;
+		}
 	};
 
 	//	ÉLÅ[Çó£ÇµÇΩèuä‘
@@ -84,6 +88,10 @@ cocos2d::EventListener * OprtKey::oprtInit(cocos2d::Sprite * sprite)
 		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_S)
 		{
 			_oprtKeyList[UseKey::K_S] = false;
+		}
+		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_ENTER)
+		{
+			_oprtKeyList[UseKey::K_ENTER] = false;
 		}
 	};
 

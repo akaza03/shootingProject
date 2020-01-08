@@ -7,7 +7,7 @@ class OprtTouch
 public:
 	OprtTouch();
 	~OprtTouch();
-	cocos2d::EventListener* oprtInit(cocos2d::Sprite *sprite);
+	cocos2d::EventListener* oprtInit();
 	void update();
 
 private:

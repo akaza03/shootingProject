@@ -39,6 +39,8 @@ bool Shooting::operator()(cocos2d::Sprite & sp, ActData & act)
 		else
 		{
 			shotSprite = RES_ID("p0Shot");
+			act.attackCnt = 30;
+			speed = 10;
 		}
 
 		auto shot = Shot::create();

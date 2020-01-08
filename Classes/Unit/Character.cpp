@@ -13,9 +13,10 @@ Character::~Character()
 }
 
 
-void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 speed, cocos2d::Scene *scene)
+void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed, cocos2d::Scene *scene)
 {
 	_actData.charaID = id;
+	_actData.HP = hp;
 
 	//	アニメーションのセット
 	lpAnimMng.SetAnim(_actData.cType, id, _animMap);
@@ -25,18 +26,21 @@ void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, cocos2d::Vec2 spee
 	auto sprite = Sprite::create();
 	setPosition(cocos2d::Vec2(pos.x + sprite->getContentSize().width / 2, pos.y));
 
-	//	プラットフォームによって操作方法を変える
-	if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
+	if (_actData.cType == CharaType::PLAYER)
 	{
-		_oprtState = new OprtKey();
-	}
-	else
-	{
-		_oprtState = new OprtTouch();
-	}
+		//	プラットフォームによって操作方法を変える
+		if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
+		{
+			_oprtState = new OprtKey();
+		}
+		else
+		{
+			_oprtState = new OprtTouch();
+		}
 
-	//	操作イベントの作成
-	scene->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(this),scene);
+		//	操作イベントの作成
+		scene->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(), scene);
+	}
 }
 
 void Character::InitActData(cocos2d::Vec2 speed)

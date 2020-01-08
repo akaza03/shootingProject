@@ -12,7 +12,7 @@ class OprtState
 public:
 	OprtState();
 	virtual ~OprtState();
-	virtual cocos2d::EventListener* oprtInit(cocos2d::Sprite *sprite) = 0;
+	virtual cocos2d::EventListener* oprtInit() = 0;
 	virtual void update() = 0;
 	OprtKeyList GetKeyList();
 	cocos2d::Vec2 GetTouchPoint();

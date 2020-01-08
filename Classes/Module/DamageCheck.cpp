@@ -26,7 +26,7 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 				act.damageCnt = 20;
 
 				//	É_ÉÅÅ[ÉW
-				//act.HP -= 5;
+				act.HP -= 5;
 			}
 		}
 	}

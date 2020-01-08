@@ -24,6 +24,8 @@
 
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
+#include "Input/OprtKey.h"
+#include "Input/OprtTouch.h"
 #include "Unit/Player.h"
 #include "Unit/Enemy.h"
 #include "Unit/CameraMng.h"
@@ -104,6 +106,8 @@ bool GameScene::init()
         this->addChild(label, 1);
     }
 
+
+
 	//	レイヤーの作成
 	BGLayer = Layer::create();
 	this->addChild(BGLayer, LayerNumber::BG, "BGLayer");
@@ -115,6 +119,8 @@ bool GameScene::init()
 	this->addChild(FGLayer, LayerNumber::FG, "FGLayer");
 	UILayer = Layer::create();
 	this->addChild(UILayer, LayerNumber::UI, "UILayer");
+	BWLayer = Layer::create();
+	this->addChild(BWLayer, LayerNumber::BW, "BWLayer");
 
 	//	マップの読み込み
 	TMXTiledMap* tiledMap = TMXTiledMap::create("map.tmx");
@@ -151,8 +157,8 @@ bool GameScene::init()
 			}
 		}
 	}
-	player->SetInit(DIR::RIGHT, 0, Ppos, Vec2(5, 6), this);
-	PLLayer->addChild(player, 0);
+	player->SetInit(DIR::RIGHT, 0, Ppos, 20, Vec2(5, 6), this);
+	PLLayer->addChild(player, 0, "player");
 
 	//	敵の作成
 	TMXLayer* eLayer = tiledMap->getLayer("enemy");
@@ -167,7 +173,7 @@ bool GameScene::init()
 				Epos = cocos2d::Vec2(x * eLayer->getMapTileSize().width, 
 					eLayer->getLayerSize().height * eLayer->getMapTileSize().height - y * eLayer->getMapTileSize().height);
 				auto Enemy = Enemy::create();
-				Enemy->SetInit(DIR::RIGHT, 0, Epos, Vec2(2, 4), this);
+				Enemy->SetInit(DIR::RIGHT, 0, Epos, 5, Vec2(2, 4), this);
 				EMLayer->addChild(Enemy, 0);
 			}
 		}
@@ -188,14 +194,16 @@ bool GameScene::init()
 //#endif // _DEBUG
 
 	//	カメラ設定
+	//	画面サイズ取得
 	auto winSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
 
 	CameraMng::create();
-
+	//	カメラのセット
 	BGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
 	PLLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
 	EMLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
 	FGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
+
 
 	// UI作成
 	auto uiSP = Sprite::create(RES_ID("p0icon"));
@@ -212,25 +220,34 @@ bool GameScene::init()
 	uiSP->setPosition(uiSP->getContentSize().width / 1.5 - (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), winSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
 	UILayer->addChild(uiSP, 1, "p2Icon");
 
-	//auto uiSP = Sprite::create(RES_ID("p0icon"));
-	//uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height / 2);
-	//UILayer->addChild(uiSP, 1, "p0Icon");
 
-	//uiSP = Sprite::create(RES_ID("p1icon"));
-	//uiSP->setScale(0.6);
-	//uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height - uiSP->getContentSize().height / 2 * uiSP->getScaleY());
-	//UILayer->addChild(uiSP, 1, "p0Icon");
+	auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
 
-	//uiSP = Sprite::create(RES_ID("p2icon"));
-	//uiSP->setScale(0.6);
-	//uiSP->setPosition(winSize.width - uiSP->getContentSize().width / 2, winSize.height - uiSP->getContentSize().height - uiSP->getContentSize().height / 2 * uiSP->getScaleY() * 3);
-	//UILayer->addChild(uiSP, 1, "p2Icon");
-
-
-
+	auto fadeImage = Sprite::create();
+	fadeImage->setTextureRect(Rect(0, 0, scSize.width * 2, scSize.height * 2));
+	fadeImage->setPosition(0, 0);
+	fadeImage->setColor(Color3B(0, 0, 0));
+	fadeImage->setOpacity(0);
+	BWLayer->addChild(fadeImage,0,"fade");
 
 	//	BGMの設定
 	//lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
+
+	//	プラットフォームによって操作方法を変える
+	if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
+	{
+		_oprtState = new OprtKey();
+	}
+	else
+	{
+		_oprtState = new OprtTouch();
+	}
+
+	pauseFlag = false;
+	gameEndFlag = false;
+
+	//	操作イベントの作成
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(), this);
 
 	this->scheduleUpdate();
 
@@ -244,6 +261,101 @@ void GameScene::update(float d)
 
 	//	Audioの更新
 	lpAudioManager.update();
+	
+	//	システムキーの更新
+	keyUpdate();
+
+	//	ゲームクリアorゲームオーバー処理
+	if (EMLayer->getChildrenCount() == 0 || !PLLayer->getChildByName("player"))
+	{
+		if (!gameEndFlag)
+		{
+			BWLayer->getChildByName("fade")->setOpacity(120);
+			pause(PLLayer);
+			pause(EMLayer);
+			pause(BGLayer);
+			pause(FGLayer);
+
+			auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
+
+			//	ゲームクリア
+			if (EMLayer->getChildrenCount() == 0)
+			{
+				CCLabelTTF *text = CCLabelTTF::create("GAME CLEAR!", "Arial", 50);
+				text->setPosition(scSize.width / 2, scSize.height / 2);
+				BWLayer->addChild(text);
+			}
+			//	ゲームオーバー
+			if (!PLLayer->getChildByName("player"))
+			{
+				CCLabelTTF *text = CCLabelTTF::create("GAME OVER", "Arial", 50);
+				text->setPosition(scSize.width / 2, scSize.height / 2);
+				BWLayer->addChild(text);
+			}
+
+			gameEndFlag = true;
+		}
+
+		//	Enterでもう一度プレイ
+		if (key[UseKey::K_ENTER].first && !key[UseKey::K_ENTER].second)
+		{
+			auto scene = GameScene::createScene();
+			// sceneの生成
+			Director::getInstance()->replaceScene(scene);
+		}
+	}
+	else
+	{
+		//	ポーズ画面
+		if (key[UseKey::K_ENTER].first && !key[UseKey::K_ENTER].second)
+		{
+			pause(PLLayer);
+			pause(EMLayer);
+			pause(BGLayer);
+			pause(FGLayer);
+
+			if (pauseFlag)
+			{
+				BWLayer->getChildByName("fade")->setOpacity(0);
+				pauseFlag = false;
+			}
+			else
+			{
+				BWLayer->getChildByName("fade")->setOpacity(120);
+				pauseFlag = true;
+			}
+		}
+	}
+
+	for (auto itrKey : UseKey())
+	{
+		key[itrKey].second = key[itrKey].first;
+	}
+}
+
+void GameScene::keyUpdate()
+{
+	for (auto checkKey : _oprtState->GetKeyList())
+	{
+		key[checkKey.first].first = checkKey.second;
+	}
+}
+
+void GameScene::pause(cocos2d::Layer * layer)
+{
+	for (auto* childs : layer->getChildren())
+	{
+		//	ポーズ解除
+		if (pauseFlag)
+		{
+			childs->resumeSchedulerAndActions();
+		}
+		//	ポーズ開始
+		else
+		{
+			childs->pauseSchedulerAndActions();
+		}
+	}
 }
 
 void GameScene::menuCloseCallback(Ref* pSender)
