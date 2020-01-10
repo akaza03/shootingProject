@@ -103,7 +103,9 @@
     <ClCompile Include="..\Classes\Unit\CameraMng.cpp">
       <Filter>unit</Filter>
     </ClCompile>
-    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\TitleScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h">
@@ -214,7 +216,9 @@
     <ClInclude Include="..\Classes\Unit\CameraMng.h">
       <Filter>unit</Filter>
     </ClInclude>
-    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="..\Classes\Scene\TitleScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_DebugOut">

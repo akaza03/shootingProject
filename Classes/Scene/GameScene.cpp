@@ -24,7 +24,6 @@
 
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
-#include "Input/OprtKey.h"
 #include "Input/OprtTouch.h"
 #include "Unit/Player.h"
 #include "Unit/Enemy.h"
