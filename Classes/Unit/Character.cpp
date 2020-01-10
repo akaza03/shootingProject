@@ -17,6 +17,7 @@ void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::V
 {
 	_actData.charaID = id;
 	_actData.HP = hp;
+	_actData.MaxHP = hp;
 
 	//	アニメーションのセット
 	lpAnimMng.SetAnim(_actData.cType, id, _animMap);
@@ -41,6 +42,8 @@ void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::V
 		//	操作イベントの作成
 		scene->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(), scene);
 	}
+
+	setFlippedX(true);
 }
 
 void Character::InitActData(cocos2d::Vec2 speed)
@@ -80,7 +83,15 @@ void Character::InitActData(cocos2d::Vec2 speed)
 	_charaList.emplace(std::make_pair("jump", _actData));
 	_actData.anim = AnimState::DAMAGE;
 	_charaList.emplace(std::make_pair("damage", _actData));
+
 	_actData.anim = AnimState::DIE;
+	_actData.key[UseKey::K_LEFT] = std::make_tuple(false, false, false);
+	_actData.key[UseKey::K_RIGHT] = std::make_tuple(false, false, false);
+	_actData.key[UseKey::K_UP] = std::make_tuple(false, false, false);
+	_actData.key[UseKey::K_DOWN] = std::make_tuple(false, false, false);
+	_actData.key[UseKey::K_SPACE] = std::make_tuple(false, false, false);
+	_actData.key[UseKey::K_A] = std::make_tuple(false, false, false);
+	_actData.key[UseKey::K_S] = std::make_tuple(false, false, false);
 	_charaList.emplace(std::make_pair("die", _actData));
 
 	lpAnimMng.AnimRun(this, _charaList["idle"].nowAnim, _charaList["idle"].cType, _animMap);
@@ -92,4 +103,9 @@ void Character::SetDBBox(Sprite * sp)
 	//	当たり判定用の四角描画
 	_box = sp;
 #endif // _DEBUG
+}
+
+AnimState Character::CheckAnim()
+{
+	return _actData.nowAnim;
 }

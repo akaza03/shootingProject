@@ -54,6 +54,7 @@ void AudioManager::SetBank(const std::string &name, const std::string &soundName
 	//	Ä¶‚µ‚½‚¢‰¹‚Ì–¼‘O‚ðŽw’è
 	CkSound* sound = CkSound::newBankSound(bank, soundName.c_str());
 	sound->play();
+	audioList[name] = sound;
 }
 
 void AudioManager::SetStream(const std::string &name, SoundType type)
@@ -82,4 +83,13 @@ void AudioManager::SetStream(const std::string &name, SoundType type)
 	CkSound* _music = CkSound::newStreamSound(pass.c_str());
 	_music->setLoopCount(-1);
 	_music->play();
+	audioList[name] = _music;
+}
+
+void AudioManager::ResetAudio()
+{
+	for (auto &itr : audioList)
+	{
+		itr.second->destroy();
+	}
 }

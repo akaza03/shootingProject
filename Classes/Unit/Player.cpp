@@ -13,7 +13,6 @@ Player::~Player()
 
 void Player::update(float d)
 {
-	auto deathFlag = false;
 	for (auto &itr : _charaList)
 	{
 		if (itr.second.nowAnim == itr.second.anim)
@@ -45,7 +44,8 @@ void Player::update(float d)
 				itr.second.touchPos = cocos2d::Vec2(-10,-10);
 			}
 			
-
+			//	åªç›ÇÃHP
+			auto oldHp = itr.second.HP;
 			//	åªç›ÇÃcharaID
 			auto oldID = itr.second.charaID;
 
@@ -60,9 +60,31 @@ void Player::update(float d)
 				lpAnimMng.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
 			}
 
-			if (itr.second.HP <= 0)
+			//	HPÉoÅ[ÇÃëùå∏
+			if (oldHp != itr.second.HP)
 			{
-				deathFlag = true;
+				auto layer = cocos2d::Director::getInstance()->getRunningScene()->getChildByName("UILayer");
+				cocos2d::Sprite* HPBar = (cocos2d::Sprite*) layer->getChildByName("hpBar");
+				//	ç≈ëÂHPÇ©ÇÁå©ÇΩåªç›ÇÃHPÇÃäÑçá
+				float HPPercent = (float)itr.second.HP / (float)itr.second.MaxHP;
+				//	àÍíUñﬂÇ∑
+				auto oldSize = HPBar->getScaleX();
+				float ImageSizeX = HPBar->getContentSize().width * (1 - oldSize);
+				HPBar->setPosition(HPBar->getPosition().x + ImageSizeX / 2, HPBar->getPosition().y);
+
+				//	HPÉoÅ[ÇÃägëÂèkè¨(Xç¿ïWÇÃÇ›)
+				HPBar->setScale(HPPercent,1);
+				//	ëùå∏ÇµÇΩï™ÇÃà íuï‚ê≥
+				ImageSizeX = HPBar->getContentSize().width * (1 - HPPercent);
+				HPBar->setPosition(HPBar->getPosition().x - ImageSizeX / 2, HPBar->getPosition().y);
+			}
+
+			if (itr.second.HP <= 0 && oldHp != itr.second.HP)
+			{
+				lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", getPosition(), 20, true);
+				lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
+				itr.second.nowAnim = AnimState::DIE;
+				_actData.nowAnim = AnimState::DIE;
 			}
 
 			if (itr.second.nowAnim != itr.second.anim)
@@ -125,14 +147,21 @@ void Player::update(float d)
 		}
 	}
 
-	if (deathFlag)
-	{
-		lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", getPosition(), 20, true);
-		lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
+	//if (deathFlag)
+	//{
+	//	//lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", getPosition(), 20, true);
+	//	//lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
 
-		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
-		auto layer = nowScene->getChildByName("PLLayer");
-		layer->removeChild(this);
-	}
+	//	for (auto &itr : _charaList)
+	//	{
+	//		itr.second.nowAnim == AnimState::DIE;
+	//	}
+
+	//	_actData.nowAnim = AnimState::DIE;
+
+	//	//auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
+	//	//auto layer = nowScene->getChildByName("PLLayer");
+	//	//layer->removeChild(this);
+	//}
 }
 

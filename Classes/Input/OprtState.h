@@ -16,7 +16,10 @@ public:
 	virtual void update() = 0;
 	OprtKeyList GetKeyList();
 	cocos2d::Vec2 GetTouchPoint();
+	bool firstTouch();					//	初回タッチか調べる
 protected:
 	OprtKeyList _oprtKeyList;
 	cocos2d::Vec2 touchPoint;
+
+	bool firstTouchFlag;				//	初回タッチフラグ
 };

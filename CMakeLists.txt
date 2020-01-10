@@ -85,6 +85,7 @@ list(APPEND GAME_SOURCE
      Classes/Manager/EffManager.cpp
      Classes/Manager/ResourceManager.cpp
      Classes/Scene/GameScene.cpp
+     Classes/Scene/TitleScene.cpp
      Classes/Module/HitCheck.cpp
      Classes/Module/Jump.cpp
      Classes/Module/Move.cpp
@@ -120,6 +121,7 @@ list(APPEND GAME_HEADER
      Classes/Manager/EffManager.h
      Classes/Manager/ResourceManager.h
      Classes/Scene/GameScene.h
+     Classes/Scene/TitleScene.h
      Classes/Module/ActSet.h
      Classes/Module/HitCheck.h
      Classes/Module/Jump.h

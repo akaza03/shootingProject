@@ -109,13 +109,26 @@ bool Enemy::playerSearch(ActData &act)
 
 	if (player)
 	{
+		//	プレイヤーとの距離
 		auto distance = getPosition() - player->getPosition();
 
+		//	プレイヤーの場所によって向きを変える
+		if (abs(distance.x) < 300 && abs(distance.y) < 50 && (act.checkPoint[DIR::DOWN] == true))
+		{
+			if (distance.x > 0)
+			{
+				act.dir = DIR::LEFT;
+			}
+			else if (distance.x < 0)
+			{
+				act.dir = DIR::RIGHT;
+			}
+		}
+
 		//	一定の距離に入ったら攻撃
-		if (abs(distance.x) < 300 && abs(distance.y) < 100)
+		if (abs(distance.x) < 200 && abs(distance.y) < 50)
 		{
 			std::get<0>(act.key[UseKey::K_SPACE]) = true;
-
 			std::get<0>(act.key[UseKey::K_RIGHT]) = false;
 			std::get<0>(act.key[UseKey::K_LEFT]) = false;
 		}
@@ -135,19 +148,6 @@ bool Enemy::playerSearch(ActData &act)
 				std::get<0>(act.key[UseKey::K_LEFT]) = false;
 			}
 		}
-
-		//	プレイヤーの場所によって向きを変える
-		if (abs(distance.x) < 300)
-		{
-			if (distance.x >= 0)
-			{
-				act.dir = DIR::LEFT;
-			}
-			else if (distance.x < 0)
-			{
-				act.dir = DIR::RIGHT;
-			}
-		}
 	}
 
 	return false;
@@ -156,11 +156,11 @@ bool Enemy::playerSearch(ActData &act)
 void Enemy::objTurn(ActData &act)
 {
 	auto oldDir = act.dir;
-	if ((act.dir == DIR::LEFT) && (act.checkPoint[DIR::LEFT] == true))
+	if ((act.dir == DIR::LEFT) && ((act.checkPoint[DIR::LEFT] == true) || (act.checkPoint[DIR::DOWN] == false)))
 	{
 		act.dir = DIR::RIGHT;
 	}
-	else if ((act.dir == DIR::RIGHT) && (act.checkPoint[DIR::RIGHT] == true))
+	else if ((act.dir == DIR::RIGHT) && ((act.checkPoint[DIR::RIGHT] == true) || (act.checkPoint[DIR::DOWN] == false)))
 	{
 		act.dir = DIR::LEFT;
 	}

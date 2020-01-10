@@ -26,7 +26,7 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 				act.damageCnt = 20;
 
 				//	ダメージ
-				act.HP -= 5;
+				act.HP -= 10;
 			}
 		}
 	}
@@ -37,15 +37,39 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 		//	ダメージ硬直が終わった瞬間に無敵を付与する
 		if (act.damageCnt == 0)
 		{
-			act.invTime = 10;
-			//auto blink = cocos2d::Blink::create(1, 20);
-			//sp.runAction(blink);
+			act.invTime = 30;
+			sp.setOpacity(0);
 		}
 	}
 
 	if (act.invTime > 0)
 	{
 		act.invTime--;
+		//	無敵時の点滅用
+		if (sp.getOpacity() == 0)
+		{
+			sp.setOpacity(255);
+		}
+		else
+		{
+			sp.setOpacity(0);
+		}
+	}
+	else
+	{
+		sp.setOpacity(255);
+	}
+
+	//	ステージ外に出たら死亡
+	if (sp.getPosition().y < -sp.getContentSize().height)
+	{
+		act.HP = 0;
+	}
+
+	//	HPが上限を超えないように
+	if (act.HP > act.MaxHP)
+	{
+		act.HP = act.MaxHP;
 	}
 
 	return false;

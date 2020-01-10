@@ -25,13 +25,14 @@ using keyList = std::map<UseKey, std::tuple<bool, bool, bool>>;						//	キー用の
 //	キャラクターの情報用
 struct ActData
 {
-	int HP = 1;															//	体力
+	int HP = 1;																//	体力
+	int MaxHP = 1;															//	最大HP
 	cocos2d::Vec2 speed;													//	移動スピード(歩き,ジャンプ)
 	float Gravity = 0;														//	重力
 	keyList key;															//	どのキーを押したら処理するのか(List)
 	AnimState anim;															//	自身のアニメーション
 	AnimState nowAnim = AnimState::IDLE;									//	現在のアニメーション
-	DIR dir = DIR::LEFT;													//	現在の向き
+	DIR dir = DIR::RIGHT;													//	現在の向き
 	hitList checkPoint;														//	障害物との当たり判定用
 	int damageCnt = 0;														//	ダメージを受けた時の硬直用
 	int invTime = 0;														//	無敵時間
@@ -57,6 +58,7 @@ public:
 	void SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed, cocos2d::Scene *scene);
 
 	void SetDBBox(Sprite* sp);														//	デバッグ時の当たり判定用BoxのSet
+	AnimState CheckAnim();															//	アニメーション確認用
 
 private:
 	void InitActData(cocos2d::Vec2 speed);											//	ActDataの初期化

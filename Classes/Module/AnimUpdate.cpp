@@ -21,6 +21,11 @@ bool AnimUpdate::operator()(cocos2d::Sprite & sp, ActData & act)
 		anim = AnimState::RUN;
 	}
 
+	if (act.nowAnim == AnimState::DIE)
+	{
+		anim = AnimState::DIE;
+	}
+
 	act.nowAnim = anim;
 
 	return false;

@@ -11,6 +11,7 @@ Shot::~Shot()
 
 void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, float sSpeed)
 {
+	hitFlag = false;
 	auto charaPos = sp.getPosition();
 
 	setPosition(charaPos);
@@ -49,7 +50,10 @@ void Shot::update(float d)
 {
 	this->setPosition(getPosition().x + speed, getPosition().y);
 	distance += speed;
-	if (hitCheck() || distance >= 500)
+
+	auto winSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
+
+	if (hitFlag || distance >= winSize.width)
 	{
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 		auto layer = nowScene->getChildByName("PLLayer");
@@ -59,30 +63,34 @@ void Shot::update(float d)
 		}
 		layer->removeChild(this);
 	}
+	else
+	{
+		hitFlag = hitCheck();
+	}
 }
 
 bool Shot::hitCheck()
 {
 	////	キャラクターとの判定
-	//auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
-	//auto layer = nowScene->getChildByName("EMLayer");
-	//if (type == CharaType::ENEMY)
-	//{
-	//	layer = nowScene->getChildByName("PLLayer");
-	//}
+	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
+	auto layer = nowScene->getChildByName("EMLayer");
+	if (type == CharaType::ENEMY)
+	{
+		layer = nowScene->getChildByName("PLLayer");
+	}
 
-	//for (auto obj : layer->getChildren())
-	//{
-	//	//	判定用BOX
-	//	auto objBox = obj->boundingBox();
-	//	auto charaBox = this->boundingBox();
+	for (auto obj : layer->getChildren())
+	{
+		//	判定用BOX
+		auto objBox = obj->boundingBox();
+		auto charaBox = this->boundingBox();
 
-	//	if (charaBox.intersectsRect(objBox))
-	//	{
-	//		//	当たった場合はダメージ硬直
-	//		return true;
-	//	}
-	//}
+		if (charaBox.intersectsRect(objBox))
+		{
+			//	当たった場合はダメージ硬直
+			return true;
+		}
+	}
 
 	//	障害物との判定
 

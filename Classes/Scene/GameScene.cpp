@@ -57,33 +57,33 @@ bool GameScene::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+    ///////////////////////////////
+    //// 2. add a menu item with "X" image, which is clicked to quit the program
+    ////    you may modify it.
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(GameScene::menuCloseCallback, this));
+    //// add a "close" icon to exit the progress. it's an autorelease object
+    //auto closeItem = MenuItemImage::create(
+    //                                       "CloseNormal.png",
+    //                                       "CloseSelected.png",
+    //                                       CC_CALLBACK_1(GameScene::menuCloseCallback, this));
 
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-        float y = origin.y + closeItem->getContentSize().height/2;
-        closeItem->setPosition(Vec2(x,y));
-    }
+    //if (closeItem == nullptr ||
+    //    closeItem->getContentSize().width <= 0 ||
+    //    closeItem->getContentSize().height <= 0)
+    //{
+    //    problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
+    //}
+    //else
+    //{
+    //    float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
+    //    float y = origin.y + closeItem->getContentSize().height/2;
+    //    closeItem->setPosition(Vec2(x,y));
+    //}
 
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+    //// create menu, it's an autorelease object
+    //auto menu = Menu::create(closeItem, NULL);
+    //menu->setPosition(Vec2::ZERO);
+    //this->addChild(menu, 1);
 
     /////////////////////////////
     // 3. add your codes below...
@@ -91,20 +91,20 @@ bool GameScene::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("GameMain", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
+    //auto label = Label::createWithTTF("GameMain", "fonts/Marker Felt.ttf", 24);
+    //if (label == nullptr)
+    //{
+    //    problemLoading("'fonts/Marker Felt.ttf'");
+    //}
+    //else
+    //{
+    //    // position the label on the center of the screen
+    //    label->setPosition(Vec2(origin.x + visibleSize.width/2,
+    //                            origin.y + visibleSize.height - label->getContentSize().height));
 
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
+    //    // add the label as a child to this layer
+    //    this->addChild(label, 1);
+    //}
 
 
 
@@ -126,10 +126,13 @@ bool GameScene::init()
 	TMXTiledMap* tiledMap = TMXTiledMap::create("map.tmx");
 	BGLayer->addChild(tiledMap, 1, "stageMap");
 
+	//	マップサイズ
+	auto mapSize = tiledMap->getContentSize();
+
 	//	背景画像をまとめて表示する用
 	auto spNode = SpriteBatchNode::create(RES_ID("BackG01"));
 	BGLayer->addChild(spNode, 0);
-	for (int i = 0; i <= 2; i++)
+	for (int i = 0; i <= 5; i++)
 	{
 		auto BGSP = Sprite::createWithTexture(spNode->getTexture());
 		//	アンカーポイントを真ん中から左下に変更
@@ -157,11 +160,12 @@ bool GameScene::init()
 			}
 		}
 	}
-	player->SetInit(DIR::RIGHT, 0, Ppos, 20, Vec2(5, 6), this);
+	player->SetInit(DIR::RIGHT, 0, Ppos, 100, Vec2(5, 6), this);
 	PLLayer->addChild(player, 0, "player");
 
 	//	敵の作成
 	TMXLayer* eLayer = tiledMap->getLayer("enemy");
+	enemyCnt = 0;
 	//	エネミーの座標
 	cocos2d::Vec2 Epos;
 	for (int y = 0; y < eLayer->getLayerSize().height; y++)
@@ -173,12 +177,13 @@ bool GameScene::init()
 				Epos = cocos2d::Vec2(x * eLayer->getMapTileSize().width, 
 					eLayer->getLayerSize().height * eLayer->getMapTileSize().height - y * eLayer->getMapTileSize().height);
 				auto Enemy = Enemy::create();
-				Enemy->SetInit(DIR::RIGHT, 0, Epos, 5, Vec2(2, 4), this);
+				Enemy->SetInit(DIR::RIGHT, 0, Epos, 10, Vec2(2, 4), this);
 				EMLayer->addChild(Enemy, 0);
 			}
 		}
 	}
 	eLayer->removeFromParentAndCleanup(true);
+	enemyCnt = EMLayer->getChildrenCount();
 
 //#ifdef _DEBUG
 //	//	デバッグ用レイヤーの作成
@@ -193,19 +198,24 @@ bool GameScene::init()
 //	player->SetDBBox(DBBox);
 //#endif // _DEBUG
 
-	//	カメラ設定
-	//	画面サイズ取得
+	//	設定上の画面サイズ
 	auto winSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
 
+	//	カメラ設定
 	CameraMng::create();
 	//	カメラのセット
-	BGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
-	PLLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
-	EMLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
-	FGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
+	BGLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, winSize.height)));
+	PLLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, winSize.height)));
+	EMLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, winSize.height)));
+	FGLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, winSize.height)));
 
+	//BGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
+	//PLLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
+	//EMLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
+	//FGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
 
-	// UI作成
+	//	UI作成
+	//	プレイヤーのアイコン
 	auto uiSP = Sprite::create(RES_ID("p0icon"));
 	uiSP->setPosition(uiSP->getContentSize().width / 1.5, winSize.height - uiSP->getContentSize().height / 2);
 	UILayer->addChild(uiSP, 1, "p0Icon");
@@ -220,9 +230,26 @@ bool GameScene::init()
 	uiSP->setPosition(uiSP->getContentSize().width / 1.5 - (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), winSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
 	UILayer->addChild(uiSP, 1, "p2Icon");
 
-
+	//	実際の画面サイズ
 	auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
 
+	//	プレイヤーのHPバー(下)
+	auto hpBar = Sprite::create(RES_ID("HPBase"));
+	hpBar->setPosition(hpBar->getContentSize().width, winSize.height - hpBar->getContentSize().height);
+	hpBar->setOpacity(150);
+	UILayer->addChild(hpBar, 1, "hpBase");
+	//	プレイヤーのHPバー
+	hpBar = Sprite::create(RES_ID("HP"));
+	hpBar->setPosition(hpBar->getContentSize().width, winSize.height - hpBar->getContentSize().height);
+	hpBar->setOpacity(200);
+	UILayer->addChild(hpBar, 1, "hpBar");
+
+	//auto score = String::createWithFormat("残り：%i体", enemyCnt);
+	//auto label = Label::createWithSystemFont(score->getCString(), "arial", 80);
+	//label->setPosition(scSize.width / 2, scSize.height / 2);
+	//UILayer->addChild(label, 1, "enemyCounter");
+
+	//	ポーズ時など用の黒い幕
 	auto fadeImage = Sprite::create();
 	fadeImage->setTextureRect(Rect(0, 0, scSize.width * 2, scSize.height * 2));
 	fadeImage->setPosition(0, 0);
@@ -231,7 +258,7 @@ bool GameScene::init()
 	BWLayer->addChild(fadeImage,0,"fade");
 
 	//	BGMの設定
-	//lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
+	lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
 
 	//	プラットフォームによって操作方法を変える
 	if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
@@ -265,31 +292,45 @@ void GameScene::update(float d)
 	//	システムキーの更新
 	keyUpdate();
 
+	Character* pl = (Character*)PLLayer->getChildByName("player");
 	//	ゲームクリアorゲームオーバー処理
-	if (EMLayer->getChildrenCount() == 0 || !PLLayer->getChildByName("player"))
+	if (EMLayer->getChildrenCount() == 0 || pl->CheckAnim() == AnimState::DIE)
 	{
 		if (!gameEndFlag)
 		{
 			BWLayer->getChildByName("fade")->setOpacity(120);
-			pause(PLLayer);
+			//pause(PLLayer);
 			pause(EMLayer);
 			pause(BGLayer);
 			pause(FGLayer);
 
-			auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
-
+			auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
 			//	ゲームクリア
 			if (EMLayer->getChildrenCount() == 0)
 			{
-				CCLabelTTF *text = CCLabelTTF::create("GAME CLEAR!", "Arial", 50);
+				pause(PLLayer);
+				CCLabelTTF *text = CCLabelTTF::create("GAME CLEAR!", "Arial", 80);
 				text->setPosition(scSize.width / 2, scSize.height / 2);
 				BWLayer->addChild(text);
 			}
 			//	ゲームオーバー
-			if (!PLLayer->getChildByName("player"))
+			if (pl->CheckAnim() == AnimState::DIE)
 			{
-				CCLabelTTF *text = CCLabelTTF::create("GAME OVER", "Arial", 50);
+				CCLabelTTF *text = CCLabelTTF::create("GAME OVER", "Arial", 80);
 				text->setPosition(scSize.width / 2, scSize.height / 2);
+				BWLayer->addChild(text);
+			}
+
+			if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
+			{
+				CCLabelTTF *text = CCLabelTTF::create("PLEASE TO ENTER", "Arial", 30);
+				text->setPosition(scSize.width / 2, scSize.height / 2 - 100);
+				BWLayer->addChild(text);
+			}
+			else
+			{
+				CCLabelTTF *text = CCLabelTTF::create("PLEASE TO TAP", "Arial", 30);
+				text->setPosition(scSize.width / 2, scSize.height / 2 - 100);
 				BWLayer->addChild(text);
 			}
 
@@ -297,8 +338,9 @@ void GameScene::update(float d)
 		}
 
 		//	Enterでもう一度プレイ
-		if (key[UseKey::K_ENTER].first && !key[UseKey::K_ENTER].second)
+		if (key[UseKey::K_ENTER].first && !key[UseKey::K_ENTER].second || _oprtState->firstTouch())
 		{
+			lpAudioManager.ResetAudio();
 			auto scene = GameScene::createScene();
 			// sceneの生成
 			Director::getInstance()->replaceScene(scene);

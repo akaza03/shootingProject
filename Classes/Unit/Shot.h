@@ -16,6 +16,7 @@ private:
 	float speed = 0;						//	弾のスピード
 	CharaType type;							//	だれが撃った弾か
 	float distance = 0;						//	移動した距離
+	bool hitFlag;
 
 	bool hitCheck();
 };

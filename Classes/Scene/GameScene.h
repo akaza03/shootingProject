@@ -81,13 +81,7 @@ private:
 
 	bool gameEndFlag;								//	ゲームオーバーorゲームクリアフラグ
 
-	//std::unique_ptr<efk::EffectManager> effectMng;
-	//void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4& parentTransform, uint32_t parentFlags)
-	//{
-	//	effectMng->begin(renderer, _globalZOrder);
-	//	cocos2d::Scene::visit(renderer, parentTransform, parentFlags);
-	//	effectMng->end(renderer, _globalZOrder);
-	//}
+	int enemyCnt;									//	敵の数
 
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);

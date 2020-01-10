@@ -26,6 +26,8 @@ cocos2d::EventListener * OprtTouch::oprtInit()
 
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 
+		firstTouchFlag = true;
+
 		//	開始位置に目印を作成
 		auto StartSP = cocos2d::Sprite::create("CloseNormal.png");
 		StartSP->setPosition(_startTouchPos);
@@ -37,12 +39,14 @@ cocos2d::EventListener * OprtTouch::oprtInit()
 	//	スワイプ移動時
 	listener->onTouchMoved = [this](cocos2d::Touch* touch, cocos2d::Event* event)->bool
 	{
+		firstTouchFlag = false;
 		checkKey(touch->getLocation());
 		return true;
 	};
 
 	listener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)->bool
 	{
+		firstTouchFlag = false;
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 		nowScene->removeChildByName("touchIcon");
 		for (auto itrKey : UseKey())

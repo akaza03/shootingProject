@@ -103,6 +103,7 @@
     <ClCompile Include="..\Classes\Unit\CameraMng.cpp">
       <Filter>unit</Filter>
     </ClCompile>
+    <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h">
@@ -213,6 +214,7 @@
     <ClInclude Include="..\Classes\Unit\CameraMng.h">
       <Filter>unit</Filter>
     </ClInclude>
+    <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_DebugOut">

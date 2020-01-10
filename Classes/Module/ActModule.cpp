@@ -3,10 +3,6 @@
 
 void ActModule::operator()(cocos2d::Sprite & sp, ActData & act)
 {
-	//	当たり判定
-	HitCheck()(sp, act);
-	DamageCheck()(sp, act);
-
 	//	移動処理
 	Jump()(sp, act);
 	Move()(sp, act);
@@ -27,4 +23,8 @@ void ActModule::operator()(cocos2d::Sprite & sp, ActData & act)
 
 	//	キーの更新
 	OldKeyUpdate()(sp, act);
+
+	//	当たり判定
+	HitCheck()(sp, act);
+	DamageCheck()(sp, act);
 }
