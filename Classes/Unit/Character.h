@@ -55,7 +55,7 @@ public:
 	virtual ~Character();
 	virtual void update(float d) = 0;
 
-	void SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed, cocos2d::Scene *scene);
+	bool SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed, cocos2d::Scene *scene);
 
 	void SetDBBox(Sprite* sp);														//	デバッグ時の当たり判定用BoxのSet
 	AnimState CheckAnim();															//	アニメーション確認用

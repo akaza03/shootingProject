@@ -74,6 +74,8 @@ private:
 
 	cocos2d::Camera* _camera;
 
+	void SetUI();
+
 	void update(float d);
 	void cameraUpdate();
 	void keyUpdate();
@@ -83,8 +85,6 @@ private:
 
 	bool pauseFlag;									//	画面停止用フラグ
 	bool gameEndFlag;								//	ゲームオーバーorゲームクリアフラグ
-
-	int enemyCnt;									//	敵の数
 
 	cocos2d::Size screenSize;						//	設定上の画面サイズ
 	

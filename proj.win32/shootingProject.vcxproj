@@ -161,6 +161,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Manager\AudioManager.cpp" />
     <ClCompile Include="..\Classes\Manager\EffManager.cpp" />
     <ClCompile Include="..\Classes\Manager\ResourceManager.cpp" />
+    <ClCompile Include="..\Classes\Map\MapMaker.cpp" />
     <ClCompile Include="..\Classes\Module\ActModule.cpp" />
     <ClCompile Include="..\Classes\Module\AnimUpdate.cpp" />
     <ClCompile Include="..\Classes\Module\changeChara.cpp" />
@@ -197,6 +198,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Manager\AudioManager.h" />
     <ClInclude Include="..\Classes\Manager\EffManager.h" />
     <ClInclude Include="..\Classes\Manager\ResourceManager.h" />
+    <ClInclude Include="..\Classes\Map\MapMaker.h" />
     <ClInclude Include="..\Classes\Module\ActModule.h" />
     <ClInclude Include="..\Classes\Module\ActSet.h" />
     <ClInclude Include="..\Classes\Module\AnimUpdate.h" />

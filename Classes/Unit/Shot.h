@@ -13,6 +13,7 @@ public:
 	CharaType GetType();
 	float GetPower();
 	bool GetAtkFlag();
+	void SetHitChara(bool flag);
 	CREATE_FUNC(Shot);
 
 private:

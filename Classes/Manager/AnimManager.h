@@ -31,7 +31,7 @@ public:
 	void AnimRun(cocos2d::Sprite* sprite, AnimState anim, CharaType type, AnimMap &charaAnim);
 
 	//	キャラクターにアニメーション情報を渡す
-	void SetAnim(CharaType type, int id, AnimMap &anim);
+	bool SetAnim(CharaType type, int id, AnimMap &anim);
 private:
 	AnimManager();
 	void AnimationInit();										//	アニメーションの登録用

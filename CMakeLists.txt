@@ -84,6 +84,7 @@ list(APPEND GAME_SOURCE
      Classes/Manager/AudioManager.cpp
      Classes/Manager/EffManager.cpp
      Classes/Manager/ResourceManager.cpp
+     Classes/Map/MapMaker.cpp
      Classes/Scene/GameScene.cpp
      Classes/Scene/TitleScene.cpp
      Classes/Module/HitCheck.cpp
@@ -119,6 +120,7 @@ list(APPEND GAME_HEADER
      Classes/Manager/AudioManager.h
      Classes/Manager/EffManager.h
      Classes/Manager/ResourceManager.h
+     Classes/Map/MapMaker.h
      Classes/Scene/GameScene.h
      Classes/Scene/TitleScene.h
      Classes/Module/ActSet.h

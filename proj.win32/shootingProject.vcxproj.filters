@@ -103,6 +103,9 @@
     <ClCompile Include="..\Classes\Scene\TitleScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Map\MapMaker.cpp">
+      <Filter>map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h">
@@ -213,6 +216,9 @@
     <ClInclude Include="..\Classes\Scene\TitleScene.h">
       <Filter>scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Map\MapMaker.h">
+      <Filter>map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_DebugOut">
@@ -247,6 +253,9 @@
     </Filter>
     <Filter Include="cricketJni">
       <UniqueIdentifier>{0971386f-4be4-4c19-ab68-4603fa8dd083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="map">
+      <UniqueIdentifier>{e615afbc-438a-4a7d-b507-af3f07018c81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

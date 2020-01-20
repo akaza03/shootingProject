@@ -86,6 +86,11 @@ bool Shot::GetAtkFlag()
 	return atkFlag;
 }
 
+void Shot::SetHitChara(bool flag)
+{
+	hitChara = flag;
+}
+
 void Shot::TypeInit(ActData & chara)
 {
 	//	プレイヤー3(壁に当たるまで判定が発生しない)
@@ -98,6 +103,7 @@ void Shot::TypeInit(ActData & chara)
 
 void Shot::TypeUpdate()
 {
+	//	プレイヤー3
 	if (type == CharaType::PLAYER && charaID == 2)
 	{
 		if (hitObj && !atkFlag)

@@ -13,14 +13,17 @@ Character::~Character()
 }
 
 
-void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed, cocos2d::Scene *scene)
+bool Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed, cocos2d::Scene *scene)
 {
 	_actData.charaID = id;
 	_actData.HP = hp;
 	_actData.MaxHP = hp;
 
 	//	アニメーションのセット
-	lpAnimMng.SetAnim(_actData.cType, id, _animMap);
+	if (!lpAnimMng.SetAnim(_actData.cType, id, _animMap))
+	{
+		return false;
+	}
 
 	InitActData(speed);
 
@@ -44,6 +47,7 @@ void Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::V
 	}
 
 	setFlippedX(true);
+	return true;
 }
 
 void Character::InitActData(cocos2d::Vec2 speed)

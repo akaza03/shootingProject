@@ -55,6 +55,7 @@ void AudioManager::SetBank(const std::string &name, const std::string &soundName
 	CkSound* sound = CkSound::newBankSound(bank, soundName.c_str());
 	sound->play();
 	audioList[name] = sound;
+	int a = 0;
 }
 
 void AudioManager::SetStream(const std::string &name, SoundType type)

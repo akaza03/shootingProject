@@ -1,4 +1,5 @@
 #include "Unit/Character.h"
+#include "Map/MapMaker.h"
 #include "_DebugOut/_DebugConOut.h"
 #include "HitCheck.h"
 
@@ -15,10 +16,12 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 	//	指定された場所のタイルID
 	int tile = 0;
 
+	auto mapMaker = MapMaker::create();
+
 	//	マップとの当たり判定
 	//	下
 	auto DownPos = cocos2d::Vec2(pos.x / layerMap->getMapTileSize().width, (pos.y + sp.getContentSize().height / 2) / layerMap->getMapTileSize().height);
-	tile = GetTile(DownPos, layerMap);
+	tile = mapMaker->GetTile(DownPos, layerMap);
 	if (tile != 0)
 	{
 		TRACE("下%d", tile);
@@ -31,7 +34,7 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 
 	//	上
 	auto UpPos = cocos2d::Vec2(pos.x / layerMap->getMapTileSize().width, pos.y / layerMap->getMapTileSize().height - 1);
-	tile = GetTile(UpPos, layerMap);
+	tile = mapMaker->GetTile(UpPos, layerMap);
 	if (tile != 0)
 	{
 		TRACE("上%d", tile);
@@ -44,7 +47,7 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 
 	// 左
 	auto LPos = cocos2d::Vec2((pos.x - sp.getContentSize().width / 2) / layerMap->getMapTileSize().width, pos.y / layerMap->getMapTileSize().height);
-	tile = GetTile(LPos, layerMap);
+	tile = mapMaker->GetTile(LPos, layerMap);
 	if (tile != 0)
 	{
 		TRACE("左%d", tile);
@@ -54,7 +57,7 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 	{
 		LPos.y = (pos.y + sp.getContentSize().height / 3) / layerMap->getMapTileSize().height;
 
-		tile = GetTile(LPos, layerMap);
+		tile = mapMaker->GetTile(LPos, layerMap);
 
 		if (tile != 0)
 		{
@@ -69,7 +72,7 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 
 	//	右
 	auto RPos = cocos2d::Vec2((pos.x + sp.getContentSize().width / 2) / layerMap->getMapTileSize().width, pos.y / layerMap->getMapTileSize().height);
-	tile = GetTile(RPos, layerMap);
+	tile = mapMaker->GetTile(RPos, layerMap);
 	if (tile != 0)
 	{
 		TRACE("右%d", tile);
@@ -79,7 +82,7 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 	{
 		RPos.y = (pos.y + sp.getContentSize().height / 3) / layerMap->getMapTileSize().height;
 
-		tile = GetTile(RPos, layerMap);
+		tile = mapMaker->GetTile(RPos, layerMap);
 
 		if (tile != 0)
 		{
@@ -93,16 +96,4 @@ bool HitCheck::operator()(cocos2d::Sprite & sp, ActData &act)
 	}
 	
 	return false;
-}
-
-int HitCheck::GetTile(cocos2d::Vec2 _pos, cocos2d::TMXLayer * _layer)
-{
-	//	取得場所が画面外の場合は0を返す
-	if (_pos.x > 0 && _pos.x < _layer->getLayerSize().width
-		&&	_pos.y > 0 && _pos.y < _layer->getLayerSize().height)
-	{
-		//	タイルの取得
-		return _layer->getTileGIDAt(_pos);
-	}
-	return 0;
 }

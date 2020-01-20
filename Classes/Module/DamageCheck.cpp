@@ -25,6 +25,7 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 				{
 					//	当たった場合はダメージ硬直
 					act.damageCnt = 20;
+					shot->SetHitChara(true);
 
 					//	ダメージ
 					act.HP -= shot->GetPower();
@@ -39,7 +40,10 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 		//	ダメージ硬直が終わった瞬間に無敵を付与する
 		if (act.damageCnt == 0)
 		{
-			act.invTime = 30;
+			if (act.cType == CharaType::PLAYER)
+			{
+				act.invTime = 30;
+			}
 			sp.setOpacity(0);
 		}
 	}
