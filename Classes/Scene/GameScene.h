@@ -37,6 +37,7 @@ enum LayerNumber
 	BG,						//	バックグラウンド用レイヤー
 	PL,						//	プレイヤー&攻撃用レイヤー
 	EM,						//	エネミー&攻撃用レイヤー
+	ATK,
 	UI,						//	UI用レイヤー
 	BW,						//	画面を暗くするレイヤー(ポーズ画面など)
 	FG,						//	フロントグラウンド用レイヤー
@@ -62,26 +63,32 @@ private:
 	cocos2d::Layer * BGLayer;				//	バックグラウンド用レイヤー
 	cocos2d::Layer * PLLayer;				//	プレイヤー&攻撃用レイヤー
 	cocos2d::Layer * EMLayer;				//	エネミー&攻撃用レイヤー
+	cocos2d::Layer * ATKLayer;
 	cocos2d::Layer * UILayer;				//	UI用レイヤー
 	cocos2d::Layer * BWLayer;				//	画面を暗くするレイヤー(ポーズ画面など)
 	cocos2d::Layer * FGLayer;				//	フロントグラウンド用レイヤー
 	cocos2d::Layer * DBLayer;				//	デバッグ用レイヤー
 
 	OprtState *_oprtState;					//	システム用の操作制御
-
 	systemKey key;
 
-	void update(float d);
+	cocos2d::Camera* _camera;
 
+	void update(float d);
+	void cameraUpdate();
 	void keyUpdate();
+	void screenUpdate();
 
 	void pause(cocos2d::Layer *layer);				//	ポーズ時など用の停止処理
 
 	bool pauseFlag;									//	画面停止用フラグ
-
 	bool gameEndFlag;								//	ゲームオーバーorゲームクリアフラグ
 
 	int enemyCnt;									//	敵の数
+
+	cocos2d::Size screenSize;						//	設定上の画面サイズ
+	
+	cocos2d::Size scSize;							//	実際の画面サイズ
 
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);

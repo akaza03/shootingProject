@@ -100,9 +100,6 @@
     <ClCompile Include="..\Classes\CricketJni\CricketJni.cpp">
       <Filter>cricketJni</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Unit\CameraMng.cpp">
-      <Filter>unit</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Scene\TitleScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
@@ -212,9 +209,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\CricketJni\CricketJni.h">
       <Filter>cricketJni</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Unit\CameraMng.h">
-      <Filter>unit</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\TitleScene.h">
       <Filter>scene</Filter>

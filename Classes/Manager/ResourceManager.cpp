@@ -53,6 +53,7 @@ void ResourceManager::LoadInit()
 	SetID("p2Shot", "image/Sprites/Fx/impact/impact-1.png");
 	//	îwåi
 	SetID("BackG01", "image/iseki.jpg");
+	SetID("Title", "image/title(kari).png");
 	//	HPÉoÅ[
 	SetID("HPBase", "image/UI/hpBarBase.png");
 	SetID("HP", "image/UI/hpBar.png");

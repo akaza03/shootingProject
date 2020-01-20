@@ -1,15 +1,12 @@
 #include "Unit/Character.h"
+#include "Unit/Shot.h"
 #include "DamageCheck.h"
 
 bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 {
 	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 
-	auto layer = nowScene->getChildByName("PLLayer");
-	if (act.cType == CharaType::PLAYER)
-	{
-		layer = nowScene->getChildByName("EMLayer");
-	}
+	auto layer = nowScene->getChildByName("ATKLayer");
 
 	//	攻撃レイヤーとの判定
 	if (act.damageCnt <= 0 && act.invTime <= 0)
@@ -20,13 +17,18 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 			auto objBox = obj->boundingBox();
 			auto charaBox = sp.boundingBox();
 
-			if (charaBox.intersectsRect(objBox))
+			Shot* shot = (Shot*)obj;
+			if ((shot->GetType() == CharaType::PLAYER && act.cType == CharaType::ENEMY)
+				|| (shot->GetType() == CharaType::ENEMY && act.cType == CharaType::PLAYER))
 			{
-				//	当たった場合はダメージ硬直
-				act.damageCnt = 20;
+				if (charaBox.intersectsRect(objBox) && shot->GetAtkFlag())
+				{
+					//	当たった場合はダメージ硬直
+					act.damageCnt = 20;
 
-				//	ダメージ
-				act.HP -= 10;
+					//	ダメージ
+					act.HP -= shot->GetPower();
+				}
 			}
 		}
 	}

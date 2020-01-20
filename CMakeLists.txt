@@ -101,7 +101,6 @@ list(APPEND GAME_SOURCE
      Classes/Unit/Player.cpp
      Classes/Unit/Enemy.cpp
      Classes/Unit/Character.cpp
-     Classes/Unit/CameraMng.cpp
      Classes/Unit/Shot.cpp
      Classes/AppDelegate.cpp
      )
@@ -138,7 +137,6 @@ list(APPEND GAME_HEADER
      Classes/Unit/Player.h
      Classes/Unit/Enemy.h
      Classes/Unit/Character.h
-     Classes/Unit/CameraMng.h
      Classes/Unit/Shot.h
      Classes/Unit/charaStruct.h
      Classes/AppDelegate.h

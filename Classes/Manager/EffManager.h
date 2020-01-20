@@ -18,7 +18,7 @@ public:
 	}
 
 	~EffManager();
-	void update();
+	void update(cocos2d::Camera* camera);
 
 	//	エフェクトファイルのパス,レイヤー名,座標,大きさ,追加時に再生を開始するかどうか
 	void SetEffect(const char* pass, const char* layer, cocos2d::Vec2 pos,int scale, bool playEnter);

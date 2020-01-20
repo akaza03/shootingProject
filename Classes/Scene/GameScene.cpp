@@ -27,7 +27,6 @@
 #include "Input/OprtTouch.h"
 #include "Unit/Player.h"
 #include "Unit/Enemy.h"
-#include "Unit/CameraMng.h"
 
 USING_NS_CC;
 
@@ -105,7 +104,9 @@ bool GameScene::init()
     //    this->addChild(label, 1);
     //}
 
-
+	//	スクリーンサイズなどの取得
+	screenSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
+	scSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
 
 	//	レイヤーの作成
 	BGLayer = Layer::create();
@@ -114,6 +115,8 @@ bool GameScene::init()
 	this->addChild(PLLayer, LayerNumber::PL, "PLLayer");
 	EMLayer = Layer::create();
 	this->addChild(EMLayer, LayerNumber::EM, "EMLayer");
+	ATKLayer = Layer::create();
+	this->addChild(ATKLayer, LayerNumber::ATK, "ATKLayer");
 	FGLayer = Layer::create();
 	this->addChild(FGLayer, LayerNumber::FG, "FGLayer");
 	UILayer = Layer::create();
@@ -197,49 +200,31 @@ bool GameScene::init()
 //	player->SetDBBox(DBBox);
 //#endif // _DEBUG
 
-	//	設定上の画面サイズ
-	auto winSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
-
-	//	カメラ設定
-	CameraMng::create();
-	//	カメラのセット
-	BGLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, winSize.height)));
-	PLLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, winSize.height)));
-	EMLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, winSize.height)));
-	FGLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, winSize.height)));
-
-	//BGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
-	//PLLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
-	//EMLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
-	//FGLayer->runAction(Follow::create(player, Rect(0, 0, winSize.width*2.5, winSize.height)));
-
 	//	UI作成
 	//	プレイヤーのアイコン
 	auto uiSP = Sprite::create(RES_ID("p0icon"));
-	uiSP->setPosition(uiSP->getContentSize().width / 1.5, winSize.height - uiSP->getContentSize().height / 2);
+	uiSP->setPosition(uiSP->getContentSize().width / 1.5, screenSize.height - uiSP->getContentSize().height / 2);
 	UILayer->addChild(uiSP, 1, "p0Icon");
 
 	uiSP = Sprite::create(RES_ID("p1icon"));
 	uiSP->setScale(0.6);
-	uiSP->setPosition(uiSP->getContentSize().width / 1.5 + (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), winSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
+	uiSP->setPosition(uiSP->getContentSize().width / 1.5 + (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), screenSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
 	UILayer->addChild(uiSP, 1, "p1Icon");
 
 	uiSP = Sprite::create(RES_ID("p2icon"));
 	uiSP->setScale(0.6);
-	uiSP->setPosition(uiSP->getContentSize().width / 1.5 - (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), winSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
+	uiSP->setPosition(uiSP->getContentSize().width / 1.5 - (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), screenSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
 	UILayer->addChild(uiSP, 1, "p2Icon");
 
-	//	実際の画面サイズ
-	auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
 
 	//	プレイヤーのHPバー(下)
 	auto hpBar = Sprite::create(RES_ID("HPBase"));
-	hpBar->setPosition(hpBar->getContentSize().width, winSize.height - hpBar->getContentSize().height);
+	hpBar->setPosition(hpBar->getContentSize().width, screenSize.height - hpBar->getContentSize().height);
 	hpBar->setOpacity(150);
 	UILayer->addChild(hpBar, 1, "hpBase");
 	//	プレイヤーのHPバー
 	hpBar = Sprite::create(RES_ID("HP"));
-	hpBar->setPosition(hpBar->getContentSize().width, winSize.height - hpBar->getContentSize().height);
+	hpBar->setPosition(hpBar->getContentSize().width, screenSize.height - hpBar->getContentSize().height);
 	hpBar->setOpacity(200);
 	UILayer->addChild(hpBar, 1, "hpBar");
 
@@ -257,7 +242,7 @@ bool GameScene::init()
 	BWLayer->addChild(fadeImage,0,"fade");
 
 	//	BGMの設定
-	lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
+	//lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
 
 	//	プラットフォームによって操作方法を変える
 	if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
@@ -272,6 +257,29 @@ bool GameScene::init()
 	pauseFlag = false;
 	gameEndFlag = false;
 
+	//	カメラのセット
+
+	//BGLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, screenSize.height)));
+	//PLLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, screenSize.height)));
+	//EMLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, screenSize.height)));
+	//FGLayer->runAction(Follow::create(player, Rect(0, 0, mapSize.width, screenSize.height)));
+
+	_camera = Camera::createOrthographic(screenSize.width, screenSize.height, 0, 1000);
+
+	cameraUpdate();
+
+	this->addChild(_camera);
+	_camera->setCameraFlag(CameraFlag::USER1);
+
+	BGLayer->setCameraMask(static_cast<int>(CameraFlag::USER1), true);
+	PLLayer->setCameraMask(static_cast<int>(CameraFlag::USER1), true);
+	EMLayer->setCameraMask(static_cast<int>(CameraFlag::USER1), true);
+	ATKLayer->setCameraMask(static_cast<int>(CameraFlag::USER1), true);
+	FGLayer->setCameraMask(static_cast<int>(CameraFlag::USER1), true);
+
+	//UILayer->setCameraMask(static_cast<int>(CameraFlag::USER1), true);
+	//BWLayer->setCameraMask(static_cast<int>(CameraFlag::USER1), true);
+
 	//	操作イベントの作成
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(), this);
 
@@ -283,14 +291,60 @@ bool GameScene::init()
 void GameScene::update(float d)
 {
 	//	エフェクトの更新
-	lpEffectManager.update();
-
+	lpEffectManager.update(_camera);
 	//	Audioの更新
 	lpAudioManager.update();
-	
 	//	システムキーの更新
 	keyUpdate();
+	//	cameraの更新
+	cameraUpdate();
+	//	ゲームのクリア処理
+	screenUpdate();
 
+	for (auto itrKey : UseKey())
+	{
+		key[itrKey].second = key[itrKey].first;
+	}
+}
+
+void GameScene::cameraUpdate()
+{
+	auto playerPos = this->getChildByName("PLLayer")->getChildByName("player")->getPosition();
+	//	マップのサイズ
+	auto mapSize = BGLayer->getChildByName("stageMap")->getContentSize();
+
+	//	プレイヤーからカメラの左端までの距離
+	auto leftDis = playerPos.x - screenSize.width / 2;
+	//	カメラの右端からプレイヤーまでの距離
+	auto rightDis = mapSize.width - playerPos.x;
+
+	//	左端処理
+	if (leftDis < 0)
+	{
+		_camera->setPosition3D(Vec3(0, 0, 0));
+	}
+	//	右端処理
+	else if (rightDis < screenSize.width / 2)
+	{
+		_camera->setPosition3D(Vec3(mapSize.width - screenSize.width, 0, 0));
+	}
+	//	通常のスクロール
+	else
+	{
+		_camera->setPosition3D(Vec3(playerPos.x - screenSize.width / 2, 0, 0));
+	}
+}
+
+void GameScene::keyUpdate()
+{
+	for (auto checkKey : _oprtState->GetKeyList())
+	{
+		key[checkKey.first].first = checkKey.second;
+	}
+}
+
+void GameScene::screenUpdate()
+{
 	Character* pl = (Character*)PLLayer->getChildByName("player");
 	//	ゲームクリアorゲームオーバー処理
 	if (EMLayer->getChildrenCount() == 0 || pl->CheckAnim() == AnimState::DIE)
@@ -300,23 +354,37 @@ void GameScene::update(float d)
 			BWLayer->getChildByName("fade")->setOpacity(120);
 			//pause(PLLayer);
 			pause(EMLayer);
+			pause(ATKLayer);
 			pause(BGLayer);
 			pause(FGLayer);
 
-			auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
 			//	ゲームクリア
 			if (EMLayer->getChildrenCount() == 0)
 			{
 				pause(PLLayer);
 				CCLabelTTF *text = CCLabelTTF::create("GAME CLEAR!", "Arial", 80);
-				text->setPosition(scSize.width / 2, scSize.height / 2);
+				if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
+				{
+					text->setPosition(scSize.width / 2, scSize.height / 2);
+				}
+				else
+				{
+					text->setPosition(scSize.width / 2, scSize.height / 4);
+				}
 				BWLayer->addChild(text);
 			}
 			//	ゲームオーバー
 			if (pl->CheckAnim() == AnimState::DIE)
 			{
 				CCLabelTTF *text = CCLabelTTF::create("GAME OVER", "Arial", 80);
-				text->setPosition(scSize.width / 2, scSize.height / 2);
+				if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
+				{
+					text->setPosition(scSize.width / 2, scSize.height / 2);
+				}
+				else
+				{
+					text->setPosition(scSize.width / 2, scSize.height / 4);
+				}
 				BWLayer->addChild(text);
 			}
 
@@ -329,7 +397,7 @@ void GameScene::update(float d)
 			else
 			{
 				CCLabelTTF *text = CCLabelTTF::create("PLEASE TO TAP", "Arial", 30);
-				text->setPosition(scSize.width / 2, scSize.height / 2 - 100);
+				text->setPosition(scSize.width / 2, scSize.height / 4 - 100);
 				BWLayer->addChild(text);
 			}
 
@@ -352,38 +420,33 @@ void GameScene::update(float d)
 		{
 			pause(PLLayer);
 			pause(EMLayer);
+			pause(ATKLayer);
 			pause(BGLayer);
 			pause(FGLayer);
 
 			if (pauseFlag)
 			{
+				BWLayer->removeChildByName("pauseText");
 				BWLayer->getChildByName("fade")->setOpacity(0);
 				pauseFlag = false;
 			}
 			else
 			{
+				CCLabelTTF *text = CCLabelTTF::create("PAUSE", "Arial", 80);
+				text->setPosition(scSize.width / 2, scSize.height / 2);
+				BWLayer->addChild(text, 1, "pauseText");
+
 				BWLayer->getChildByName("fade")->setOpacity(120);
 				pauseFlag = true;
 			}
 		}
 	}
-
-	for (auto itrKey : UseKey())
-	{
-		key[itrKey].second = key[itrKey].first;
-	}
-}
-
-void GameScene::keyUpdate()
-{
-	for (auto checkKey : _oprtState->GetKeyList())
-	{
-		key[checkKey.first].first = checkKey.second;
-	}
 }
 
 void GameScene::pause(cocos2d::Layer * layer)
 {
+	auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
+
 	for (auto* childs : layer->getChildren())
 	{
 		//	ポーズ解除

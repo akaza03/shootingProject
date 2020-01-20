@@ -9,9 +9,10 @@ Shot::~Shot()
 {
 }
 
-void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, float sSpeed)
+void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, float sPower, float sSpeed)
 {
-	hitFlag = false;
+	hitChara = false;
+	hitObj = false;
 	auto charaPos = sp.getPosition();
 
 	setPosition(charaPos);
@@ -27,19 +28,22 @@ void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, 
 		speed = sSpeed;
 	}
 
+	power = sPower;
+
 	//	Shotに画像の追加
-	this->addChild(Sprite::create(ImagePass));
+	this->addChild(Sprite::create(ImagePass),0,"shot");
 
 	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 
-	//	撃ったキャラの種類によってレイヤー分け
-	auto layer = nowScene->getChildByName("PLLayer");
-	if (chara.cType == CharaType::ENEMY)
-	{
-		layer = nowScene->getChildByName("EMLayer");
-	}
+	auto layer = nowScene->getChildByName("ATKLayer");
 
 	type = chara.cType;
+	charaID = chara.charaID;
+	atkFlag = true;
+
+	TypeInit(chara);
+
+	this->setCameraMask(static_cast<int>(cocos2d::CameraFlag::USER1), true);
 	
 	layer->addChild(this,0);
 
@@ -53,23 +57,59 @@ void Shot::update(float d)
 
 	auto winSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
 
-	if (hitFlag || distance >= winSize.width)
+	TypeUpdate();
+
+	if (hitObj || hitChara || distance >= winSize.width)
 	{
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
-		auto layer = nowScene->getChildByName("PLLayer");
-		if (type == CharaType::ENEMY)
-		{
-			layer = nowScene->getChildByName("EMLayer");
-		}
+		auto layer = nowScene->getChildByName("ATKLayer");
 		layer->removeChild(this);
 	}
 	else
 	{
-		hitFlag = hitCheck();
+		HitCheck();
 	}
 }
 
-bool Shot::hitCheck()
+CharaType Shot::GetType()
+{
+	return type;
+}
+
+float Shot::GetPower()
+{
+	return power;
+}
+
+bool Shot::GetAtkFlag()
+{
+	return atkFlag;
+}
+
+void Shot::TypeInit(ActData & chara)
+{
+	//	プレイヤー3(壁に当たるまで判定が発生しない)
+	if (type == CharaType::PLAYER && charaID == 2)
+	{
+		this->getChildByName("shot")->setOpacity(100);
+		atkFlag = false;
+	}
+}
+
+void Shot::TypeUpdate()
+{
+	if (type == CharaType::PLAYER && charaID == 2)
+	{
+		if (hitObj && !atkFlag)
+		{
+			atkFlag = true;
+			this->getChildByName("shot")->setOpacity(255);
+		}
+		hitObj = false;
+	}
+}
+
+void Shot::HitCheck()
 {
 	////	キャラクターとの判定
 	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
@@ -88,7 +128,11 @@ bool Shot::hitCheck()
 		if (charaBox.intersectsRect(objBox))
 		{
 			//	当たった場合はダメージ硬直
-			return true;
+			hitChara = true;
+		}
+		else
+		{
+			hitChara = false;
 		}
 	}
 
@@ -116,8 +160,11 @@ bool Shot::hitCheck()
 
 	if (tile != 0)
 	{
-		return true;
+		hitObj =  true;
 	}
-	return false;
+	else
+	{
+		hitObj = false;
+	}
 }
 
