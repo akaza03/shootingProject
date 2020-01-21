@@ -60,6 +60,11 @@ void Player::update(float d)
 				lpAnimMng.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
 			}
 
+			if (itr.second.HP <= 0)
+			{
+				itr.second.HP = 0;
+			}
+
 			//	HPƒo[‚Ì‘Œ¸
 			if (oldHp != itr.second.HP)
 			{

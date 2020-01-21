@@ -27,23 +27,23 @@ bool TitleScene::init()
 	this->addChild(BGSP);
 	
 
-	CCLabelTTF *text = CCLabelTTF::create("TITLE", "Arial", 80);
-	text->setPosition(scSize.width / 2, scSize.height / 2);
+	CCLabelTTF *text = CCLabelTTF::create("MAGIA SHOT", "07ロゴたいぷゴシック7", 150);
+	text->setPosition(scSize.width / 2, scSize.height / 2 + 50);
 	this->addChild(text);
 
 	//	プラットフォームによって操作方法を変える
 	if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
 	{
 		_oprtState = new OprtKey();
-		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO ENTER", "Arial", 30);
-		text->setPosition(scSize.width / 2, scSize.height / 2 - 100);
+		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO ENTER", "07ロゴたいぷゴシック7", 50);
+		text->setPosition(scSize.width / 2, scSize.height / 2 - 150);
 		this->addChild(text);
 	}
 	else
 	{
 		_oprtState = new OprtTouch();
-		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO TAP", "Arial", 30);
-		text->setPosition(scSize.width / 2, scSize.height / 2 - 100);
+		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO TAP", "07ロゴたいぷゴシック7", 50);
+		text->setPosition(scSize.width / 2, scSize.height / 2 - 150);
 		this->addChild(text);
 	}
 

@@ -59,7 +59,7 @@ void Shot::update(float d)
 
 	TypeUpdate();
 
-	if (hitObj || hitChara || distance >= winSize.width)
+	if (hitObj || hitChara || distance >= winSize.width / 2)
 	{
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 		auto layer = nowScene->getChildByName("ATKLayer");
@@ -106,10 +106,16 @@ void Shot::TypeUpdate()
 	//	プレイヤー3
 	if (type == CharaType::PLAYER && charaID == 2)
 	{
-		if (hitObj && !atkFlag)
+
+
+		if (hitObj)
 		{
-			atkFlag = true;
-			this->getChildByName("shot")->setOpacity(255);
+			distance += 10;
+			if (!atkFlag)
+			{
+				atkFlag = true;
+				this->getChildByName("shot")->setOpacity(255);
+			}
 		}
 		hitObj = false;
 	}
@@ -122,6 +128,8 @@ void Shot::HitCheck()
 	auto layer = nowScene->getChildByName("ATKLayer");
 
 	auto charaBox = cocos2d::Rect(this->getPosition(), this->getChildByName("shot")->getContentSize()/2);
+
+	hitChara = false;
 
 	for (auto obj : layer->getChildren())
 	{
@@ -139,30 +147,30 @@ void Shot::HitCheck()
 		}
 	}
 
-	//	キャラクターとの判定
-	if (!hitChara)
-	{
-		layer = nowScene->getChildByName("EMLayer");
-		if (type == CharaType::ENEMY)
-		{
-			layer = nowScene->getChildByName("PLLayer");
-		}
-		for (auto obj : layer->getChildren())
-		{
-			//	判定用BOX
-			auto objBox = obj->boundingBox();
+	////	キャラクターとの判定
+	//if (!hitChara)
+	//{
+	//	layer = nowScene->getChildByName("EMLayer");
+	//	if (type == CharaType::ENEMY)
+	//	{
+	//		layer = nowScene->getChildByName("PLLayer");
+	//	}
+	//	for (auto obj : layer->getChildren())
+	//	{
+	//		//	判定用BOX
+	//		auto objBox = obj->boundingBox();
 
-			if (charaBox.intersectsRect(objBox))
-			{
-				//	当たった場合はダメージ硬直
-				hitChara = true;
-			}
-			else
-			{
-				hitChara = false;
-			}
-		}
-	}
+	//		if (charaBox.intersectsRect(objBox))
+	//		{
+	//			//	当たった場合はダメージ硬直
+	//			hitChara = true;
+	//		}
+	//		else
+	//		{
+	//			hitChara = false;
+	//		}
+	//	}
+	//}
 
 
 	//	障害物との判定

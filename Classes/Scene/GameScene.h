@@ -77,6 +77,7 @@ private:
 	void SetUI();
 
 	void update(float d);
+	void enemyCntUpdate();
 	void cameraUpdate();
 	void keyUpdate();
 	void screenUpdate();
@@ -85,8 +86,9 @@ private:
 
 	bool pauseFlag;									//	画面停止用フラグ
 	bool gameEndFlag;								//	ゲームオーバーorゲームクリアフラグ
+	int enemyCnt;
 
-	cocos2d::Size screenSize;						//	設定上の画面サイズ
+	cocos2d::Size confScSize;						//	設定上の画面サイズ
 	
 	cocos2d::Size scSize;							//	実際の画面サイズ
 

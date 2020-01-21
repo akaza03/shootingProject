@@ -104,7 +104,7 @@ bool GameScene::init()
     //}
 
 	//	スクリーンサイズなどの取得
-	screenSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
+	confScSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
 	scSize = cocos2d::Director::getInstance()->getOpenGLView()->getFrameSize();
 
 	//	レイヤーの作成
@@ -138,6 +138,7 @@ bool GameScene::init()
 	map->SetChara(CharaType::PLAYER, PLLayer, this);
 	//	敵の作成
 	map->SetChara(CharaType::ENEMY, EMLayer, this);
+	enemyCnt = EMLayer->getChildrenCount();
 
 //#ifdef _DEBUG
 //	//	デバッグ用レイヤーの作成
@@ -171,7 +172,7 @@ bool GameScene::init()
 	gameEndFlag = false;
 
 	//	カメラのセット
-	_camera = Camera::createOrthographic(screenSize.width, screenSize.height, 0, 1000);
+	_camera = Camera::createOrthographic(confScSize.width, confScSize.height, 0, 1000);
 	cameraUpdate();
 
 	this->addChild(_camera);
@@ -198,36 +199,37 @@ void GameScene::SetUI()
 {
 	//	プレイヤーのアイコン
 	auto uiSP = Sprite::create(RES_ID("p0icon"));
-	uiSP->setPosition(uiSP->getContentSize().width / 1.5, screenSize.height - uiSP->getContentSize().height / 2);
+	uiSP->setPosition(uiSP->getContentSize().width / 1.5, confScSize.height - uiSP->getContentSize().height / 2);
 	UILayer->addChild(uiSP, 1, "p0Icon");
 
 
 	uiSP = Sprite::create(RES_ID("p1icon"));
 	uiSP->setScale(0.6);
-	uiSP->setPosition(uiSP->getContentSize().width / 1.5 + (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), screenSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
+	uiSP->setPosition(uiSP->getContentSize().width / 1.5 + (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), confScSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
 	UILayer->addChild(uiSP, 1, "p1Icon");
 
 	uiSP = Sprite::create(RES_ID("p2icon"));
 	uiSP->setScale(0.6);
-	uiSP->setPosition(uiSP->getContentSize().width / 1.5 - (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), screenSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
+	uiSP->setPosition(uiSP->getContentSize().width / 1.5 - (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), confScSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
 	UILayer->addChild(uiSP, 1, "p2Icon");
 
 
 	//	プレイヤーのHPバー(下)
 	auto hpBar = Sprite::create(RES_ID("HPBase"));
-	hpBar->setPosition(hpBar->getContentSize().width, screenSize.height - hpBar->getContentSize().height);
+	hpBar->setPosition(hpBar->getContentSize().width, confScSize.height - hpBar->getContentSize().height);
 	hpBar->setOpacity(150);
 	UILayer->addChild(hpBar, 1, "hpBase");
 	//	プレイヤーのHPバー
 	hpBar = Sprite::create(RES_ID("HP"));
-	hpBar->setPosition(hpBar->getContentSize().width, screenSize.height - hpBar->getContentSize().height);
+	hpBar->setPosition(hpBar->getContentSize().width, confScSize.height - hpBar->getContentSize().height);
 	hpBar->setOpacity(200);
 	UILayer->addChild(hpBar, 1, "hpBar");
 
-	//auto score = String::createWithFormat("残り：%i体", enemyCnt);
-	//auto label = Label::createWithSystemFont(score->getCString(), "arial", 80);
-	//label->setPosition(scSize.width / 2, scSize.height / 2);
-	//UILayer->addChild(label, 1, "enemyCounter");
+	//	敵の残り数
+	auto score = String::createWithFormat("%i", enemyCnt);
+	auto label = Label::createWithSystemFont(score->getCString(), "arial", 80);
+	label->setPosition(scSize.width - 80, scSize.height - 40);
+	UILayer->addChild(label, 1, "enemyCounter");
 
 	//	ポーズ時など用の黒い幕
 	auto fadeImage = Sprite::create();
@@ -240,6 +242,9 @@ void GameScene::SetUI()
 
 void GameScene::update(float d)
 {
+	//	敵の残り数表示更新
+	enemyCntUpdate();
+
 	//	エフェクトの更新
 	lpEffectManager.update(_camera);
 	//	Audioの更新
@@ -251,9 +256,26 @@ void GameScene::update(float d)
 	//	ゲームのクリア処理
 	screenUpdate();
 
+
+
 	for (auto itrKey : UseKey())
 	{
 		key[itrKey].second = key[itrKey].first;
+	}
+}
+
+void GameScene::enemyCntUpdate()
+{
+	auto oldEnemyCnt = enemyCnt;
+	enemyCnt = EMLayer->getChildrenCount();
+	if (oldEnemyCnt != enemyCnt)
+	{
+		UILayer->removeChildByName("enemyCounter");
+
+		auto score = String::createWithFormat("%i", enemyCnt);
+		auto label = Label::createWithSystemFont(score->getCString(), "arial", 80);
+		label->setPosition(scSize.width - 80, scSize.height - 40);
+		UILayer->addChild(label, 1, "enemyCounter");
 	}
 }
 
@@ -264,7 +286,7 @@ void GameScene::cameraUpdate()
 	auto mapSize = BGLayer->getChildByName("stageMap")->getContentSize();
 
 	//	プレイヤーからカメラの左端までの距離
-	auto leftDis = playerPos.x - screenSize.width / 2;
+	auto leftDis = playerPos.x - confScSize.width / 2;
 	//	カメラの右端からプレイヤーまでの距離
 	auto rightDis = mapSize.width - playerPos.x;
 
@@ -274,14 +296,14 @@ void GameScene::cameraUpdate()
 		_camera->setPosition3D(Vec3(0, 0, 0));
 	}
 	//	右端処理
-	else if (rightDis < screenSize.width / 2)
+	else if (rightDis < confScSize.width / 2)
 	{
-		_camera->setPosition3D(Vec3(mapSize.width - screenSize.width, 0, 0));
+		_camera->setPosition3D(Vec3(mapSize.width - confScSize.width, 0, 0));
 	}
 	//	通常のスクロール
 	else
 	{
-		_camera->setPosition3D(Vec3(playerPos.x - screenSize.width / 2, 0, 0));
+		_camera->setPosition3D(Vec3(playerPos.x - confScSize.width / 2, 0, 0));
 	}
 }
 
@@ -297,7 +319,7 @@ void GameScene::screenUpdate()
 {
 	Character* pl = (Character*)PLLayer->getChildByName("player");
 	//	ゲームクリアorゲームオーバー処理
-	if (EMLayer->getChildrenCount() == 0 || pl->CheckAnim() == AnimState::DIE)
+	if (enemyCnt == 0 || pl->CheckAnim() == AnimState::DIE)
 	{
 		if (!gameEndFlag)
 		{
@@ -309,7 +331,7 @@ void GameScene::screenUpdate()
 			pause(FGLayer);
 
 			//	ゲームクリア
-			if (EMLayer->getChildrenCount() == 0)
+			if (enemyCnt == 0)
 			{
 				pause(PLLayer);
 				CCLabelTTF *text = CCLabelTTF::create("GAME CLEAR!", "Arial", 80);

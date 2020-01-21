@@ -122,7 +122,7 @@ _DebugDispOut::_DebugDispOut()
 {
 	//_alpha = 150;
 	////	ƒXƒNƒŠ[ƒ“‚Ì“o˜^
-	//_debugScreen = MakeScreen(lpSceneMng.screenSize.x, lpSceneMng.screenSize.y, true);
+	//_debugScreen = MakeScreen(lpSceneMng.confScSize.x, lpSceneMng.confScSize.y, true);
 }
 
 _DebugDispOut::~_DebugDispOut()
