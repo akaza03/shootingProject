@@ -28,7 +28,7 @@ bool Shooting::operator()(cocos2d::Sprite & sp, ActData & act)
 					shotSprite = RES_ID("p1Shot");
 					act.attackCnt = 5;
 					power = 5;
-					speed = 10;
+					speed = 1;
 					break;
 				case 2:
 					shotSprite = RES_ID("p2Shot");
@@ -46,7 +46,7 @@ bool Shooting::operator()(cocos2d::Sprite & sp, ActData & act)
 			shotSprite = RES_ID("p0Shot");
 			act.attackCnt = 30;
 			power = 10;
-			speed = 10;
+			speed = 1;
 		}
 
 		auto shot = Shot::create();

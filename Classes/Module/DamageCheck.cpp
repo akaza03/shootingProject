@@ -5,9 +5,9 @@
 bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 {
 	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
-
 	auto layer = nowScene->getChildByName("ATKLayer");
 
+	auto charaBox = sp.boundingBox();
 	//	UŒ‚ƒŒƒCƒ„[‚Æ‚Ì”»’è
 	if (act.damageCnt <= 0 && act.invTime <= 0)
 	{
@@ -15,7 +15,6 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 		{
 			//	”»’è—pBOX
 			auto objBox = obj->boundingBox();
-			auto charaBox = sp.boundingBox();
 
 			Shot* shot = (Shot*)obj;
 			if ((shot->GetType() == CharaType::PLAYER && act.cType == CharaType::ENEMY)

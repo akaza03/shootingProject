@@ -179,3 +179,8 @@ void Enemy::objTurn(ActData &act)
 		}
 	}
 }
+
+void Enemy::typeUpdate(ActData & act)
+{
+
+}

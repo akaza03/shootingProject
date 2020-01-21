@@ -21,10 +21,10 @@ bool TitleScene::init()
 
 	auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
 
-	//auto BGSP = Sprite::create(RES_ID("Title"));
-	//BGSP->setAnchorPoint(Vec2(0, 0));
-	//BGSP->setPosition(Vec2(0, 0));
-	//this->addChild(BGSP);
+	auto BGSP = Sprite::create(RES_ID("Title"));
+	BGSP->setAnchorPoint(Vec2(0, 0));
+	BGSP->setPosition(Vec2(0, 0));
+	this->addChild(BGSP);
 	
 
 	CCLabelTTF *text = CCLabelTTF::create("TITLE", "Arial", 80);
