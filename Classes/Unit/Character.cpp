@@ -13,11 +13,15 @@ Character::~Character()
 }
 
 
-bool Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed, cocos2d::Scene *scene)
+bool Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed,
+							cocos2d::Scene *scene, float disAtk, cocos2d::Vec2 disDir, bool armor)
 {
 	_actData.charaID = id;
 	_actData.HP = hp;
 	_actData.MaxHP = hp;
+	_actData.searchDisAtk = disAtk;
+	_actData.searchDisDir = disDir;
+	_actData.superArmor = armor;
 
 	//	アニメーションのセット
 	if (!lpAnimMng.SetAnim(_actData.cType, id, _animMap))

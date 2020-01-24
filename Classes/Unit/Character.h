@@ -45,6 +45,9 @@ struct ActData
 	int charaID;															//	キャラクターの種類判別用のID
 	changeList changeCnt;													//	キャラチェンジ時のカウント用リスト
 	cocos2d::Vec2 touchPos;													//	キャラチェンジ時等のタッチ座標
+	float searchDisAtk;														//	敵用攻撃開始距離(x座標)
+	cocos2d::Vec2 searchDisDir;												//	敵用プレイヤーを向く距離(x座標,y座標)
+	bool superArmor;														//	攻撃を受けた時ひるまないかどうか
 };
 
 class Character
@@ -55,7 +58,8 @@ public:
 	virtual ~Character();
 	virtual void update(float d) = 0;
 
-	bool SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed, cocos2d::Scene *scene);
+	bool SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed,
+					cocos2d::Scene *scene, float disAtk, cocos2d::Vec2 disDir, bool armor);
 
 	void SetDBBox(Sprite* sp);														//	デバッグ時の当たり判定用BoxのSet
 	AnimState CheckAnim();															//	アニメーション確認用

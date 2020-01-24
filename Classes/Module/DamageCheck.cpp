@@ -9,35 +9,52 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 
 	auto charaBox = sp.boundingBox();
 	//	攻撃レイヤーとの判定
-	if (act.damageCnt <= 0 && act.invTime <= 0)
+	for (auto obj : layer->getChildren())
 	{
-		for (auto obj : layer->getChildren())
+		//	判定用BOX
+		auto objBox = obj->boundingBox();
+
+		Shot* shot = (Shot*)obj;
+		if ((shot->GetType() == CharaType::PLAYER && act.cType == CharaType::ENEMY)
+			|| (shot->GetType() == CharaType::ENEMY && act.cType == CharaType::PLAYER))
 		{
-			//	判定用BOX
-			auto objBox = obj->boundingBox();
-
-			Shot* shot = (Shot*)obj;
-			if ((shot->GetType() == CharaType::PLAYER && act.cType == CharaType::ENEMY)
-				|| (shot->GetType() == CharaType::ENEMY && act.cType == CharaType::PLAYER))
+			if (charaBox.intersectsRect(objBox) && shot->GetAtkFlag())
 			{
-				if (charaBox.intersectsRect(objBox) && shot->GetAtkFlag())
-				{
-					//	当たった場合はダメージ硬直
-					act.damageCnt = 20;
-					shot->SetHitChara(true);
+				shot->SetHitChara(true);
 
+				if (act.damageCnt <= 0 && act.invTime <= 0)
+				{
 					//	ダメージ
 					act.HP -= shot->GetPower();
+					if (act.HP > 0)
+					{
+						//	当たった場合はダメージ硬直
+						act.damageCnt = shot->GetStunTime();
+						lpEffectManager.SetEffect((RES_ID("hitEff").c_str()), "FGLayer", true, sp.getPosition(), 10, true);
+					}
 				}
 			}
 		}
 	}
 
-	if (act.anim == AnimState::DAMAGE)
+	if (act.damageCnt != 0)
 	{
 		act.damageCnt--;
+		//	ダメージ硬直時キャラクターを揺らす
+			if (act.damageCnt % 10 == 0)
+			{
+				sp.setPosition(sp.getPosition().x + 5, sp.getPosition().y);
+			}
+			else if(act.damageCnt % 10 == 5)
+			{
+				sp.setPosition(sp.getPosition().x - 5, sp.getPosition().y);
+			}
+	}
+
+	if (act.anim == AnimState::DAMAGE)
+	{
 		//	ダメージ硬直が終わった瞬間に無敵を付与する
-		if (act.damageCnt == 0)
+		if (act.damageCnt <= 0)
 		{
 			if (act.cType == CharaType::PLAYER)
 			{

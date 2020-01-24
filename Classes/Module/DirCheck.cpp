@@ -6,11 +6,20 @@ bool DirCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 {
 	auto oldDir = act.dir;
 
-	if (act.distance.x < 0)
+	//if (act.distance.x < 0)
+	//{
+	//	act.dir = DIR::LEFT;
+	//}
+	//else if (act.distance.x > 0)
+	//{
+	//	act.dir = DIR::RIGHT;
+	//}
+
+	if (std::get<0>(act.key[UseKey::K_LEFT]))
 	{
 		act.dir = DIR::LEFT;
 	}
-	else if (act.distance.x > 0)
+	else if (std::get<0>(act.key[UseKey::K_RIGHT]))
 	{
 		act.dir = DIR::RIGHT;
 	}

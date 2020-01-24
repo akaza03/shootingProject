@@ -3,7 +3,7 @@
 
 bool Jump::operator()(cocos2d::Sprite & sp, ActData & act)
 {
-	if (!act.jumpFlag)
+	if (!act.jumpFlag && act.anim != AnimState::DAMAGE)
 	{
 		act.jumpCnt = act.jumpMax;
 		act.distance.y = 0;
@@ -17,21 +17,28 @@ bool Jump::operator()(cocos2d::Sprite & sp, ActData & act)
 
 	if (act.jumpFlag)
 	{
-		//	jumpCntの数だけジャンプできるように制御
-		if (act.distance.y == 0 && std::get<0>(act.key[UseKey::K_UP]))
-		{
-			act.jumpCnt--;
-		}
-
-		//	落ちる処理
-		if (act.checkPoint[DIR::UP] || !std::get<0>(act.key[UseKey::K_UP]))
+		if (act.anim == AnimState::DAMAGE)
 		{
 			act.distance.y = 0;
 		}
-		//	ジャンプ可能回数を超えていなかったらジャンプする
-		else if (act.jumpCnt >= -1)
+		else
 		{
-			act.distance.y = act.speed.y;
+			//	jumpCntの数だけジャンプできるように制御
+			if (act.distance.y == 0 && std::get<0>(act.key[UseKey::K_UP]))
+			{
+				act.jumpCnt--;
+			}
+
+			//	落ちる処理
+			if (act.checkPoint[DIR::UP] || !std::get<0>(act.key[UseKey::K_UP]))
+			{
+				act.distance.y = 0;
+			}
+			//	ジャンプ可能回数を超えていなかったらジャンプする
+			else if (act.jumpCnt >= -1)
+			{
+				act.distance.y = act.speed.y;
+			}
 		}
 	}
 	return false;

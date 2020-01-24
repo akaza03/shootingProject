@@ -36,6 +36,7 @@ void ResourceManager::LoadInit()
 	SetID("p2unit", "image/player/02-unit.png");
 	SetID("e0unit", "image/enemy/00-unit.png");
 	SetID("e1unit", "image/enemy/01-unit.png");
+	SetID("e2unit", "image/enemy/02-unit.png");
 	//	立ち絵
 	SetID("p0stand", "image/player/00-stand.png");
 	SetID("p1stand", "image/player/01-stand.png");
@@ -59,4 +60,8 @@ void ResourceManager::LoadInit()
 	SetID("HPBase", "image/UI/hpBarBase.png");
 	SetID("HP", "image/UI/hpBar.png");
 
+	//	エフェクト
+	SetID("changeEff", "effect/Laser01.efk");
+	SetID("hitEff", "effect/hit.efk");
+	SetID("deathEff", "effect/death.efk");
 }

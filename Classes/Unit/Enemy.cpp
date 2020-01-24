@@ -93,8 +93,8 @@ void Enemy::update(float d)
 
 	if (deathFlag)
 	{
-		lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", getPosition(), 20, true);
-		lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
+		lpEffectManager.SetEffect(RES_ID("deathEff").c_str(), "FGLayer", true, getPosition(), 20, true);
+		lpAudioManager.SetSound("shot");
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
 		auto layer = nowScene->getChildByName("EMLayer");
 		layer->removeChild(this);
@@ -113,20 +113,23 @@ bool Enemy::playerSearch(ActData &act)
 		auto distance = getPosition() - player->getPosition();
 
 		//	ÉvÉåÉCÉÑÅ[ÇÃèÍèäÇ…ÇÊÇ¡Çƒå¸Ç´ÇïœÇ¶ÇÈ
-		if (abs(distance.x) < 300 && abs(distance.y) < 50 && (act.checkPoint[DIR::DOWN] == true))
+		if (act.charaID != 2)
 		{
-			if (distance.x > 0)
+			if (abs(distance.x) < act.searchDisDir.x && abs(distance.y) < act.searchDisDir.y && (act.checkPoint[DIR::DOWN] == true))
 			{
-				act.dir = DIR::LEFT;
-			}
-			else if (distance.x < 0)
-			{
-				act.dir = DIR::RIGHT;
+				if (distance.x > 0)
+				{
+					act.dir = DIR::LEFT;
+				}
+				else if (distance.x < 0)
+				{
+					act.dir = DIR::RIGHT;
+				}
 			}
 		}
 
 		//	àÍíËÇÃãóó£Ç…ì¸Ç¡ÇΩÇÁçUåÇ
-		if (abs(distance.x) < 200 && abs(distance.y) < 50)
+		if (abs(distance.x) < act.searchDisAtk && abs(distance.y) < act.searchDisDir.y)
 		{
 			std::get<0>(act.key[UseKey::K_SPACE]) = true;
 			std::get<0>(act.key[UseKey::K_RIGHT]) = false;
@@ -156,13 +159,16 @@ bool Enemy::playerSearch(ActData &act)
 void Enemy::objTurn(ActData &act)
 {
 	auto oldDir = act.dir;
-	if ((act.dir == DIR::LEFT) && ((act.checkPoint[DIR::LEFT] == true) || (act.checkPoint[DIR::DOWN] == false)))
+	if (act.charaID != 2)
 	{
-		act.dir = DIR::RIGHT;
-	}
-	else if ((act.dir == DIR::RIGHT) && ((act.checkPoint[DIR::RIGHT] == true) || (act.checkPoint[DIR::DOWN] == false)))
-	{
-		act.dir = DIR::LEFT;
+		if ((act.dir == DIR::LEFT) && ((act.checkPoint[DIR::LEFT] == true) || (act.checkPoint[DIR::DOWN] == false)))
+		{
+			act.dir = DIR::RIGHT;
+		}
+		else if ((act.dir == DIR::RIGHT) && ((act.checkPoint[DIR::RIGHT] == true) || (act.checkPoint[DIR::DOWN] == false)))
+		{
+			act.dir = DIR::LEFT;
+		}
 	}
 
 	playerSearch(act);

@@ -29,9 +29,11 @@ cocos2d::EventListener * OprtTouch::oprtInit()
 		firstTouchFlag = true;
 
 		//	ŠJŽnˆÊ’u‚É–Úˆó‚ðì¬
-		auto StartSP = cocos2d::Sprite::create("CloseNormal.png");
-		StartSP->setPosition(_startTouchPos);
-		nowScene->addChild(StartSP,0,"touchIcon");
+		//auto StartSP = cocos2d::Sprite::create("CloseNormal.png");
+		//StartSP->setPosition(_startTouchPos);
+		//nowScene->addChild(StartSP,0,"touchIcon");
+
+		//lpEffectManager.SetEffect((RES_ID("changeEff").c_str()), "UILayer", false, _startTouchPos, 20, true);
 
 		return true;
 	};
@@ -48,7 +50,7 @@ cocos2d::EventListener * OprtTouch::oprtInit()
 	{
 		firstTouchFlag = false;
 		auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
-		nowScene->removeChildByName("touchIcon");
+		//nowScene->removeChildByName("touchIcon");
 		for (auto itrKey : UseKey())
 		{
 			_oprtKeyList[itrKey] = false;

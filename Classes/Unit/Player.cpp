@@ -86,8 +86,8 @@ void Player::update(float d)
 
 			if (itr.second.HP <= 0 && oldHp != itr.second.HP)
 			{
-				lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", getPosition(), 20, true);
-				lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
+				lpEffectManager.SetEffect(RES_ID("deathEff").c_str(), "FGLayer", true, getPosition(), 20, true);
+				lpAudioManager.SetSound("shot");
 				itr.second.nowAnim = AnimState::DIE;
 				_actData.nowAnim = AnimState::DIE;
 			}

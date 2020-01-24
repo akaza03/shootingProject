@@ -9,7 +9,7 @@ Shot::~Shot()
 {
 }
 
-void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, float sPower, float sSpeed)
+void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, float sPower, float sSpeed, float stun)
 {
 	hitChara = false;
 	hitObj = false;
@@ -29,6 +29,7 @@ void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, 
 	}
 
 	power = sPower;
+	stunTime = stun;
 
 	//	Shotに画像の追加
 	this->addChild(Sprite::create(ImagePass),0,"shot");
@@ -53,7 +54,7 @@ void Shot::SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, 
 void Shot::update(float d)
 {
 	this->setPosition(getPosition().x + speed, getPosition().y);
-	distance += speed;
+	distance += abs(speed);
 
 	auto winSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
 
@@ -79,6 +80,11 @@ CharaType Shot::GetType()
 float Shot::GetPower()
 {
 	return power;
+}
+
+float Shot::GetStunTime()
+{
+	return stunTime;
 }
 
 bool Shot::GetAtkFlag()
@@ -146,32 +152,6 @@ void Shot::HitCheck()
 			}
 		}
 	}
-
-	////	キャラクターとの判定
-	//if (!hitChara)
-	//{
-	//	layer = nowScene->getChildByName("EMLayer");
-	//	if (type == CharaType::ENEMY)
-	//	{
-	//		layer = nowScene->getChildByName("PLLayer");
-	//	}
-	//	for (auto obj : layer->getChildren())
-	//	{
-	//		//	判定用BOX
-	//		auto objBox = obj->boundingBox();
-
-	//		if (charaBox.intersectsRect(objBox))
-	//		{
-	//			//	当たった場合はダメージ硬直
-	//			hitChara = true;
-	//		}
-	//		else
-	//		{
-	//			hitChara = false;
-	//		}
-	//	}
-	//}
-
 
 	//	障害物との判定
 

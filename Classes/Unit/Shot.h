@@ -7,18 +7,22 @@ class Shot
 public:
 	Shot();
 	~Shot();
-	//	画像パス,発射キャラのスプライト,発射キャラの情報,弾の攻撃力,弾のスピード
-	void SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, float sPower, float sSpeed);
+	//	画像パス,発射キャラのスプライト,発射キャラの情報,弾の攻撃力,弾のスピード,被弾時の硬直時間
+	void SetInit(std::string ImagePass, cocos2d::Sprite & sp, ActData &chara, float sPower, float sSpeed, float stun);
 	void update(float d);
+
 	CharaType GetType();
 	float GetPower();
+	float GetStunTime();
 	bool GetAtkFlag();
 	void SetHitChara(bool flag);
+
 	CREATE_FUNC(Shot);
 
 private:
 	float power = 0;						//	弾の攻撃力
 	float speed = 0;						//	弾のスピード
+	float stunTime;							//	被弾時の硬直時間
 	CharaType type;							//	だれが撃った弾か
 	int charaID;
 	bool atkFlag;							//	攻撃判定があるかどうか

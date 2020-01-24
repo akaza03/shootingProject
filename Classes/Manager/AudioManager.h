@@ -30,14 +30,22 @@ public:
 
 	void update();
 
-	void SetBank(const std::string &name, const std::string &soundName, SoundType type);		//	オンメモリ再生
-	void SetStream(const std::string &name, SoundType type);									//	ストリーミング再生
+	//	音の再生(ストリーミングの場合はファイル名、オンメモリの場合はサウンド名)
+	void SetSound(const std::string name);
 
+	//	音を全停止(Scene切り替え時などに呼ぶ)
 	void ResetAudio();
+
+	//	指定した音を停止させる
+	void StopSound(const std::string name);
 
 private:
 	AudioManager();
 	static AudioManager* s_Instance;
+
+	void AudioListInit();																	//	ファイルの初回一括読み込み
+	void SetBank(const std::string &name, const std::string &soundName, SoundType type);	//	オンメモリ再生
+	void SetStream(const std::string &name, SoundType type);								//	ストリーミング再生
 
 	AudioList audioList;
 };

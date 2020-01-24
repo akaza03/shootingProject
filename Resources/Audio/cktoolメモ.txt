@@ -4,4 +4,4 @@ cktool buildstream -format adpcm BGM\music.wav BGM\music.cks
 
 
 // ckb
-cktool buildbank BGM\music.ckbx
+cktool buildbank SE\Sound.ckbx

@@ -157,7 +157,7 @@ bool GameScene::init()
 	SetUI();
 
 	//	BGMの設定
-	//lpAudioManager.SetStream("music.cks", SoundType::S_BGM);
+	lpAudioManager.SetSound("music.cks");
 
 	//	プラットフォームによって操作方法を変える
 	if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
@@ -202,7 +202,6 @@ void GameScene::SetUI()
 	uiSP->setPosition(uiSP->getContentSize().width / 1.5, confScSize.height - uiSP->getContentSize().height / 2);
 	UILayer->addChild(uiSP, 1, "p0Icon");
 
-
 	uiSP = Sprite::create(RES_ID("p1icon"));
 	uiSP->setScale(0.6);
 	uiSP->setPosition(uiSP->getContentSize().width / 1.5 + (uiSP->getContentSize().width / 2 * uiSP->getScaleX()), confScSize.height - uiSP->getContentSize().height - (uiSP->getContentSize().height / 2 * uiSP->getScaleY()));
@@ -226,10 +225,10 @@ void GameScene::SetUI()
 	UILayer->addChild(hpBar, 1, "hpBar");
 
 	//	敵の残り数
-	auto score = String::createWithFormat("%i", enemyCnt);
-	auto label = Label::createWithSystemFont(score->getCString(), "arial", 80);
-	label->setPosition(scSize.width - 80, scSize.height - 40);
-	UILayer->addChild(label, 1, "enemyCounter");
+	//CCLabelTTF *text = CCLabelTTF::create("残り", "Arial", 80);
+	//text->setPosition(scSize.width - 160, scSize.height - 40);
+	//UILayer->addChild(text, 1, "remainText");
+	enemyCntUpdate();
 
 	//	ポーズ時など用の黒い幕
 	auto fadeImage = Sprite::create();
@@ -243,7 +242,13 @@ void GameScene::SetUI()
 void GameScene::update(float d)
 {
 	//	敵の残り数表示更新
-	enemyCntUpdate();
+	auto oldEnemyCnt = enemyCnt;
+	enemyCnt = EMLayer->getChildrenCount();
+	if (oldEnemyCnt != enemyCnt)
+	{
+		UILayer->removeChildByName("enemyCounter");
+		enemyCntUpdate();
+	}
 
 	//	エフェクトの更新
 	lpEffectManager.update(_camera);
@@ -266,17 +271,10 @@ void GameScene::update(float d)
 
 void GameScene::enemyCntUpdate()
 {
-	auto oldEnemyCnt = enemyCnt;
-	enemyCnt = EMLayer->getChildrenCount();
-	if (oldEnemyCnt != enemyCnt)
-	{
-		UILayer->removeChildByName("enemyCounter");
-
-		auto score = String::createWithFormat("%i", enemyCnt);
-		auto label = Label::createWithSystemFont(score->getCString(), "arial", 80);
-		label->setPosition(scSize.width - 80, scSize.height - 40);
-		UILayer->addChild(label, 1, "enemyCounter");
-	}
+	auto score = String::createWithFormat("%i", enemyCnt);
+	auto label = Label::createWithSystemFont(score->getCString(), "arial", 80);
+	label->setPosition(confScSize.width - 80, confScSize.height - 40);
+	UILayer->addChild(label, 1, "enemyCounter");
 }
 
 void GameScene::cameraUpdate()
@@ -324,7 +322,6 @@ void GameScene::screenUpdate()
 		if (!gameEndFlag)
 		{
 			BWLayer->getChildByName("fade")->setOpacity(120);
-			//pause(PLLayer);
 			pause(EMLayer);
 			pause(ATKLayer);
 			pause(BGLayer);
@@ -337,11 +334,11 @@ void GameScene::screenUpdate()
 				CCLabelTTF *text = CCLabelTTF::create("GAME CLEAR!", "Arial", 80);
 				if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
 				{
-					text->setPosition(scSize.width / 2, scSize.height / 2);
+					text->setPosition(confScSize.width / 2, confScSize.height / 2);
 				}
 				else
 				{
-					text->setPosition(scSize.width / 2, scSize.height / 4);
+					text->setPosition(confScSize.width / 2, confScSize.height / 2);
 				}
 				BWLayer->addChild(text);
 			}
@@ -351,11 +348,11 @@ void GameScene::screenUpdate()
 				CCLabelTTF *text = CCLabelTTF::create("GAME OVER", "Arial", 80);
 				if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
 				{
-					text->setPosition(scSize.width / 2, scSize.height / 2);
+					text->setPosition(confScSize.width / 2, confScSize.height / 2);
 				}
 				else
 				{
-					text->setPosition(scSize.width / 2, scSize.height / 4);
+					text->setPosition(confScSize.width / 2, confScSize.height / 2);
 				}
 				BWLayer->addChild(text);
 			}
@@ -363,13 +360,13 @@ void GameScene::screenUpdate()
 			if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
 			{
 				CCLabelTTF *text = CCLabelTTF::create("PLEASE TO ENTER", "Arial", 30);
-				text->setPosition(scSize.width / 2, scSize.height / 2 - 100);
+				text->setPosition(confScSize.width / 2, confScSize.height / 2 - 100);
 				BWLayer->addChild(text);
 			}
 			else
 			{
 				CCLabelTTF *text = CCLabelTTF::create("PLEASE TO TAP", "Arial", 30);
-				text->setPosition(scSize.width / 2, scSize.height / 4 - 100);
+				text->setPosition(confScSize.width / 2, confScSize.height / 2 - 100);
 				BWLayer->addChild(text);
 			}
 
@@ -380,6 +377,7 @@ void GameScene::screenUpdate()
 		if (key[UseKey::K_ENTER].first && !key[UseKey::K_ENTER].second || _oprtState->firstTouch())
 		{
 			lpAudioManager.ResetAudio();
+			lpAudioManager.SetSound("click");
 			auto scene = GameScene::createScene();
 			// sceneの生成
 			Director::getInstance()->replaceScene(scene);

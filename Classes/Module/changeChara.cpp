@@ -86,8 +86,8 @@ bool changeChara::operator()(cocos2d::Sprite & sp, ActData & act)
 					break;
 				}
 
-				lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", sp.getPosition(), 20, true);
-				lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
+				lpEffectManager.SetEffect((RES_ID("changeEff").c_str()), "FGLayer", true, sp.getPosition(), 20, true);
+				lpAudioManager.SetSound("shot");
 			}
 		}
 

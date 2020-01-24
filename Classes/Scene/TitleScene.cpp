@@ -27,7 +27,7 @@ bool TitleScene::init()
 	this->addChild(BGSP);
 	
 
-	CCLabelTTF *text = CCLabelTTF::create("MAGIA SHOT", "07ロゴたいぷゴシック7", 150);
+	CCLabelTTF *text = CCLabelTTF::create("MAGIA SHOT", "Arial", 150);
 	text->setPosition(scSize.width / 2, scSize.height / 2 + 50);
 	this->addChild(text);
 
@@ -35,17 +35,19 @@ bool TitleScene::init()
 	if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
 	{
 		_oprtState = new OprtKey();
-		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO ENTER", "07ロゴたいぷゴシック7", 50);
+		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO ENTER", "Arial", 50);
 		text->setPosition(scSize.width / 2, scSize.height / 2 - 150);
 		this->addChild(text);
 	}
 	else
 	{
 		_oprtState = new OprtTouch();
-		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO TAP", "07ロゴたいぷゴシック7", 50);
+		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO TAP", "Arial", 50);
 		text->setPosition(scSize.width / 2, scSize.height / 2 - 150);
 		this->addChild(text);
 	}
+
+	lpAudioManager.SetSound("titleBGM.cks");
 
 	//	操作イベントの作成
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(), this);
@@ -62,6 +64,9 @@ void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)
 
 void TitleScene::update(float d)
 {
+	//	Audioの更新
+	lpAudioManager.update();
+
 	for (auto checkKey : _oprtState->GetKeyList())
 	{
 		key[checkKey.first].first = checkKey.second;
@@ -69,7 +74,8 @@ void TitleScene::update(float d)
 
 	if (key[UseKey::K_ENTER].first && !key[UseKey::K_ENTER].second || _oprtState->firstTouch())
 	{
-		//lpAudioManager.ResetAudio();
+		lpAudioManager.ResetAudio();
+		lpAudioManager.SetSound("click");
 		auto scene = GameScene::createScene();
 		// sceneの生成
 		Director::getInstance()->replaceScene(scene);
