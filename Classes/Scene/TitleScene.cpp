@@ -25,11 +25,15 @@ bool TitleScene::init()
 	BGSP->setAnchorPoint(Vec2(0, 0));
 	BGSP->setPosition(Vec2(0, 0));
 	this->addChild(BGSP);
+
+	BGSP = Sprite::create(RES_ID("logo"));
+	BGSP->setPosition(scSize / 2);
+	this->addChild(BGSP);
 	
 
-	CCLabelTTF *text = CCLabelTTF::create("MAGIA SHOT", "Arial", 150);
-	text->setPosition(scSize.width / 2, scSize.height / 2 + 50);
-	this->addChild(text);
+	//CCLabelTTF *text = CCLabelTTF::create("MAGIA SHOT", "Arial", 150);
+	//text->setPosition(scSize.width / 2, scSize.height / 2 + 50);
+	//this->addChild(text);
 
 	//	プラットフォームによって操作方法を変える
 	if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))

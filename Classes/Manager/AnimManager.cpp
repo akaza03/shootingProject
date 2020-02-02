@@ -63,6 +63,14 @@ void AnimManager::AnimationInit()
 	_animMap["e2_jump"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 5), 3, 0.3f, true);
 	_animMap["e2_damage"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 4), 3, 0.3f, true);
 	_animMap["e2_die"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(6, 5), 3, 0.3f, true);
+
+	pass = RES_ID("e3unit");
+	_animMap["e3_idle"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 0), 3, 0.3f, true);
+	_animMap["e3_run"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(2, 1), 2, 0.3f, true);
+	_animMap["e3_runShot"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(1, 3), 1, 0.3f, true);
+	_animMap["e3_jump"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 5), 3, 0.3f, true);
+	_animMap["e3_damage"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(0, 4), 3, 0.3f, true);
+	_animMap["e3_die"] = AnimationCreate(pass, cocos2d::Vec2(9, 6), cocos2d::Vec2(6, 5), 3, 0.3f, true);
 }
 
 cocos2d::Animation * AnimManager::AnimationCreate(std::string imagePass, cocos2d::Vec2 divCnt, cocos2d::Vec2 startID, int animCntMax, float frame, bool loop)
@@ -137,6 +145,7 @@ bool AnimManager::SetAnim(CharaType type, int id, AnimMap &anim)
 		anim["runShot"] = cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_runShot"]));
 		anim["jump"] = cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_jump"]));
 		anim["damage"] = cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_damage"]));
+		anim["throw"] = cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_damage"]));
 		anim["die"] = cocos2d::RepeatForever::create(cocos2d::Animate::create(_animMap[charaID + "_die"]));
 		return true;
 	}
@@ -150,6 +159,7 @@ void AnimManager::AnimCountPlus(AnimMap &anim)
 	anim["runShot"]->retain();
 	anim["jump"]->retain();
 	anim["damage"]->retain();
+	anim["throw"]->retain();
 	anim["die"]->retain();
 }
 
@@ -171,6 +181,9 @@ std::string AnimManager::GetAnimName(AnimState anim)
 		break;
 	case DAMAGE:
 		return "damage";
+		break;
+	case THROW:
+		return "throw";
 		break;
 	case DIE:
 		return "die";

@@ -27,6 +27,8 @@ struct ActData
 {
 	int HP = 1;																//	体力
 	int MaxHP = 1;															//	最大HP
+	int damageNumber = 0;													//	被弾ダメージ
+	bool dirInver = false;													//	方向転換する場合はtrue
 	cocos2d::Vec2 speed;													//	移動スピード(歩き,ジャンプ)
 	float Gravity = 0;														//	重力
 	keyList key;															//	どのキーを押したら処理するのか(List)
@@ -61,7 +63,6 @@ public:
 	bool SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed,
 					cocos2d::Scene *scene, float disAtk, cocos2d::Vec2 disDir, bool armor);
 
-	void SetDBBox(Sprite* sp);														//	デバッグ時の当たり判定用BoxのSet
 	AnimState CheckAnim();															//	アニメーション確認用
 
 private:
@@ -73,8 +74,6 @@ protected:
 	std::map<const char *,ActData> _charaList;										//	キャラクターの情報用リスト
 
 	cocos2d::Vec2 oldTouchPos;
-
-	Sprite *_box;																	//	当たり判定用のBOX
 
 	AnimMap _animMap;
 

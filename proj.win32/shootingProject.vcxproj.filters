@@ -106,6 +106,9 @@
     <ClCompile Include="..\Classes\Map\MapMaker.cpp">
       <Filter>map</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\UIClass\Number.cpp">
+      <Filter>UIClass</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\_DebugOut\_DebugDispOut.h">
@@ -219,6 +222,9 @@
     <ClInclude Include="..\Classes\Map\MapMaker.h">
       <Filter>map</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\UIClass\Number.h">
+      <Filter>UIClass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="_DebugOut">
@@ -256,6 +262,9 @@
     </Filter>
     <Filter Include="map">
       <UniqueIdentifier>{e615afbc-438a-4a7d-b507-af3f07018c81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UIClass">
+      <UniqueIdentifier>{8fbeca79-8c73-49f2-b09a-3ef9aeb794d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

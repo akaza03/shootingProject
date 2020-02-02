@@ -30,6 +30,8 @@ std::string ResourceManager::SetID(std::string key, std::string filePass)
 
 void ResourceManager::LoadInit()
 {
+	//	タイトル画像
+	SetID("logo", "image/logo.png");
 	//	ユニット画像
 	SetID("p0unit", "image/player/00-unit.png");
 	SetID("p1unit", "image/player/01-unit.png");
@@ -37,6 +39,7 @@ void ResourceManager::LoadInit()
 	SetID("e0unit", "image/enemy/00-unit.png");
 	SetID("e1unit", "image/enemy/01-unit.png");
 	SetID("e2unit", "image/enemy/02-unit.png");
+	SetID("e3unit", "image/enemy/03-unit.png");
 	//	立ち絵
 	SetID("p0stand", "image/player/00-stand.png");
 	SetID("p1stand", "image/player/01-stand.png");
@@ -59,6 +62,7 @@ void ResourceManager::LoadInit()
 	//	HPバー
 	SetID("HPBase", "image/UI/hpBarBase.png");
 	SetID("HP", "image/UI/hpBar.png");
+	SetID("ReMain", "image/UI/remaining.png");
 
 	//	エフェクト
 	SetID("changeEff", "effect/Laser01.efk");

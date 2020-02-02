@@ -55,6 +55,9 @@ void Enemy::update(float d)
 				case DAMAGE:
 					nextKeyName = "damage";
 					break;
+				case THROW:
+					nextKeyName = "throw";
+					break;
 				case DIE:
 					nextKeyName = "die";
 					break;
@@ -85,6 +88,8 @@ void Enemy::update(float d)
 				nextKey.damageCnt = itr.second.damageCnt;
 				nextKey.invTime = itr.second.invTime;
 				nextKey.HP = itr.second.HP;
+				nextKey.damageNumber = itr.second.damageNumber;
+				nextKey.dirInver = itr.second.dirInver;
 
 				lpAnimMng.AnimRun(this, itr.second.nowAnim, itr.second.cType, _animMap);
 			}
@@ -127,6 +132,8 @@ bool Enemy::playerSearch(ActData &act)
 				}
 			}
 		}
+
+		auto a = getContentSize();
 
 		//	ˆê’è‚Ì‹——£‚É“ü‚Á‚½‚çUŒ‚
 		if (abs(distance.x) < act.searchDisAtk && abs(distance.y) < act.searchDisDir.y)

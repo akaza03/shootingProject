@@ -8,6 +8,7 @@ enum AnimState
 	RSHOT,
 	JUMP,
 	DAMAGE,
+	THROW,		//	“Š‚°‹Z”í’eŽž
 	DIE,
 	STATE_MAX
 };

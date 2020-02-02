@@ -89,10 +89,7 @@ void Character::InitActData(cocos2d::Vec2 speed)
 	_actData.anim = AnimState::JUMP;
 	std::get<2>(_actData.key[UseKey::K_DOWN]) = false;
 	_charaList.emplace(std::make_pair("jump", _actData));
-	_actData.anim = AnimState::DAMAGE;
-	_charaList.emplace(std::make_pair("damage", _actData));
 
-	_actData.anim = AnimState::DIE;
 	_actData.key[UseKey::K_LEFT] = std::make_tuple(false, false, false);
 	_actData.key[UseKey::K_RIGHT] = std::make_tuple(false, false, false);
 	_actData.key[UseKey::K_UP] = std::make_tuple(false, false, false);
@@ -100,18 +97,17 @@ void Character::InitActData(cocos2d::Vec2 speed)
 	_actData.key[UseKey::K_SPACE] = std::make_tuple(false, false, false);
 	_actData.key[UseKey::K_A] = std::make_tuple(false, false, false);
 	_actData.key[UseKey::K_S] = std::make_tuple(false, false, false);
+
+	_actData.anim = AnimState::DAMAGE;
+	_charaList.emplace(std::make_pair("damage", _actData));
+	_actData.anim = AnimState::THROW;
+	_charaList.emplace(std::make_pair("throw", _actData));
+	_actData.anim = AnimState::DIE;
 	_charaList.emplace(std::make_pair("die", _actData));
 
 	lpAnimMng.AnimRun(this, _charaList["idle"].nowAnim, _charaList["idle"].cType, _animMap);
 }
 
-void Character::SetDBBox(Sprite * sp)
-{
-#ifdef _DEBUG
-	//	“–‚½‚è”»’è—p‚ÌŽlŠp•`‰æ
-	_box = sp;
-#endif // _DEBUG
-}
 
 AnimState Character::CheckAnim()
 {

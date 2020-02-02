@@ -17,6 +17,11 @@ void Player::update(float d)
 	{
 		if (itr.second.nowAnim == itr.second.anim)
 		{
+			if (itr.second.anim == AnimState::THROW)
+			{
+				int a = 0;
+			}
+
 			//	キーのチェック
 			for (auto checkKey : _oprtState->GetKeyList())
 			{
@@ -63,6 +68,11 @@ void Player::update(float d)
 			if (itr.second.HP <= 0)
 			{
 				itr.second.HP = 0;
+			}
+
+			if (itr.second.HP >= itr.second.MaxHP)
+			{
+				itr.second.HP = itr.second.MaxHP;
 			}
 
 			//	HPバーの増減
@@ -113,6 +123,9 @@ void Player::update(float d)
 				case DAMAGE:
 					nextKeyName = "damage";
 					break;
+				case THROW:
+					nextKeyName = "throw";
+					break;
 				case DIE:
 					nextKeyName = "die";
 					break;
@@ -143,6 +156,8 @@ void Player::update(float d)
 				nextKey.damageCnt = itr.second.damageCnt;
 				nextKey.invTime = itr.second.invTime;
 				nextKey.HP = itr.second.HP;
+				nextKey.damageNumber = itr.second.damageNumber;
+				nextKey.dirInver = itr.second.dirInver;
 				nextKey.changeCnt = itr.second.changeCnt;
 				nextKey.charaID = itr.second.charaID;
 				nextKey.touchPos = itr.second.touchPos;

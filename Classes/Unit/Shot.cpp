@@ -72,48 +72,35 @@ void Shot::update(float d)
 	}
 }
 
-CharaType Shot::GetType()
-{
-	return type;
-}
-
-float Shot::GetPower()
-{
-	return power;
-}
-
-float Shot::GetStunTime()
-{
-	return stunTime;
-}
-
-bool Shot::GetAtkFlag()
-{
-	return atkFlag;
-}
-
-void Shot::SetHitChara(bool flag)
-{
-	hitChara = flag;
-}
-
 void Shot::TypeInit(ActData & chara)
 {
+	throwFlag = false;
 	//	プレイヤー3(壁に当たるまで判定が発生しない)
 	if (type == CharaType::PLAYER && charaID == 2)
 	{
 		this->getChildByName("shot")->setOpacity(100);
 		atkFlag = false;
 	}
+
+	//	エネミー3(投げ技)
+	if (type == CharaType::ENEMY && charaID == 3)
+	{
+		this->getChildByName("shot")->setOpacity(0);
+		distance = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize().width / 2 - abs(speed) * 2;
+		throwFlag = true;
+	}
 }
 
 void Shot::TypeUpdate()
 {
+	//	プレイヤー2(貫通弾)
+	if (type == CharaType::PLAYER && charaID == 1)
+	{
+		hitChara = false;
+	}
 	//	プレイヤー3
 	if (type == CharaType::PLAYER && charaID == 2)
 	{
-
-
 		if (hitObj)
 		{
 			distance += 10;
@@ -145,10 +132,16 @@ void Shot::HitCheck()
 		if ((shot->GetType() == CharaType::PLAYER && type == CharaType::ENEMY)
 			|| (shot->GetType() == CharaType::ENEMY && type == CharaType::PLAYER))
 		{
-			if (charaBox.intersectsRect(objBox) && shot->GetAtkFlag())
+			if (charaBox.intersectsRect(objBox) && shot->GetAtkFlag() && atkFlag)
 			{
- 				shot->SetHitChara(true);
-				hitChara = true;
+				if (!(type == CharaType::PLAYER && charaID == 1))
+				{
+   					shot->SetHitChara(true);
+				}
+				if (!(shot->GetType() == CharaType::PLAYER && shot->GetID() == 1))
+				{
+					hitChara = true;
+				}
 			}
 		}
 	}
@@ -185,3 +178,37 @@ void Shot::HitCheck()
 	}
 }
 
+CharaType Shot::GetType()
+{
+	return type;
+}
+
+int Shot::GetID()
+{
+	return charaID;
+}
+
+float Shot::GetPower()
+{
+	return power;
+}
+
+float Shot::GetStunTime()
+{
+	return stunTime;
+}
+
+bool Shot::GetAtkFlag()
+{
+	return atkFlag;
+}
+
+bool Shot::GetThrow()
+{
+	return throwFlag;
+}
+
+void Shot::SetHitChara(bool flag)
+{
+	hitChara = flag;
+}

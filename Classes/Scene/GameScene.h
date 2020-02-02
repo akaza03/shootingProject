@@ -31,6 +31,7 @@
 #include "Input/OprtKey.h"
 #include "Input/UseKey.h"
 #include "ck/sound.h"
+#include "UIClass/Number.h"
 
 enum LayerNumber
 {
@@ -74,10 +75,12 @@ private:
 
 	cocos2d::Camera* _camera;
 
+	Number* number;
+
 	void SetUI();
 
 	void update(float d);
-	void enemyCntUpdate();
+	void enemyCntInit();
 	void cameraUpdate();
 	void keyUpdate();
 	void screenUpdate();

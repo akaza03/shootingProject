@@ -103,6 +103,7 @@ list(APPEND GAME_SOURCE
      Classes/Unit/Enemy.cpp
      Classes/Unit/Character.cpp
      Classes/Unit/Shot.cpp
+     Classes/UIClass/Number.cpp
      Classes/AppDelegate.cpp
      )
 list(APPEND GAME_HEADER
@@ -141,6 +142,7 @@ list(APPEND GAME_HEADER
      Classes/Unit/Character.h
      Classes/Unit/Shot.h
      Classes/Unit/charaStruct.h
+     Classes/UIClass/Number.h
      Classes/AppDelegate.h
 )
 if(ANDROID)

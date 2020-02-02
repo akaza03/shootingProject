@@ -21,19 +21,65 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 			if (charaBox.intersectsRect(objBox) && shot->GetAtkFlag())
 			{
 				shot->SetHitChara(true);
+				act.damageNumber = shot->GetPower();
 
 				if (act.damageCnt <= 0 && act.invTime <= 0)
 				{
-					//	ダメージ
-					act.HP -= shot->GetPower();
-					if (act.HP > 0)
+					if (sp.getPosition().x >= shot->getPosition().x)
+					{
+						if (act.dir != DIR::LEFT)
+						{
+							act.dirInver = true;
+						}
+					}
+					else
+					{
+						if (act.dir != DIR::RIGHT)
+						{
+							act.dirInver = true;
+						}
+					}
+
+					if (shot->GetThrow())
+					{
+						act.nowAnim = AnimState::THROW;
+					}
+					else
 					{
 						//	当たった場合はダメージ硬直
 						act.damageCnt = shot->GetStunTime();
-						lpEffectManager.SetEffect((RES_ID("hitEff").c_str()), "FGLayer", true, sp.getPosition(), 10, true);
+						DoDamage(sp, act);
 					}
 				}
 			}
+		}
+	}
+
+	if (act.anim == AnimState::THROW)
+	{
+		//	壁に接触した場合ダメージ処理に移る
+		if (act.checkPoint[DIR::LEFT] || act.checkPoint[DIR::RIGHT])
+		{
+			act.damageCnt = 0;
+			DoDamage(sp, act);
+			act.nowAnim = AnimState::DAMAGE;
+		}
+		else
+		{
+			if (act.damageCnt >= 0)
+			{
+				act.damageCnt += 10;
+			}
+			float _speed = 0;
+			if (act.dir == DIR::LEFT)
+			{
+				_speed = 10;
+			}
+			else
+			{
+				_speed = -10;
+			}
+			sp.setPosition(sp.getPosition().x + _speed, sp.getPosition().y);
 		}
 	}
 
@@ -95,4 +141,15 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 	}
 
 	return false;
+}
+
+void DamageCheck::DoDamage(cocos2d::Sprite & sp, ActData & act)
+{
+	//	ダメージ
+	act.HP -= act.damageNumber;
+	act.damageNumber = 0;
+	if (act.HP > 0)
+	{
+		lpEffectManager.SetEffect((RES_ID("hitEff").c_str()), "FGLayer", true, sp.getPosition(), 10, true);
+	}
 }

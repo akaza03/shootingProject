@@ -30,7 +30,7 @@ bool Shooting::operator()(cocos2d::Sprite & sp, ActData & act)
 				case 1:
 					shotSprite = RES_ID("p1Shot");
 					act.attackCnt = 5;
-					power = 5;
+					power = 4;
 					speed = 10;
 					stunTime = 20;
 					break;
@@ -69,6 +69,13 @@ bool Shooting::operator()(cocos2d::Sprite & sp, ActData & act)
 					power = 20;
 					speed = 5;
 					stunTime = 100;
+					break;
+				case 3:
+					shotSprite = RES_ID("p0Shot");
+					act.attackCnt = 50;
+					power = 10;
+					speed = 1;
+					stunTime = 20;
 					break;
 				default:
 					break;

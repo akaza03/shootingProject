@@ -12,9 +12,11 @@ public:
 	void update(float d);
 
 	CharaType GetType();
+	int GetID();
 	float GetPower();
 	float GetStunTime();
 	bool GetAtkFlag();
+	bool GetThrow();
 	void SetHitChara(bool flag);
 
 	CREATE_FUNC(Shot);
@@ -29,6 +31,8 @@ private:
 	float distance = 0;						//	ˆÚ“®‚µ‚½‹——£
 	bool hitChara;							//	ƒLƒƒƒ‰‚Æ‚Ì“–‚½‚è”»’è
 	bool hitObj;							//	’nŒ`‚Æ‚Ì“–‚½‚è”»’è
+
+	bool throwFlag;							//	“Š‚°‹Z‚Ìê‡‚Ítrue
 
 	void TypeInit(ActData &chara);			//	charaType‚²‚Æ‚ÌInitˆ—
 	void TypeUpdate();						//	charaType‚²‚Æ‚Ìupdateˆ—

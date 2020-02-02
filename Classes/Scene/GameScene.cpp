@@ -140,19 +140,6 @@ bool GameScene::init()
 	map->SetChara(CharaType::ENEMY, EMLayer, this);
 	enemyCnt = EMLayer->getChildrenCount();
 
-//#ifdef _DEBUG
-//	//	デバッグ用レイヤーの作成
-//	DBLayer = Layer::create();
-//	this->addChild(DBLayer, LayerNumber::DB, "DBLayer");
-//
-//	//	デバッグ用Boxを作ってプレイヤーに渡す
-//	auto DBBox = Sprite::create();
-//	//DBBox->setColor(Color3B(0, 255, 128));
-//	DBBox->setOpacity(128);
-//	DBLayer->addChild(DBBox, 1, "DBBox");
-//	player->SetDBBox(DBBox);
-//#endif // _DEBUG
-
 	//	UI作成
 	SetUI();
 
@@ -225,10 +212,11 @@ void GameScene::SetUI()
 	UILayer->addChild(hpBar, 1, "hpBar");
 
 	//	敵の残り数
-	//CCLabelTTF *text = CCLabelTTF::create("残り", "Arial", 80);
-	//text->setPosition(scSize.width - 160, scSize.height - 40);
-	//UILayer->addChild(text, 1, "remainText");
-	enemyCntUpdate();
+	auto remain = Sprite::create(RES_ID("ReMain"));
+	remain->setPosition(scSize.width - 180, scSize.height - 40);
+	UILayer->addChild(remain, 1, "remain");
+
+	enemyCntInit();
 
 	//	ポーズ時など用の黒い幕
 	auto fadeImage = Sprite::create();
@@ -242,13 +230,8 @@ void GameScene::SetUI()
 void GameScene::update(float d)
 {
 	//	敵の残り数表示更新
-	auto oldEnemyCnt = enemyCnt;
 	enemyCnt = EMLayer->getChildrenCount();
-	if (oldEnemyCnt != enemyCnt)
-	{
-		UILayer->removeChildByName("enemyCounter");
-		enemyCntUpdate();
-	}
+	number->setNumber(enemyCnt);
 
 	//	エフェクトの更新
 	lpEffectManager.update(_camera);
@@ -269,12 +252,13 @@ void GameScene::update(float d)
 	}
 }
 
-void GameScene::enemyCntUpdate()
+void GameScene::enemyCntInit()
 {
-	auto score = String::createWithFormat("%i", enemyCnt);
-	auto label = Label::createWithSystemFont(score->getCString(), "arial", 80);
-	label->setPosition(confScSize.width - 80, confScSize.height - 40);
-	UILayer->addChild(label, 1, "enemyCounter");
+	number = Number::create();
+	number->setPosition(confScSize.width - 60, confScSize.height - 40);
+	number->setSpan(40);
+	number->setPrefix("number");
+	UILayer->addChild(number, 1, "enemyCounter");
 }
 
 void GameScene::cameraUpdate()
