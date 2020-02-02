@@ -70,6 +70,16 @@ void AudioManager::StopSound(const std::string name)
 	}
 }
 
+void AudioManager::PauseAudio()
+{
+	CkSuspend();
+}
+
+void AudioManager::ReStartAudio()
+{
+	CkResume();
+}
+
 
 void AudioManager::SetBank(const std::string &name, const std::string &soundName, SoundType type)
 {

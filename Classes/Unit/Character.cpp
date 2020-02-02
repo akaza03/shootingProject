@@ -14,7 +14,7 @@ Character::~Character()
 
 
 bool Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed,
-							cocos2d::Scene *scene, float disAtk, cocos2d::Vec2 disDir, bool armor)
+							cocos2d::Scene *scene, float disAtk, cocos2d::Vec2 disDir, bool armor, bool dirFix)
 {
 	_actData.charaID = id;
 	_actData.HP = hp;
@@ -22,6 +22,7 @@ bool Character::SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::V
 	_actData.searchDisAtk = disAtk;
 	_actData.searchDisDir = disDir;
 	_actData.superArmor = armor;
+	_actData.dirFixed = dirFix;
 
 	//	アニメーションのセット
 	if (!lpAnimMng.SetAnim(_actData.cType, id, _animMap))

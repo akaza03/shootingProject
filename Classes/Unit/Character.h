@@ -25,31 +25,32 @@ using keyList = std::map<UseKey, std::tuple<bool, bool, bool>>;						//	キー用の
 //	キャラクターの情報用
 struct ActData
 {
-	int HP = 1;																//	体力
-	int MaxHP = 1;															//	最大HP
-	int damageNumber = 0;													//	被弾ダメージ
-	bool dirInver = false;													//	方向転換する場合はtrue
-	cocos2d::Vec2 speed;													//	移動スピード(歩き,ジャンプ)
-	float Gravity = 0;														//	重力
-	keyList key;															//	どのキーを押したら処理するのか(List)
-	AnimState anim;															//	自身のアニメーション
-	AnimState nowAnim = AnimState::IDLE;									//	現在のアニメーション
-	DIR dir = DIR::RIGHT;													//	現在の向き
-	hitList checkPoint;														//	障害物との当たり判定用
-	int damageCnt = 0;														//	ダメージを受けた時の硬直用
-	int invTime = 0;														//	無敵時間
-	cocos2d::Vec2 distance = { 0,0 };										//	移動距離
-	bool jumpFlag = false;													//	ジャンプ中かどうかのフラグ
-	int jumpCnt = 1;														//	一度にジャンプができる回数
-	int jumpMax;															//	ジャンプ回数リセット用
-	int attackCnt = 0;														//	攻撃してからの経過時間(Shot制御などで使用)
-	CharaType cType;														//	キャラクターのタイプ
-	int charaID;															//	キャラクターの種類判別用のID
-	changeList changeCnt;													//	キャラチェンジ時のカウント用リスト
-	cocos2d::Vec2 touchPos;													//	キャラチェンジ時等のタッチ座標
-	float searchDisAtk;														//	敵用攻撃開始距離(x座標)
-	cocos2d::Vec2 searchDisDir;												//	敵用プレイヤーを向く距離(x座標,y座標)
-	bool superArmor;														//	攻撃を受けた時ひるまないかどうか
+	int HP = 1;													//	体力
+	int MaxHP = 1;												//	最大HP
+	int damageNumber = 0;										//	被弾ダメージ
+	bool dirInver = false;										//	方向転換する場合はtrue
+	cocos2d::Vec2 speed;										//	移動スピード(歩き,ジャンプ)
+	float Gravity = 0;											//	重力
+	keyList key;												//	どのキーを押したら処理するのか(List)
+	AnimState anim;												//	自身のアニメーション
+	AnimState nowAnim = AnimState::IDLE;						//	現在のアニメーション
+	DIR dir = DIR::RIGHT;										//	現在の向き
+	hitList checkPoint;											//	障害物との当たり判定用
+	int damageCnt = 0;											//	ダメージを受けた時の硬直用
+	int invTime = 0;											//	無敵時間
+	cocos2d::Vec2 distance = { 0,0 };							//	移動距離
+	bool jumpFlag = false;										//	ジャンプ中かどうかのフラグ
+	int jumpCnt = 1;											//	一度にジャンプができる回数
+	int jumpMax;												//	ジャンプ回数リセット用
+	int attackCnt = 0;											//	攻撃してからの経過時間(Shot制御などで使用)
+	CharaType cType;											//	キャラクターのタイプ
+	int charaID;												//	キャラクターの種類判別用のID
+	changeList changeCnt;										//	キャラチェンジ時のカウント用リスト
+	cocos2d::Vec2 touchPos;										//	キャラチェンジ時等のタッチ座標
+	float searchDisAtk;											//	敵用攻撃開始距離(x座標)
+	cocos2d::Vec2 searchDisDir;									//	敵用プレイヤーを向く距離(x座標,y座標)
+	bool superArmor;											//	攻撃を受けた時ひるまないかどうか
+	bool dirFixed;												//	方向転換出来るかどうか(falseだと同じ方向を見続ける)
 };
 
 class Character
@@ -61,7 +62,7 @@ public:
 	virtual void update(float d) = 0;
 
 	bool SetInit(DIR stdir, int id, cocos2d::Vec2 pos, int hp, cocos2d::Vec2 speed,
-					cocos2d::Scene *scene, float disAtk, cocos2d::Vec2 disDir, bool armor);
+					cocos2d::Scene *scene, float disAtk, cocos2d::Vec2 disDir, bool armor, bool dirFix);
 
 	AnimState CheckAnim();															//	アニメーション確認用
 

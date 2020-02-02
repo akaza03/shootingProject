@@ -68,6 +68,7 @@ void Player::update(float d)
 			if (itr.second.HP <= 0)
 			{
 				itr.second.HP = 0;
+				itr.second.nowAnim = AnimState::DIE;
 			}
 
 			if (itr.second.HP >= itr.second.MaxHP)

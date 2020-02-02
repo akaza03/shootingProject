@@ -118,7 +118,7 @@ bool Enemy::playerSearch(ActData &act)
 		auto distance = getPosition() - player->getPosition();
 
 		//	ƒvƒŒƒCƒ„[‚ÌêŠ‚É‚æ‚Á‚ÄŒü‚«‚ğ•Ï‚¦‚é
-		if (act.charaID != 2)
+		if (act.dirFixed)
 		{
 			if (abs(distance.x) < act.searchDisDir.x && abs(distance.y) < act.searchDisDir.y && (act.checkPoint[DIR::DOWN] == true))
 			{
@@ -166,7 +166,7 @@ bool Enemy::playerSearch(ActData &act)
 void Enemy::objTurn(ActData &act)
 {
 	auto oldDir = act.dir;
-	if (act.charaID != 2)
+	if (act.dirFixed)
 	{
 		if ((act.dir == DIR::LEFT) && ((act.checkPoint[DIR::LEFT] == true) || (act.checkPoint[DIR::DOWN] == false)))
 		{

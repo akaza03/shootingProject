@@ -72,10 +72,10 @@ bool Shooting::operator()(cocos2d::Sprite & sp, ActData & act)
 					break;
 				case 3:
 					shotSprite = RES_ID("p0Shot");
-					act.attackCnt = 50;
+					act.attackCnt = 0;
 					power = 10;
 					speed = 1;
-					stunTime = 20;
+					stunTime = 60;
 					break;
 				default:
 					break;

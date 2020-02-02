@@ -68,7 +68,7 @@ void MapMaker::SetChara(CharaType type, cocos2d::Layer * addLayer, cocos2d::Scen
 				}
 			}
 
-			if (player->SetInit(DIR::RIGHT, 0, Ppos, 100, cocos2d::Vec2(5, 6), scene,0,cocos2d::Vec2(0,0), false))
+			if (player->SetInit(DIR::RIGHT, 0, Ppos, 100, cocos2d::Vec2(5, 6), scene,0,cocos2d::Vec2(0,0), false, true))
 			{
 				addLayer->addChild(player, 0, "player");
 			}
@@ -94,25 +94,25 @@ void MapMaker::SetChara(CharaType type, cocos2d::Layer * addLayer, cocos2d::Scen
 						switch (enemyID)
 						{
 							case 0:
-								if (Enemy->SetInit(DIR::RIGHT, enemyID, Epos, 10, cocos2d::Vec2(2, 4), scene, 200, cocos2d::Vec2(300,50),false))
+								if (Enemy->SetInit(DIR::RIGHT, enemyID, Epos, 10, cocos2d::Vec2(2, 4), scene, 200, cocos2d::Vec2(300,50),false, true))
 								{
 									addLayer->addChild(Enemy, 0);
 								}
 								break;
 							case 1:
-								if (Enemy->SetInit(DIR::RIGHT, enemyID, Epos, 20, cocos2d::Vec2(2, 4), scene, 200, cocos2d::Vec2(300, 50), false))
+								if (Enemy->SetInit(DIR::RIGHT, enemyID, Epos, 20, cocos2d::Vec2(2, 4), scene, 200, cocos2d::Vec2(300, 50), false, true))
 								{
 									addLayer->addChild(Enemy, 0);
 								}
 								break;
 							case 2:
-								if (Enemy->SetInit(DIR::RIGHT, enemyID, Epos, 50, cocos2d::Vec2(0, 4), scene, 500, cocos2d::Vec2(0, 50), true))
+								if (Enemy->SetInit(DIR::RIGHT, enemyID, Epos, 50, cocos2d::Vec2(0, 4), scene, 500, cocos2d::Vec2(0, 50), true, false))
 								{
 									addLayer->addChild(Enemy, 0);
 								}
 								break;
 							case 3:
-								if (Enemy->SetInit(DIR::RIGHT, enemyID, Epos, 40, cocos2d::Vec2(4, 4), scene, 64, cocos2d::Vec2(300, 50), true))
+								if (Enemy->SetInit(DIR::RIGHT, enemyID, Epos, 40, cocos2d::Vec2(4, 4), scene, 64, cocos2d::Vec2(300, 50), true, true))
 								{
 									addLayer->addChild(Enemy, 0);
 								}

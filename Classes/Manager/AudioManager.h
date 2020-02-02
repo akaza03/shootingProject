@@ -39,6 +39,12 @@ public:
 	//	指定した音を停止させる
 	void StopSound(const std::string name);
 
+	//	バックグラウンド時などBGMを一時停止させる
+	void PauseAudio();
+
+	//	BGMを再開させる
+	void ReStartAudio();
+
 private:
 	AudioManager();
 	static AudioManager* s_Instance;

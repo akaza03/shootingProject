@@ -20,12 +20,14 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 		{
 			if (charaBox.intersectsRect(objBox) && shot->GetAtkFlag())
 			{
+				//	弾に消滅判定
 				shot->SetHitChara(true);
 				act.damageNumber = shot->GetPower();
 
-				if (act.damageCnt <= 0 && act.invTime <= 0)
+				if (act.damageCnt <= 0 && act.invTime <= 0 && act.anim != AnimState::THROW && act.anim != AnimState::DAMAGE)
 				{
-					if (sp.getPosition().x >= shot->getPosition().x)
+					//	攻撃を受けた方向を向く
+					if (shot->GetSpeed() >= 0)
 					{
 						if (act.dir != DIR::LEFT)
 						{
@@ -40,14 +42,14 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 						}
 					}
 
+					//	当たった場合はダメージ硬直
+					act.damageCnt = shot->GetStunTime();
 					if (shot->GetThrow())
 					{
 						act.nowAnim = AnimState::THROW;
 					}
 					else
 					{
-						//	当たった場合はダメージ硬直
-						act.damageCnt = shot->GetStunTime();
 						DoDamage(sp, act);
 					}
 				}
@@ -57,29 +59,34 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 
 	if (act.anim == AnimState::THROW)
 	{
-		//	壁に接触した場合ダメージ処理に移る
-		if (act.checkPoint[DIR::LEFT] || act.checkPoint[DIR::RIGHT])
+		if (act.damageCnt == 0)
 		{
-			act.damageCnt = 0;
-			DoDamage(sp, act);
-			act.nowAnim = AnimState::DAMAGE;
-		}
-		else
-		{
-			if (act.damageCnt >= 0)
+			//	壁に接触した場合ダメージ処理に移る
+			if (act.checkPoint[DIR::LEFT] || act.checkPoint[DIR::RIGHT])
 			{
-				act.damageCnt += 10;
-			}
-			float _speed = 0;
-			if (act.dir == DIR::LEFT)
-			{
-				_speed = 10;
+				act.damageCnt = 0;
+				DoDamage(sp, act);
+				act.nowAnim = AnimState::DAMAGE;
 			}
 			else
 			{
-				_speed = -10;
+				//	攻撃を受けた方向と逆の方向に吹っ飛ぶ
+				float _speed = 0;
+				if (act.dir == DIR::LEFT)
+				{
+					_speed = 10;
+				}
+				else
+				{
+					_speed = -10;
+				}
+				sp.setPosition(sp.getPosition().x + _speed, sp.getPosition().y);
 			}
-			sp.setPosition(sp.getPosition().x + _speed, sp.getPosition().y);
+		}
+		else
+		{
+			act.Gravity = 0;
+			act.jumpFlag = false;
 		}
 	}
 
@@ -104,7 +111,7 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 		{
 			if (act.cType == CharaType::PLAYER)
 			{
-				act.invTime = 30;
+				act.invTime = 100;
 			}
 			sp.setOpacity(0);
 		}

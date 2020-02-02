@@ -193,6 +193,11 @@ float Shot::GetPower()
 	return power;
 }
 
+float Shot::GetSpeed()
+{
+	return speed;
+}
+
 float Shot::GetStunTime()
 {
 	return stunTime;

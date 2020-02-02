@@ -213,7 +213,7 @@ void GameScene::SetUI()
 
 	//	“G‚ÌŽc‚è”
 	auto remain = Sprite::create(RES_ID("ReMain"));
-	remain->setPosition(scSize.width - 180, scSize.height - 40);
+	remain->setPosition(confScSize.width - 180, confScSize.height - 40);
 	UILayer->addChild(remain, 1, "remain");
 
 	enemyCntInit();

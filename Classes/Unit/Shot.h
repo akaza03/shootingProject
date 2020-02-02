@@ -14,6 +14,7 @@ public:
 	CharaType GetType();
 	int GetID();
 	float GetPower();
+	float GetSpeed();
 	float GetStunTime();
 	bool GetAtkFlag();
 	bool GetThrow();
