@@ -64,7 +64,6 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 			//	•Ç‚ÉÚG‚µ‚½ê‡ƒ_ƒ[ƒWˆ—‚ÉˆÚ‚é
 			if (act.checkPoint[DIR::LEFT] || act.checkPoint[DIR::RIGHT])
 			{
-				act.damageCnt = 0;
 				DoDamage(sp, act);
 				act.nowAnim = AnimState::DAMAGE;
 			}

@@ -26,6 +26,7 @@
 #include "SimpleAudioEngine.h"
 #include "Input/OprtTouch.h"
 #include "Map/MapMaker.h"
+#include "Unit/Player.h"
 
 USING_NS_CC;
 
@@ -263,29 +264,34 @@ void GameScene::enemyCntInit()
 
 void GameScene::cameraUpdate()
 {
-	auto playerPos = this->getChildByName("PLLayer")->getChildByName("player")->getPosition();
-	//	マップのサイズ
-	auto mapSize = BGLayer->getChildByName("stageMap")->getContentSize();
+	Player* player = (Player*)this->getChildByName("PLLayer")->getChildByName("player");
 
-	//	プレイヤーからカメラの左端までの距離
-	auto leftDis = playerPos.x - confScSize.width / 2;
-	//	カメラの右端からプレイヤーまでの距離
-	auto rightDis = mapSize.width - playerPos.x;
+	if (player->GetDamageCnt() <= 0)
+	{
+		auto playerPos = player->getPosition();
+		//	マップのサイズ
+		auto mapSize = BGLayer->getChildByName("stageMap")->getContentSize();
 
-	//	左端処理
-	if (leftDis < 0)
-	{
-		_camera->setPosition3D(Vec3(0, 0, 0));
-	}
-	//	右端処理
-	else if (rightDis < confScSize.width / 2)
-	{
-		_camera->setPosition3D(Vec3(mapSize.width - confScSize.width, 0, 0));
-	}
-	//	通常のスクロール
-	else
-	{
-		_camera->setPosition3D(Vec3(playerPos.x - confScSize.width / 2, 0, 0));
+		//	プレイヤーからカメラの左端までの距離
+		auto leftDis = playerPos.x - confScSize.width / 2;
+		//	カメラの右端からプレイヤーまでの距離
+		auto rightDis = mapSize.width - playerPos.x;
+
+		//	左端処理
+		if (leftDis < 0)
+		{
+			_camera->setPosition3D(Vec3(0, 0, 0));
+		}
+		//	右端処理
+		else if (rightDis < confScSize.width / 2)
+		{
+			_camera->setPosition3D(Vec3(mapSize.width - confScSize.width, 0, 0));
+		}
+		//	通常のスクロール
+		else
+		{
+			_camera->setPosition3D(Vec3(playerPos.x - confScSize.width / 2, 0, 0));
+		}
 	}
 }
 

@@ -20,10 +20,20 @@ public:
 
 private:
 	void update(float d);
+	void SetCredit();
+	void SetCrText(std::string str, int size, int &cor);
+
+	void SetUI();
 
 	OprtState *_oprtState;					//	システム用の操作制御
 
 	systemKey key;
+
+	cocos2d::Layer * creditLayer;
+
+	bool gameButtonFlag = true;				//	trueならゲームスタート、falseならクレジット
+	bool creditFlag = false;				//	クレジット表記中ならtrue
+
 	CREATE_FUNC(TitleScene);
 };
 

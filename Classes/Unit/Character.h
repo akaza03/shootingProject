@@ -65,6 +65,7 @@ public:
 					cocos2d::Scene *scene, float disAtk, cocos2d::Vec2 disDir, bool armor, bool dirFix);
 
 	AnimState CheckAnim();															//	アニメーション確認用
+	int GetDamageCnt();																//	硬直時のカメラ制御用
 
 private:
 	void InitActData(cocos2d::Vec2 speed);											//	ActDataの初期化

@@ -11,7 +11,10 @@ AnimManager::AnimManager()
 
 AnimManager::~AnimManager()
 {
-
+	for (auto &itr : _animMap)
+	{
+		itr.second->release();
+	}
 }
 
 void AnimManager::AnimationInit()

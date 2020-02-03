@@ -114,3 +114,8 @@ AnimState Character::CheckAnim()
 {
 	return _actData.nowAnim;
 }
+
+int Character::GetDamageCnt()
+{
+	return _actData.damageCnt;
+}

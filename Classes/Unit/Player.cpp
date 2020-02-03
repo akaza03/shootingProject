@@ -103,6 +103,10 @@ void Player::update(float d)
 				_actData.nowAnim = AnimState::DIE;
 			}
 
+			//	外部のチェック用
+			_actData.nowAnim = itr.second.nowAnim;
+			_actData.damageCnt = itr.second.damageCnt;
+
 			if (itr.second.nowAnim != itr.second.anim)
 			{
 				//	次のアニメーションに現在のキー情報を渡す準備

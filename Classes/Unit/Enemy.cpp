@@ -34,6 +34,9 @@ void Enemy::update(float d)
 				deathFlag = true;
 			}
 
+			//	外部のチェック用
+			_actData.nowAnim = itr.second.nowAnim;
+
 			if (itr.second.nowAnim != itr.second.anim)
 			{
 				//	次のアニメーションに現在のキー情報を渡す準備

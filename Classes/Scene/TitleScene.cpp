@@ -2,6 +2,9 @@
 #include "Input/OprtTouch.h"
 #include "GameScene.h"
 
+//#pragma execution_character_set("utf-8")
+
+
 USING_NS_CC;
 
 cocos2d::Scene * TitleScene::createScene()
@@ -19,41 +22,35 @@ bool TitleScene::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
+	creditLayer = Layer::create();
+	this->addChild(creditLayer, 1, "creditLayer");
+
+	SetCredit();
+	for (auto obj:creditLayer->getChildren())
+	{
+		obj->setOpacity(0);
+	}
 
 	auto BGSP = Sprite::create(RES_ID("Title"));
 	BGSP->setAnchorPoint(Vec2(0, 0));
 	BGSP->setPosition(Vec2(0, 0));
-	this->addChild(BGSP);
+	this->addChild(BGSP, 0, "Title");
 
-	BGSP = Sprite::create(RES_ID("logo"));
-	BGSP->setPosition(scSize / 2);
-	this->addChild(BGSP);
-	
+	SetUI();
 
-	//CCLabelTTF *text = CCLabelTTF::create("MAGIA SHOT", "Arial", 150);
-	//text->setPosition(scSize.width / 2, scSize.height / 2 + 50);
-	//this->addChild(text);
-
-	//	�v���b�g�t�H�[���ɂ���đ�����@��ς���
+	//	プラットフォームによって操作方法を変える
 	if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
 	{
 		_oprtState = new OprtKey();
-		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO ENTER", "Arial", 50);
-		text->setPosition(scSize.width / 2, scSize.height / 2 - 150);
-		this->addChild(text);
 	}
 	else
 	{
 		_oprtState = new OprtTouch();
-		CCLabelTTF *text = CCLabelTTF::create("PLEASE TO TAP", "Arial", 50);
-		text->setPosition(scSize.width / 2, scSize.height / 2 - 150);
-		this->addChild(text);
 	}
 
 	lpAudioManager.SetSound("titleBGM.cks");
 
-	//	����C�x���g�̍쐬
+	//	操作イベントの作成
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(), this);
 
 	this->scheduleUpdate();
@@ -68,7 +65,10 @@ void TitleScene::menuCloseCallback(cocos2d::Ref * pSender)
 
 void TitleScene::update(float d)
 {
-	//	Audio�̍X�V
+	auto oldButtonFlag = gameButtonFlag;
+	auto touchFlag = false;
+
+	//	Audioの更新
 	lpAudioManager.update();
 
 	for (auto checkKey : _oprtState->GetKeyList())
@@ -76,17 +76,185 @@ void TitleScene::update(float d)
 		key[checkKey.first].first = checkKey.second;
 	}
 
-	if (key[UseKey::K_ENTER].first && !key[UseKey::K_ENTER].second || _oprtState->firstTouch())
+	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
+	cocos2d::Sprite* startButton = (cocos2d::Sprite*)nowScene->getChildByName("GameStart");
+	cocos2d::Sprite* creditButton = (cocos2d::Sprite*)nowScene->getChildByName("credit");
+
+	//	クレジット表記画面以外での処理
+	if (!creditFlag)
 	{
-		lpAudioManager.ResetAudio();
-		lpAudioManager.SetSound("click");
-		auto scene = GameScene::createScene();
-		// scene�̐���
-		Director::getInstance()->replaceScene(scene);
+		//	プラットフォームごとのモード切替
+		if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
+		{
+			if ((key[UseKey::K_UP].first && !key[UseKey::K_UP].second) || (key[UseKey::K_DOWN].first && !key[UseKey::K_DOWN].second))
+			{
+				if (gameButtonFlag)
+				{
+					gameButtonFlag = false;
+				}
+				else
+				{
+					gameButtonFlag = true;
+				}
+			}
+		}
+		else
+		{
+			if (_oprtState->firstTouch())
+			{
+				cocos2d::Rect spriteRect = cocos2d::Rect(startButton->getPosition().x - startButton->getContentSize().width / 2,
+					startButton->getPosition().y - startButton->getContentSize().height / 2,
+					startButton->getContentSize().width,
+					startButton->getContentSize().height);
+				if (spriteRect.containsPoint(_oprtState->GetTouchPoint()))
+				{
+					gameButtonFlag = true;
+					touchFlag = true;
+				}
+				else
+				{
+					spriteRect = cocos2d::Rect(creditButton->getPosition().x - creditButton->getContentSize().width / 2,
+						creditButton->getPosition().y - creditButton->getContentSize().height / 2,
+						creditButton->getContentSize().width,
+						creditButton->getContentSize().height);
+					if (spriteRect.containsPoint(_oprtState->GetTouchPoint()))
+					{
+						gameButtonFlag = false;
+						touchFlag = true;
+					}
+				}
+			}
+		}
+		//	Buttonの明るさ切り替え
+		if (gameButtonFlag != oldButtonFlag)
+		{
+			if (gameButtonFlag)
+			{
+				startButton->setColor(cocos2d::Color3B(255, 255, 255));
+				creditButton->setColor(cocos2d::Color3B(150, 150, 150));
+			}
+			else
+			{
+				startButton->setColor(cocos2d::Color3B(150, 150, 150));
+				creditButton->setColor(cocos2d::Color3B(255, 255, 255));
+			}
+		}
+	}
+	else
+	{
+		touchFlag = _oprtState->firstTouch();
+	}
+
+	if (key[UseKey::K_ENTER].first && !key[UseKey::K_ENTER].second || touchFlag)
+	{
+		//	ゲーム開始
+		if (gameButtonFlag)
+		{
+			lpAudioManager.ResetAudio();
+			lpAudioManager.SetSound("click");
+			auto scene = GameScene::createScene();
+			// sceneの生成
+			Director::getInstance()->replaceScene(scene);
+		}
+		else
+		{
+			auto TitleBG = nowScene->getChildByName("Title");
+			if (creditFlag)
+			{
+				creditFlag = false;
+				TitleBG->setColor(cocos2d::Color3B(255, 255, 255));
+				SetUI();
+				for (auto obj : creditLayer->getChildren())
+				{
+					obj->setOpacity(0);
+				}
+			}
+			else
+			{
+				creditFlag = true;
+				TitleBG->setColor(cocos2d::Color3B(150, 150, 150));
+
+				this->removeChildByName("logo");
+				this->removeChildByName("GameStart");
+				this->removeChildByName("credit");
+
+				for (auto obj : creditLayer->getChildren())
+				{
+					obj->setOpacity(255);
+				}
+			}
+		}
 	}
 
 	for (auto itrKey : UseKey())
 	{
 		key[itrKey].second = key[itrKey].first;
 	}
+}
+
+void TitleScene::SetCredit()
+{
+	//	間の補正用
+	int cor = 10;
+#if CK_PLATFORM_ANDROID
+	SetCrText("お借りした素材等", 60, cor);
+	cor += 50;
+	SetCrText("Cricket Audio", 30, cor);
+	SetCrText("www.crickettechnology.com", 20, cor);
+	SetCrText("Effekseer", 30, cor);
+	SetCrText("https://effekseer.github.io/jp/", 20, cor);
+	SetCrText("itch.io", 30, cor);
+	SetCrText("https://kronbits.itch.io/inca-game-assets", 20, cor);
+	SetCrText("https://kvsr.itch.io/fireball-animation", 20, cor);
+	SetCrText("KENNEY", 30, cor);
+	SetCrText("https://www.kenney.nl/assets/shooting-gallery", 20, cor);
+	SetCrText("ゆるドラシル RPGツクール素材提供サイト", 30, cor);
+	SetCrText("http://yurudora.com/tkool/", 20, cor);
+	SetCrText("魔王魂", 30, cor);;
+	SetCrText("https://maoudamashii.jokersounds.com/", 20, cor);
+#else
+	SetCrText(u8"お借りした素材等", 60, cor);
+	cor += 50;
+	SetCrText("Cricket Audio", 30, cor);
+	SetCrText("www.crickettechnology.com", 20, cor);
+	SetCrText("Effekseer", 30, cor);
+	SetCrText("https://effekseer.github.io/jp/", 20, cor);
+	SetCrText("itch.io", 30, cor);
+	SetCrText("https://kronbits.itch.io/inca-game-assets", 20, cor);
+	SetCrText("https://kvsr.itch.io/fireball-animation", 20, cor);
+	SetCrText("KENNEY", 30, cor);
+	SetCrText("https://www.kenney.nl/assets/shooting-gallery", 20, cor);
+	SetCrText(u8"ゆるドラシル RPGツクール素材提供サイト", 30, cor);
+	SetCrText("http://yurudora.com/tkool/", 20, cor);
+	SetCrText(u8"魔王魂", 30, cor);;
+	SetCrText("https://maoudamashii.jokersounds.com/", 20, cor);
+#endif
+
+}
+
+void TitleScene::SetCrText(std::string str, int size, int &cor)
+{
+	cor += 30;
+	auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
+	CCLabelTTF *text = CCLabelTTF::create(str, "Arial", size);
+	text->setPosition(scSize.width / 2, scSize.height - cor);
+	creditLayer->addChild(text);
+}
+
+void TitleScene::SetUI()
+{
+	auto scSize = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize();
+
+	auto BGSP = Sprite::create(RES_ID("logo"));
+	BGSP->setPosition(scSize / 2);
+	this->addChild(BGSP, 1, "logo");
+
+	BGSP = Sprite::create(RES_ID("GameStart"));
+	BGSP->setPosition(scSize.width / 2, scSize.height / 2 - 120);
+	this->addChild(BGSP, 1, "GameStart");
+
+	BGSP = Sprite::create(RES_ID("credit"));
+	BGSP->setPosition(scSize.width / 2, scSize.height / 2 - 120 - BGSP->getContentSize().height * 1.2);
+	BGSP->setColor(cocos2d::Color3B(150, 150, 150));
+	this->addChild(BGSP, 1, "credit");
 }

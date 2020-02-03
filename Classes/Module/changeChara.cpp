@@ -16,7 +16,7 @@ bool changeChara::operator()(cocos2d::Sprite & sp, ActData & act)
 		cocos2d::Sprite* p2 = (cocos2d::Sprite*)UI->getChildByName("p2Icon");
 
 		cocos2d::Rect spriteRect = cocos2d::Rect(p1->getPosition().x - p1->getContentSize().width / 2,
-			p1->getPosition().y - p1->getContentSize().width / 2,
+			p1->getPosition().y - p1->getContentSize().height / 2,
 			p1->getContentSize().width,
 			p1->getContentSize().height);
 		if (spriteRect.containsPoint(act.touchPos))
@@ -25,7 +25,7 @@ bool changeChara::operator()(cocos2d::Sprite & sp, ActData & act)
 		}
 
 		spriteRect = cocos2d::Rect(p2->getPosition().x - p2->getContentSize().width / 2,
-			p2->getPosition().y - p2->getContentSize().width / 2,
+			p2->getPosition().y - p2->getContentSize().height / 2,
 			p2->getContentSize().width,
 			p2->getContentSize().height);
 		if (spriteRect.containsPoint(act.touchPos))
