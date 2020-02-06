@@ -3,15 +3,20 @@
 
 bool Jump::operator()(cocos2d::Sprite & sp, ActData & act)
 {
-	if (!act.jumpFlag && act.anim != AnimState::DAMAGE)
+	if (!act.jumpFlag)
 	{
-		act.jumpCnt = act.jumpMax;
 		act.distance.y = 0;
+	}
 
+	if ((!act.jumpFlag && act.anim != AnimState::DAMAGE)
+		|| (!act.checkPoint[DIR::DOWN] && act.jumpCnt >= 0))
+	{
 		//	ジャンプ開始
 		if (std::get<0>(act.key[UseKey::K_UP]) && std::get<2>(act.key[UseKey::K_UP]))
 		{
+			act.jumpCnt = act.jumpMax;
 			act.jumpFlag = true;
+			act.jumpCnt--;
 		}
 	}
 
@@ -19,23 +24,18 @@ bool Jump::operator()(cocos2d::Sprite & sp, ActData & act)
 	{
 		if (act.anim == AnimState::DAMAGE)
 		{
-			act.distance.y = 0;
+			act.jumpFlag = false;
 		}
 		else
 		{
-			//	jumpCntの数だけジャンプできるように制御
-			if (act.distance.y == 0 && std::get<0>(act.key[UseKey::K_UP]))
+			//	頭上判定
+			if (act.checkPoint[DIR::UP] && act.distance.y >= 0)
 			{
-				act.jumpCnt--;
-			}
-
-			//	落ちる処理
-			if (act.checkPoint[DIR::UP] || !std::get<0>(act.key[UseKey::K_UP]))
-			{
+				act.Gravity = -act.speed.y + act.Gravity;
 				act.distance.y = 0;
 			}
 			//	ジャンプ可能回数を超えていなかったらジャンプする
-			else if (act.jumpCnt >= -1)
+			else if (act.jumpCnt >= 0)
 			{
 				act.distance.y = act.speed.y;
 			}

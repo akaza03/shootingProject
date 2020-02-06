@@ -33,6 +33,8 @@ void ResourceManager::LoadInit()
 	//	タイトル画像
 	SetID("logo", "image/logo.png");
 	SetID("GameStart", "image/UI/GameStart.png");
+	SetID("GameClear", "image/UI/GameClear.png");
+	SetID("GameOver", "image/UI/GameOver.png");
 	SetID("credit", "image/UI/credit.png");
 
 	//	ユニット画像

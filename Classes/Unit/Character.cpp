@@ -10,6 +10,10 @@ Character::Character()
 
 Character::~Character()
 {
+	for (auto &itr : _animMap)
+	{
+		itr.second->release();
+	}
 }
 
 

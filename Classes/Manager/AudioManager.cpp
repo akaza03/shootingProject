@@ -32,10 +32,14 @@ AudioManager::~AudioManager()
 
 void AudioManager::AudioListInit()
 {
+	//	‚Ü‚¸‚±‚±‚Å‰¹‚ð“o˜^
 	SetStream("titleBGM.cks", SoundType::S_BGM);
 	SetStream("music.cks", SoundType::S_BGM);
+	SetStream("clearBGM.cks", SoundType::S_BGM);
+	SetStream("gameoverBGM.cks", SoundType::S_BGM);
 	SetBank("Sound.ckb", "click", SoundType::S_SE);
 	SetBank("Sound.ckb", "shot", SoundType::S_SE);
+	SetBank("Sound.ckb", "damage", SoundType::S_SE);
 }
 
 void AudioManager::update()

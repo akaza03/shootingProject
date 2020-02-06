@@ -85,6 +85,9 @@ private:
 	void keyUpdate();
 	void screenUpdate();
 
+	void startScheduleUpdate(float tm);				//	fade終了時にscheduleUpdateを呼び出す
+	void endScheduleUpdate();						//	scene遷移時にscheduleを止める
+
 	void pause(cocos2d::Layer *layer);				//	ポーズ時など用の停止処理
 
 	bool pauseFlag;									//	画面停止用フラグ

@@ -4,7 +4,7 @@ Player::Player()
 {
 	_actData.cType = CharaType::PLAYER;
 	
-	this->scheduleUpdate();
+	//this->scheduleUpdate();
 }
 
 Player::~Player()
@@ -46,9 +46,9 @@ void Player::update(float d)
 			}
 			else
 			{
-				itr.second.touchPos = cocos2d::Vec2(-10,-10);
+				itr.second.touchPos = cocos2d::Vec2(-10, -10);
 			}
-			
+
 			//	Œ»Ý‚ÌHP
 			auto oldHp = itr.second.HP;
 			//	Œ»Ý‚ÌcharaID
@@ -89,7 +89,7 @@ void Player::update(float d)
 				HPBar->setPosition(HPBar->getPosition().x + ImageSizeX / 2, HPBar->getPosition().y);
 
 				//	HPƒo[‚ÌŠg‘åk¬(XÀ•W‚Ì‚Ý)
-				HPBar->setScale(HPPercent,1);
+				HPBar->setScale(HPPercent, 1);
 				//	‘Œ¸‚µ‚½•ª‚ÌˆÊ’u•â³
 				ImageSizeX = HPBar->getContentSize().width * (1 - HPPercent);
 				HPBar->setPosition(HPBar->getPosition().x - ImageSizeX / 2, HPBar->getPosition().y);
@@ -171,22 +171,5 @@ void Player::update(float d)
 			}
 		}
 	}
-
-	//if (deathFlag)
-	//{
-	//	//lpEffectManager.SetEffect("effect/Laser01.efk", "FGLayer", getPosition(), 20, true);
-	//	//lpAudioManager.SetBank("Sound.ckb", "shot", SoundType::S_SE);
-
-	//	for (auto &itr : _charaList)
-	//	{
-	//		itr.second.nowAnim == AnimState::DIE;
-	//	}
-
-	//	_actData.nowAnim = AnimState::DIE;
-
-	//	//auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
-	//	//auto layer = nowScene->getChildByName("PLLayer");
-	//	//layer->removeChild(this);
-	//}
 }
 

@@ -68,7 +68,7 @@ void MapMaker::SetChara(CharaType type, cocos2d::Layer * addLayer, cocos2d::Scen
 				}
 			}
 
-			if (player->SetInit(DIR::RIGHT, 0, Ppos, 100, cocos2d::Vec2(5, 6), scene,0,cocos2d::Vec2(0,0), false, true))
+			if (player->SetInit(DIR::RIGHT, 0, Ppos, 100, cocos2d::Vec2(5, 6.5), scene,0,cocos2d::Vec2(0,0), false, true))
 			{
 				addLayer->addChild(player, 0, "player");
 			}

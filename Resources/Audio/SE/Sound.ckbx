@@ -2,4 +2,5 @@
 <bank name="Sound">
     <sound name="shot" source="shot.wav" />
     <sound name="click" source="click.wav" />
+    <sound name="damage" source="damage.wav" />
 </bank>

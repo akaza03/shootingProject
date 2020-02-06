@@ -27,6 +27,7 @@
 #include "Input/OprtTouch.h"
 #include "Map/MapMaker.h"
 #include "Unit/Player.h"
+#include "TitleScene.h"
 
 USING_NS_CC;
 
@@ -178,9 +179,51 @@ bool GameScene::init()
 	//	操作イベントの作成
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_oprtState->oprtInit(), this);
 
-	this->scheduleUpdate();
+	//	遷移の関係でscheduleUpdateの開始タイミングをずらす
+	this->scheduleOnce(schedule_selector(GameScene::startScheduleUpdate), 2.1f);
 
 	return true;
+}
+
+void GameScene::startScheduleUpdate(float tm)
+{
+	this->scheduleUpdate();
+
+	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
+	auto layer = nowScene->getChildByName("PLLayer");
+
+	for (auto obj : layer->getChildren())
+	{
+		obj->scheduleUpdate();
+	}
+
+	layer = nowScene->getChildByName("EMLayer");
+
+	for (auto obj : layer->getChildren())
+	{
+		obj->scheduleUpdate();
+	}
+}
+
+void GameScene::endScheduleUpdate()
+{
+	this->unscheduleAllSelectors();
+
+	auto nowScene = cocos2d::Director::getInstance()->getRunningScene();
+	auto layer = nowScene->getChildByName("PLLayer");
+
+	for (auto obj : layer->getChildren())
+	{
+		obj->unscheduleAllSelectors();
+	}
+
+	layer = nowScene->getChildByName("EMLayer");
+
+	for (auto obj : layer->getChildren())
+	{
+		obj->unscheduleAllSelectors();
+	}
+
 }
 
 void GameScene::SetUI()
@@ -218,6 +261,7 @@ void GameScene::SetUI()
 	UILayer->addChild(remain, 1, "remain");
 
 	enemyCntInit();
+	number->setNumber(enemyCnt);
 
 	//	ポーズ時など用の黒い幕
 	auto fadeImage = Sprite::create();
@@ -244,8 +288,6 @@ void GameScene::update(float d)
 	cameraUpdate();
 	//	ゲームのクリア処理
 	screenUpdate();
-
-
 
 	for (auto itrKey : UseKey())
 	{
@@ -316,35 +358,25 @@ void GameScene::screenUpdate()
 			pause(ATKLayer);
 			pause(BGLayer);
 			pause(FGLayer);
+			lpAudioManager.StopSound("music.cks");
 
 			//	ゲームクリア
 			if (enemyCnt == 0)
 			{
+				lpAudioManager.SetSound("clearBGM.cks");
 				pause(PLLayer);
-				CCLabelTTF *text = CCLabelTTF::create("GAME CLEAR!", "Arial", 80);
-				if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
-				{
-					text->setPosition(confScSize.width / 2, confScSize.height / 2);
-				}
-				else
-				{
-					text->setPosition(confScSize.width / 2, confScSize.height / 2);
-				}
-				BWLayer->addChild(text);
+
+				auto clear = Sprite::create(RES_ID("GameClear"));
+				clear->setPosition(confScSize.width / 2, confScSize.height / 2);
+				BWLayer->addChild(clear, 1, "GameClear");
 			}
 			//	ゲームオーバー
 			if (pl->CheckAnim() == AnimState::DIE)
 			{
-				CCLabelTTF *text = CCLabelTTF::create("GAME OVER", "Arial", 80);
-				if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
-				{
-					text->setPosition(confScSize.width / 2, confScSize.height / 2);
-				}
-				else
-				{
-					text->setPosition(confScSize.width / 2, confScSize.height / 2);
-				}
-				BWLayer->addChild(text);
+				lpAudioManager.SetSound("gameoverBGM.cks");
+				auto clear = Sprite::create(RES_ID("GameOver"));
+				clear->setPosition(confScSize.width / 2, confScSize.height / 2);
+				BWLayer->addChild(clear, 1, "GameOver");
 			}
 
 			if ((CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX))
@@ -366,11 +398,17 @@ void GameScene::screenUpdate()
 		//	Enterでもう一度プレイ
 		if (key[UseKey::K_ENTER].first && !key[UseKey::K_ENTER].second || _oprtState->firstTouch())
 		{
+			endScheduleUpdate();
+
+			auto fadeTime = 2.0f;
 			lpAudioManager.ResetAudio();
 			lpAudioManager.SetSound("click");
-			auto scene = GameScene::createScene();
-			// sceneの生成
-			Director::getInstance()->replaceScene(scene);
+			auto scene = TitleScene::createScene();
+
+			auto fade = TransitionFade::create(fadeTime, scene);
+			Director::getInstance()->replaceScene(fade);
+			//// sceneの生成
+			//Director::getInstance()->replaceScene(scene);
 		}
 	}
 	else
@@ -402,6 +440,7 @@ void GameScene::screenUpdate()
 		}
 	}
 }
+
 
 void GameScene::pause(cocos2d::Layer * layer)
 {

@@ -5,10 +5,17 @@ bool Fall::operator()(cocos2d::Sprite & sp, ActData & act)
 {
 	//	d—Í‚ğ‰ÁZ‚·‚é
 	float gy = -0.1f;
-	act.Gravity += gy;
+	if (act.anim == AnimState::DAMAGE)
+	{
+		act.Gravity = 0;
+	}
+	else
+	{
+		act.Gravity += gy;
+	}
 
 	//	‘«ê‚ª‚ ‚éê‡‚Íd—Í‚ğ0‚É
-	if (act.checkPoint[DIR::DOWN])
+	if (abs(act.distance.y) < abs(act.Gravity) && act.checkPoint[DIR::DOWN])
 	{
 		act.Gravity = 0;
 		act.jumpFlag = false;

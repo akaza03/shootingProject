@@ -65,6 +65,7 @@ bool DamageCheck::operator()(cocos2d::Sprite & sp, ActData & act)
 			if (act.checkPoint[DIR::LEFT] || act.checkPoint[DIR::RIGHT])
 			{
 				DoDamage(sp, act);
+				act.damageCnt = 50;
 				act.nowAnim = AnimState::DAMAGE;
 			}
 			else
@@ -156,6 +157,7 @@ void DamageCheck::DoDamage(cocos2d::Sprite & sp, ActData & act)
 	act.damageNumber = 0;
 	if (act.HP > 0)
 	{
+		lpAudioManager.SetSound("damage");
 		lpEffectManager.SetEffect((RES_ID("hitEff").c_str()), "FGLayer", true, sp.getPosition(), 10, true);
 	}
 }

@@ -33,6 +33,7 @@ private:
 
 	bool gameButtonFlag = true;				//	trueならゲームスタート、falseならクレジット
 	bool creditFlag = false;				//	クレジット表記中ならtrue
+	bool GameMoveFlag = false;
 
 	CREATE_FUNC(TitleScene);
 };

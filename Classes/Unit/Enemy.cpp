@@ -9,7 +9,7 @@ Enemy::Enemy()
 
 	_actData.cType = CharaType::ENEMY;
 
-	this->scheduleUpdate();
+	//this->scheduleUpdate();
 }
 
 
