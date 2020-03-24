@@ -56,21 +56,20 @@ void AudioManager::SetSound(const std::string name)
 	}
 }
 
-void AudioManager::ResetAudio()
-{
-	for (auto &itr : audioList)
-	{
-		itr.second->stop();
-	}
-	//audioList.erase(audioList.begin(), audioList.end());
-}
-
 void AudioManager::StopSound(const std::string name)
 {
 	auto sound = audioList[name];
 	if (sound != nullptr)
 	{
 		sound->stop();
+	}
+}
+
+void AudioManager::ResetAudio()
+{
+	for (auto &itr : audioList)
+	{
+		itr.second->stop();
 	}
 }
 

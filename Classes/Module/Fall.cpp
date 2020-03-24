@@ -4,7 +4,7 @@
 bool Fall::operator()(cocos2d::Sprite & sp, ActData & act)
 {
 	//	d—Í‚ğ‰ÁZ‚·‚é
-	float gy = -0.1f;
+	float gy = -0.3f;
 	if (act.anim == AnimState::DAMAGE)
 	{
 		act.Gravity = 0;

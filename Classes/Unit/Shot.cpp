@@ -86,7 +86,8 @@ void Shot::TypeInit(ActData & chara)
 	if (type == CharaType::ENEMY && charaID == 3)
 	{
 		this->getChildByName("shot")->setOpacity(0);
-		distance = cocos2d::Director::getInstance()->getOpenGLView()->getDesignResolutionSize().width / 2 - abs(speed) * 2;
+		distance = cocos2d::Director::getInstance()->getOpenGLView()->
+					getDesignResolutionSize().width / 2 - abs(speed) * 2;
 		throwFlag = true;
 	}
 }

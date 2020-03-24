@@ -18,7 +18,9 @@ bool AnimUpdate::operator()(cocos2d::Sprite & sp, ActData & act)
 		{
 			anim = AnimState::JUMP;
 		}
-		else if (act.distance.x != 0 || std::get<1>(act.key[UseKey::K_LEFT]) || std::get<1>(act.key[UseKey::K_RIGHT]))
+		else if (act.distance.x != 0 
+			|| std::get<1>(act.key[UseKey::K_LEFT]) 
+			|| std::get<1>(act.key[UseKey::K_RIGHT]))
 		{
 			anim = AnimState::RUN;
 		}
@@ -27,8 +29,6 @@ bool AnimUpdate::operator()(cocos2d::Sprite & sp, ActData & act)
 		{
 			anim = AnimState::DIE;
 		}
-
-
 		act.nowAnim = anim;
 	}
 

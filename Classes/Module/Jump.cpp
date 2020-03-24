@@ -32,7 +32,7 @@ bool Jump::operator()(cocos2d::Sprite & sp, ActData & act)
 			if (act.checkPoint[DIR::UP] && act.distance.y >= 0)
 			{
 				act.Gravity = -act.speed.y + act.Gravity;
-				act.distance.y = 0;
+				act.distance.y = act.speed.y;
 			}
 			//	ジャンプ可能回数を超えていなかったらジャンプする
 			else if (act.jumpCnt >= 0)
